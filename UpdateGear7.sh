@@ -19,9 +19,9 @@ read response
 
 function update() {
     if [[ $response == "Y" || $response == "y" ]]; then
-        echo "-----------------------------------------------------------------------------"
+        echo "==================================================="
         printGreen "Розпочалось оновлення вашої ноди"
-        echo "-----------------------------------------------------------------------------"
+        echo "==================================================="
         cd
         printGreen "Завантаження нової версії на ваш сервер"
         wget https://get.gear.rs/gear-v0.2.1-x86_64-unknown-linux-gnu.tar.xz
@@ -31,7 +31,7 @@ function update() {
         sudo systemctl stop gear
         /root/gear purge-chain -y && sleep 3
 
-        printGreen "Перезавантажуємо. Gear"
+        printGreen "Перезавантажуємо Gear."
         sudo systemctl start gear
         sleep 10
 
@@ -53,7 +53,7 @@ function update() {
         gear_path=$(find /root -name "gear" -type f)
         updated_gear_version=$($gear_path --version)
         printGreen "Оновлення Gear до версії $updated_gear_version завершено."
-        printGreen "Перевірити поточну версію вашої ноди ви можете командою - ./gear --version , або ж у цьому меню"
+        printGreen "Перевірити поточну версію вашої ноди ви можете командою - ./gear --version , або ж у цьому меню. "
     else
         printGreen "Оновлення Gear не виконано.Спробуйте ще раз."
     fi
