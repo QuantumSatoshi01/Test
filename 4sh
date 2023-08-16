@@ -57,12 +57,11 @@ function update() {
     rm gear-v0.2.1-x86_64-unknown-linux-gnu.tar.xz &>/dev/null
     chmod +x $HOME/gear &>/dev/null
 
-    
-    sudo bash -c "cat > /etc/systemd/journald.conf" << EOF
+    sudo tee /etc/systemd/journald.conf >/dev/null << EOF
 Storage=persistent
 EOF
 
-    sudo bash -c "cat > /etc/systemd/system/gear.service" << EOF
+    sudo tee /etc/systemd/system/gear.service >/dev/null << EOF
 [Unit]
 Description=Gear Node
 After=network.target
@@ -90,10 +89,12 @@ EOF
     sudo systemctl enable gear &>/dev/null
     sudo systemctl restart gear &>/dev/null
 
+    echo "==================================================="
     printGreen "Встановлення пройшло успішно"
+    echo "==================================================="
     echo "Корисні команди:"
-    printGreen "journalctl -n 100 -f -u gear - журнал логів"
-    printGreen "./gear --version - перевірка версії ноди"
+    printGreen "Перевірка журналу логів: journalctl -n 100 -f -u gear"
+    printGreen "Перевірка версії ноди: ./gear --version"
 }
 
 update
