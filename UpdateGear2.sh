@@ -18,15 +18,19 @@ read response
 
 function update() {
     if [[ $response == "Y" || $response == "y" ]]; then
+        echo "-----------------------------------------------------------------------------"
         printGreen "Розпочалось оновлення вашої ноди"
+        echo "-----------------------------------------------------------------------------"
         cd
+        printGreen "Завантаження нової версії на ваш сервер"
         wget https://get.gear.rs/gear-v0.2.1-x86_64-unknown-linux-gnu.tar.xz
         sudo tar -xvf gear-v0.2.1-x86_64-unknown-linux-gnu.tar.xz -C /root
         rm gear-v0.2.1-x86_64-unknown-linux-gnu.tar.xz
 
         sudo systemctl stop gear
-        /root/gear purge-chain -y
+        /root/gear purge-chain -y && sleep 3
 
+        printGreen "Запуск Gear"
         sudo systemctl start gear
         sleep 10
 
@@ -43,12 +47,12 @@ function update() {
         sudo sed -i 's/telemetry\.postcapitalist\.io/telemetry.doubletop.io/g' /etc/systemd/system/gear.service
 
         sudo systemctl daemon-reload
-        sudo systemctl restart gear
+        sudo systemctl restart gear && sleep 10
 
         updated_gear_version=$(./gear --version)
         printGreen "Оновлення Gear до версії $updated_gear_version завершено."
     else
-        printGreen "Оновлення Gear не виконано."
+        printGreen "Оновлення Gear не виконано.Спробуйте ще раз."
     fi
 }
 
