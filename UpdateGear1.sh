@@ -10,9 +10,10 @@ function printGreen {
 
 logo
 
-if [ -z $NODENAME_GEAR ]; then
-        read -p "Введіть ім'я для вашої ноди (тільки букви та цифри): " NODENAME_GEAR
-        echo 'export NODENAME='$NODENAME_GEAR >> $HOME/.profile
+if [ -z "$NODENAME_GEAR" ]; then
+    echo -e "\e[1m\e[32mВведіть ім'я для вашої ноди (тільки букви та цифри):\e[0m"
+    read -p "" NODENAME_GEAR
+    echo 'export NODENAME='"$NODENAME_GEAR" >> "$HOME"/.profile
 fi
 printGreen 'Ім'я вашої ноди": ' $NODENAME_GEAR
 sleep 1
