@@ -14,7 +14,7 @@ if [ -z $NODENAME_GEAR ]; then
         read -p "Введіть ім'я для вашої ноди (тільки букви та цифри): " NODENAME_GEAR
         echo 'export NODENAME='$NODENAME_GEAR >> $HOME/.profile
 fi
-echo 'Ім'я вашої ноди": ' $NODENAME_GEAR
+printGreen 'Ім'я вашої ноди": ' $NODENAME_GEAR
 sleep 1
 echo "==================================================="
 printGreen "Розпочалось встановлення Gear"
