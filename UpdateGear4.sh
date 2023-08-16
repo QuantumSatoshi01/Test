@@ -10,7 +10,8 @@ function printGreen {
 
 logo
 
-gear_version=$(./gear --version)
+gear_path=$(which gear)
+gear_version=$($gear_path --version)
 printGreen "Версія вашої ноди Gear - $gear_version"
 
 printGreen "Актуальна версія для оновлення 0.2.1. Бажаєте оновити? (Y/N)"
@@ -30,7 +31,7 @@ function update() {
         sudo systemctl stop gear
         /root/gear purge-chain -y && sleep 3
 
-        printGreen "Запуск Gear"
+        printGreen "Перезавантажуємо. Gear"
         sudo systemctl start gear
         sleep 10
 
@@ -47,10 +48,12 @@ function update() {
         sudo sed -i 's/telemetry\.postcapitalist\.io/telemetry.doubletop.io/g' /etc/systemd/system/gear.service
 
         sudo systemctl daemon-reload
-        sudo systemctl restart gear && sleep 15
+        sudo systemctl restart gear && sleep 10
 
-        updated_gear_version=$(./gear --version)
+        gear_path=$(which gear)
+        updated_gear_version=$($gear_path --version)
         printGreen "Оновлення Gear до версії $updated_gear_version завершено."
+        printGreen "Перевірити поточну версію вашої ноди ви можете командою - ./gear --version , або ж у цьому меню"
     else
         printGreen "Оновлення Gear не виконано.Спробуйте ще раз."
     fi
