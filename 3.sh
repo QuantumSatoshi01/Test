@@ -10,7 +10,6 @@ function printGreen {
 
 logo
 
-# Проверка доступности порта 31333
 if ss -tuln | grep -q ':31333\b'; then
     PORT=31334
 else
@@ -22,7 +21,7 @@ if [ -z "$NODENAME_GEAR" ]; then
     read -p "" NODENAME_GEAR
     echo 'export NODENAME='"$NODENAME_GEAR" >> "$HOME"/.profile
 fi
-printGreen 'Ім'я вашої ноди": ' $NODENAME_GEAR
+printGreen "Ім'я вашої ноди: $NODENAME_GEAR"
 sleep 1
 echo "==================================================="
 printGreen "Розпочалось встановлення Gear"
@@ -58,12 +57,12 @@ function update() {
     rm gear-v0.2.1-x86_64-unknown-linux-gnu.tar.xz &>/dev/null
     chmod +x $HOME/gear &>/dev/null
 
-    sudo tee <<EOF >/dev/null /etc/systemd/journald.conf
+    
+    sudo bash -c "cat > /etc/systemd/journald.conf" << EOF
 Storage=persistent
 EOF
-sudo systemctl restart systemd-journald
 
-sudo tee <<EOF >/dev/null /etc/systemd/system/gear.service
+    sudo bash -c "cat > /etc/systemd/system/gear.service" << EOF
 [Unit]
 Description=Gear Node
 After=network.target
@@ -75,9 +74,9 @@ WorkingDirectory=$HOME
 ExecStart=$HOME/gear \
         --name $NODENAME_GEAR \
         --execution wasm \
-	--port $PORT \
+        --port $PORT \
         --telemetry-url 'ws://telemetry-backend-shard.gear-tech.io:32001/submit 0' \
-	--telemetry-url 'wss://telemetry.postcapitalist.io/submit 0'
+        --telemetry-url 'wss://telemetry.postcapitalist.io/submit 0'
 Restart=always
 RestartSec=10
 LimitNOFILE=10000
