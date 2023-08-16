@@ -10,7 +10,7 @@ function printGreen {
 
 logo
 
-gear_path=$(which gear)
+gear_path=$(find /root -name "gear" -type f)
 gear_version=$($gear_path --version)
 printGreen "Версія вашої ноди Gear - $gear_version"
 
@@ -50,7 +50,7 @@ function update() {
         sudo systemctl daemon-reload
         sudo systemctl restart gear && sleep 10
 
-        gear_path=$(which gear)
+        gear_path=$(find /root -name "gear" -type f)
         updated_gear_version=$($gear_path --version)
         printGreen "Оновлення Gear до версії $updated_gear_version завершено."
         printGreen "Перевірити поточну версію вашої ноди ви можете командою - ./gear --version , або ж у цьому меню"
