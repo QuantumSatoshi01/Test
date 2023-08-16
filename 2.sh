@@ -58,32 +58,33 @@ function update() {
     rm gear-v0.2.1-x86_64-unknown-linux-gnu.tar.xz &>/dev/null
     chmod +x $HOME/gear &>/dev/null
 
-    sudo tee <<'EOF' >/dev/null /etc/systemd/journald.conf
-    Storage=persistent
-    EOF
+    sudo tee <<EOF >/dev/null /etc/systemd/journald.conf
+Storage=persistent
+EOF
+sudo systemctl restart systemd-journald
 
-    sudo tee <<'EOF' >/dev/null /etc/systemd/system/gear.service
-    [Unit]
-    Description=Gear Node
-    After=network.target
+sudo tee <<EOF >/dev/null /etc/systemd/system/gear.service
+[Unit]
+Description=Gear Node
+After=network.target
 
-    [Service]
-    Type=simple
-    User=$USER
-    WorkingDirectory=$HOME
-    ExecStart=$HOME/gear \
-            --name $NODENAME_GEAR \
-            --execution wasm \
-            --port $PORT \
-            --telemetry-url 'ws://telemetry-backend-shard.gear-tech.io:32001/submit 0' \
-            --telemetry-url 'wss://telemetry.postcapitalist.io/submit 0'
-    Restart=always
-    RestartSec=10
-    LimitNOFILE=10000
+[Service]
+Type=simple
+User=$USER
+WorkingDirectory=$HOME
+ExecStart=$HOME/gear \
+        --name $NODENAME_GEAR \
+        --execution wasm \
+	--port $PORT \
+        --telemetry-url 'ws://telemetry-backend-shard.gear-tech.io:32001/submit 0' \
+	--telemetry-url 'wss://telemetry.postcapitalist.io/submit 0'
+Restart=always
+RestartSec=10
+LimitNOFILE=10000
 
-    [Install]
-    WantedBy=multi-user.target
-    EOF
+[Install]
+WantedBy=multi-user.target
+EOF
 
     sudo systemctl restart systemd-journald &>/dev/null
     sudo systemctl daemon-reload &>/dev/null
