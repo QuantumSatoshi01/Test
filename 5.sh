@@ -10,10 +10,15 @@ function printGreen {
 
 logo
 
-if ss -tuln | grep -q ':31333\b'; then
-    PORT=31334
+if [ -f "$HOME/.gear_port" ]; then
+    PORT=$(cat "$HOME/.gear_port")
 else
-    PORT=31333
+    if ss -tuln | grep -q ':31333\b'; then
+        PORT=31334
+    else
+        PORT=31333
+    fi
+    echo "$PORT" > "$HOME/.gear_port"
 fi
 
 if [ -z "$NODENAME_GEAR" ]; then
@@ -95,6 +100,7 @@ EOF
     echo "Корисні команди:"
     printGreen "Перевірка журналу логів: journalctl -n 100 -f -u gear"
     printGreen "Перевірка версії ноди: ./gear --version"
+    printGreen "Порт який використовується вашою нодою: $PORT"
 }
 
 update
