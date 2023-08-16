@@ -28,7 +28,6 @@ function check {
         systemctl status gear
     elif [[ $choice == "3" ]]; then
         version=$(./gear --version)
-        clear
         printGreen "Версія вашої ноди: $version"
     elif [[ $choice == "4" ]]; then
         return
