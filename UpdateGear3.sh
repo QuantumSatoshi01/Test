@@ -47,7 +47,7 @@ function update() {
         sudo sed -i 's/telemetry\.postcapitalist\.io/telemetry.doubletop.io/g' /etc/systemd/system/gear.service
 
         sudo systemctl daemon-reload
-        sudo systemctl restart gear && sleep 10
+        sudo systemctl restart gear && sleep 15
 
         updated_gear_version=$(./gear --version)
         printGreen "Оновлення Gear до версії $updated_gear_version завершено."
