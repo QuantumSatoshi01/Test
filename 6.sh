@@ -21,6 +21,7 @@ function update {
   lavad tendermint unsafe-reset-all --home $HOME/.lava 
   printGreen "Копіюємо новий genesis.json мережі Testnet2" && sleep 2
   wget -O $HOME/.lava/config/genesis.json "https://raw.githubusercontent.com/lavanet/lava-config/main/testnet-2/genesis_json/genesis.json" && sleep 1
+   sed -i 's/"TimeIotaMs":.*/"TimeIotaMs": 1000,/' /root/.lava/config/genesis.json
   printGreen "Оновлюємо Binary Version Lava"
   cd $HOME/lava
   git pull
