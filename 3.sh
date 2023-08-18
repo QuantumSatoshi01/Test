@@ -15,10 +15,10 @@ sudo apt update && sudo apt upgrade -y golang;
 printGreen "Go успішно оновлено"
 printGreen "Зупинка Lava node"
 sudo systemctl stop lavad && sleep 3
-printGreen "Робимо Backup файлів: priv_validator.key.json,node_key.json до новоствореної папки  /root/lavabackupfiles/
+printGreen "Робимо Backup файлів: priv_validator.key.json,node_key.json до новоствореної папки  /root/lavabackupfiles/"
 mkdir -p /root/lavabackupfiles  
-cp /root/.lava/config/priv_validator_key.json /root/lavabackupfiles
-cp /root/.lava/config/node_key.json /root/lavabackupfiles
+cp /root/.lava/config/priv_validator_key.json /root/lavabackupfiles/
+cp /root/.lava/config/node_key.json /root/lavabackupfiles/
 printGreen "Backup закінчено" && sleep 1
 printGreen "Скидаємо попередні данні ноди..." && sleep 1
 lavad tendermint unsafe-reset-all && sleep 1
@@ -51,7 +51,7 @@ sed -i \
 
 printGreen "Файли config.toml та client.toml успішно оновлено" && sleep 1
 
-print "Запуск ноди..." 
+printGreen "Запуск ноди..." 
 sudo systemctl start cosmovisor && sleep 7
 sudo systemctl start lavad && sleep 5
 
