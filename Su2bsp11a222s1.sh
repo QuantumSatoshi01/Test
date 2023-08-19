@@ -21,7 +21,6 @@ else
   printGreen "Невірний вибір. Будь ласка, введіть Y або N."
 fi
 
-
 function delete() {
   sudo systemctl stop subspaced 
   sudo systemctl disable subspaced
@@ -99,7 +98,6 @@ sudo systemctl daemon-reload
 sudo systemctl enable subspaced
 sudo systemctl restart subspaced
 
-
 if [[ `service subspaced status | grep active` =~ "running" ]]; then
 echo ""
   echo "=================================================="
@@ -116,5 +114,5 @@ fi
 }
 
 delete
-install_gemini
+update
 touch $HOME/.sdd_Subspace_do_not_remove
