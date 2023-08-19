@@ -10,6 +10,18 @@ function printGreen {
 
 logo
 
+function delete() {
+  sudo systemctl stop subspaced 
+  sudo systemctl disable subspaced
+  sudo rm -rf ~/.local/share/subspace*
+  sudo rm -rf /etc/systemd/system/subspace*
+  sudo rm -rf /usr/local/bin/subspace*
+}
+
+if [ -f $HOME/.sdd_Subspace_do_not_remove ]; then
+  delete
+fi
+
 VERSION=$(echo 'BEGIN {
     while (!/flags/) if (getline < "/proc/cpuinfo" != 1) exit 1
     if (/lm/&&/cmov/&&/cx8/&&/fpu/&&/fxsr/&&/mmx/&&/syscall/&&/sse2/) level = 1
@@ -77,7 +89,9 @@ sudo systemctl restart subspaced
 
 
 if [[ `service subspaced status | grep active` =~ "running" ]]; then
+  echo "=================================================="
   printGreen "Subspace Gemini 3f успішно встановлено"
+  echo ""
   printGreen "Корисні команди:"
   echo "Перевірити статус ноди - systemctl status subspaced"
   echo "Журнал логів - journalctl -u subspaced -f -o cat"
@@ -86,5 +100,6 @@ else
 fi
 }
 
+delete
 install
 touch $HOME/.sdd_Subspace_do_not_remove
