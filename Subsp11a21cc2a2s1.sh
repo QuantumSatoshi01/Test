@@ -50,7 +50,7 @@ if [[ $VERSION -ne 2 && $VERSION -ne 3 ]]
     exit
 fi
 
-function install() {
+function install_gemini3f() {
 printGreen "Розпочалось встановлення Subpsace Gemini 3f"
 exists()
 {
@@ -116,5 +116,5 @@ fi
 }
 
 delete
-install
+install_gemini3f
 touch $HOME/.sdd_Subspace_do_not_remove
