@@ -14,7 +14,7 @@ printGreen "Під час встановлення ваша нода видал�
 read choice
 
 if [[ "$choice" == "Y" || "$choice" == "y" ]]; then
-  install
+  install_gemini3f
 elif [[ "$choice" == "N" || "$choice" == "n" ]]; then
   printGreen "Ви відмовилися від перевстановлення ноди."
 else
