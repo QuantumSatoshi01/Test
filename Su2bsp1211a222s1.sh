@@ -101,6 +101,7 @@ if [ -f $HOME/.sdd_Subspace_do_not_remove ]; then
   delete
 fi
 
+touch $HOME/.sdd_Subspace_do_not_remove
 }
 
 printGreen "Під час встановлення ваша нода видалиться та перевстановиться на актуальну мережу Gemini 3f. Ви згідні? (Y/N): "
@@ -113,6 +114,3 @@ elif [[ "$choice" == "N" || "$choice" == "n" ]]; then
 else
   printGreen "Невірний вибір. Будь ласка, введіть Y або N."
 fi
-
-update
-touch $HOME/.sdd_Subspace_do_not_remove
