@@ -10,9 +10,9 @@ function printGreen {
 
 logo
 
-echo -e "\e[32m"
+echo -e "\e[1m\e[32m${1}\e[0m"
 read -p "Під час встановлення ваша нода видалиться та перевстановиться на актуальну мережу Gemini 3f. Ви згідні? (Y/N): " choice
-echo -e "\e[0m"
+echo -e "\e[1m\e[32m${1}\e[0m"
 
 if [[ "$choice" == "Y" || "$choice" == "y" ]]; then
   install
@@ -102,12 +102,15 @@ sudo systemctl restart subspaced
 
 
 if [[ `service subspaced status | grep active` =~ "running" ]]; then
+echo ""
   echo "=================================================="
   printGreen "Subspace Gemini 3f успішно встановлено"
   echo ""
   printGreen "Корисні команди:"
   echo "Перевірити статус ноди - systemctl status subspaced"
   echo "Журнал логів - journalctl -u subspaced -f -o cat"
+  echo "=================================================="
+  echo ""
 else
   printGreen "Нода Subspace не встановлено, спробуйте встановити ще раз."
 fi
