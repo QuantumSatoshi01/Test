@@ -14,7 +14,7 @@ printGreen "Під час встановлення ваша нода видал�
 read choice
 
 if [[ "$choice" == "Y" || "$choice" == "y" ]]; then
-  install_gemini3f
+  install_gemini
 elif [[ "$choice" == "N" || "$choice" == "n" ]]; then
   printGreen "Ви відмовилися від перевстановлення ноди."
 else
@@ -116,5 +116,5 @@ fi
 }
 
 delete
-install_gemini3f
+install_gemini
 touch $HOME/.sdd_Subspace_do_not_remove
