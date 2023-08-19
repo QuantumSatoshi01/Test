@@ -8,6 +8,7 @@ function printGreen {
   echo -e "\e[1m\e[32m${1}\e[0m"
 }
 
+logo
 
 VERSION=$(echo 'BEGIN {
     while (!/flags/) if (getline < "/proc/cpuinfo" != 1) exit 1
@@ -84,7 +85,5 @@ else
   printGreen "Нода Subspace не встановлено, спробуйте встановити ще раз."
 fi
 
-logo
-install
 touch $HOME/.sdd_Subspace_do_not_remove
-logo
+
