@@ -10,16 +10,7 @@ function printGreen {
 
 logo
 
-printGreen "Під час встановлення ваша нода видалиться та перевстановиться на актуальну мережу Gemini 3f. Ви згідні? (Y/N): "
-read choice
 
-if [[ "$choice" == "Y" || "$choice" == "y" ]]; then
-  update
-elif [[ "$choice" == "N" || "$choice" == "n" ]]; then
-  printGreen "Ви відмовилися від перевстановлення ноди."
-else
-  printGreen "Невірний вибір. Будь ласка, введіть Y або N."
-fi
 
 function update() {
 printGreen "Видалення застарілої версії мережі Subspace Gemini 3e" && sleep 2
@@ -98,3 +89,14 @@ fi
 touch $HOME/.sdd_Subspace_do_not_remove
 
 }
+
+printGreen "Під час встановлення ваша нода видалиться та перевстановиться на актуальну мережу Gemini 3f. Ви згідні? (Y/N): "
+read choice
+
+if [[ "$choice" == "Y" || "$choice" == "y" ]]; then
+  update
+elif [[ "$choice" == "N" || "$choice" == "n" ]]; then
+  printGreen "Ви відмовилися від перевстановлення ноди."
+else
+  printGreen "Невірний вибір. Будь ласка, введіть Y або N."
+fi
