@@ -84,6 +84,7 @@ if [[ `service subspaced status | grep active` =~ "running" ]]; then
 else
   printGreen "Нода Subspace не встановлено, спробуйте встановити ще раз."
 fi
+}
 
 touch $HOME/.sdd_Subspace_do_not_remove
 
