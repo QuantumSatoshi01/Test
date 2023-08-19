@@ -10,6 +10,17 @@ function printGreen {
 
 logo
 
+read -p "Під час встановлення ваша нода видалиться та перевстановиться на актуальну мережу Gemini 3f. Ви згідні? (Y/N): " choice
+
+if [[ "$choice" == "Y" || "$choice" == "y" ]]; then
+  install
+elif [[ "$choice" == "N" || "$choice" == "n" ]]; then
+  printGreen "Ви відмовилися від перевстановлення ноди."
+else
+  printGreen "Невірний вибір. Будь ласка, введіть Y або N."
+fi
+
+
 function delete() {
   sudo systemctl stop subspaced 
   sudo systemctl disable subspaced
