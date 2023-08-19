@@ -10,29 +10,7 @@ function printGreen {
 
 logo
 
-printGreen "Під час встановлення ваша нода видалиться та перевстановиться на актуальну мережу Gemini 3f. Ви згідні? (Y/N): "
-read choice
-
-if [[ "$choice" == "Y" || "$choice" == "y" ]]; then
-  update
-elif [[ "$choice" == "N" || "$choice" == "n" ]]; then
-  printGreen "Ви відмовилися від перевстановлення ноди."
-else
-  printGreen "Невірний вибір. Будь ласка, введіть Y або N."
-fi
-
-function delete() {
-  sudo systemctl stop subspaced 
-  sudo systemctl disable subspaced
-  sudo rm -rf ~/.local/share/subspace*
-  sudo rm -rf /etc/systemd/system/subspace*
-  sudo rm -rf /usr/local/bin/subspace*
-}
-
-if [ -f $HOME/.sdd_Subspace_do_not_remove ]; then
-  delete
-fi
-
+function update() {
 VERSION=$(echo 'BEGIN {
     while (!/flags/) if (getline < "/proc/cpuinfo" != 1) exit 1
     if (/lm/&&/cmov/&&/cx8/&&/fpu/&&/fxsr/&&/mmx/&&/syscall/&&/sse2/) level = 1
@@ -49,7 +27,13 @@ if [[ $VERSION -ne 2 && $VERSION -ne 3 ]]
     exit
 fi
 
-function update() {
+printGreen "Видалення застарілої версії мережі Subspace Gemini 3e" && sleep 2
+sudo systemctl stop subspaced 
+  sudo systemctl disable subspaced
+  sudo rm -rf ~/.local/share/subspace*
+  sudo rm -rf /etc/systemd/system/subspace*
+  sudo rm -rf /usr/local/bin/subspace*
+  
 printGreen "Розпочалось встановлення Subpsace Gemini 3f"
 exists()
 {
@@ -113,6 +97,22 @@ else
 fi
 }
 
-delete
+if [ -f $HOME/.sdd_Subspace_do_not_remove ]; then
+  delete
+fi
+
+}
+
+printGreen "Під час встановлення ваша нода видалиться та перевстановиться на актуальну мережу Gemini 3f. Ви згідні? (Y/N): "
+read choice
+
+if [[ "$choice" == "Y" || "$choice" == "y" ]]; then
+  update
+elif [[ "$choice" == "N" || "$choice" == "n" ]]; then
+  printGreen "Ви відмовилися від перевстановлення ноди."
+else
+  printGreen "Невірний вибір. Будь ласка, введіть Y або N."
+fi
+
 update
 touch $HOME/.sdd_Subspace_do_not_remove
