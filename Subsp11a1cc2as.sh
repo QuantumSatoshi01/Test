@@ -10,7 +10,9 @@ function printGreen {
 
 logo
 
+echo -e "\e[32m"
 read -p "Під час встановлення ваша нода видалиться та перевстановиться на актуальну мережу Gemini 3f. Ви згідні? (Y/N): " choice
+echo -e "\e[0m"
 
 if [[ "$choice" == "Y" || "$choice" == "y" ]]; then
   install
