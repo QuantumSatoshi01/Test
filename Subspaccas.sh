@@ -72,3 +72,4 @@ fi
 
 touch $HOME/.sdd_Subspace_do_not_remove
 
+install
