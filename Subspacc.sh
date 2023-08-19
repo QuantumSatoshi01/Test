@@ -10,8 +10,8 @@ function printGreen {
 
 logo
 
-function install() {
 printGreen "Розпочалось встановлення Subpsace Gemini 3f"
+function install() {
 exists()
 {
   command -v "$1" >/dev/null 2>&1
