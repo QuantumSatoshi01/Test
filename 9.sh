@@ -10,6 +10,8 @@ function logo {
 
 function update {
   printGreen "Розпочалось оновлення Lava Node,актуальна версія мережі: Testnet2" && sleep 1
+  printGreen "Зупинка Lava node"
+sudo systemctl stop lavad && sleep 3
   printGreen "Backup файлів: priv_validator.key.json,node_key.json до новоствореної папки  /root/lavabackupfiles/"
   mkdir -p /root/lavabackupfiles  
   cp /root/.lava/config/priv_validator_key.json /root/lavabackupfiles/
@@ -20,6 +22,7 @@ function update {
   printGreen "Копіюємо новий genesis.json мережі Testnet2" && sleep 2
   wget -O $HOME/.lava/config/genesis.json "https://raw.githubusercontent.com/lavanet/lava-config/main/testnet-2/genesis_json/genesis.json" && sleep 1
    sed -i 's/"TimeIotaMs":.*/"TimeIotaMs": 1000,/' /root/.lava/config/genesis.json
+   sleep 5
   printGreen "Оновлюємо Binary Version Lava"
   cd $HOME/lava
   git pull
