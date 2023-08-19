@@ -48,11 +48,11 @@ function update {
     $HOME/.lava/config/client.toml
 
   printGreen "Файли config.toml та client.toml успішно оновлено" && sleep 1
-  printGreen "Перезавантажуємо Lava Node..." && sleep 1
-  systemctl restart lavad && sleep 10 
+  printGreen "Запускаємо Lava Node..." && sleep 1
+  systemctl start lavad && sleep 5
   printGreen "Ноду успішно оновлено. Мережа Testnet2. version: v0.21.1.2" && sleep 3
   printGreen "Запускаємо журнал логів..." && sleep 3
-  journalctl -u lavad -f -o cat
+  journalctl -u lavad -f -o cat 
 }
 
 logo
