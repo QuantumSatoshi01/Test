@@ -14,7 +14,7 @@ printGreen "Під час встановлення ваша нода видал�
 read choice
 
 if [[ "$choice" == "Y" || "$choice" == "y" ]]; then
-  install_gemini
+  update
 elif [[ "$choice" == "N" || "$choice" == "n" ]]; then
   printGreen "Ви відмовилися від перевстановлення ноди."
 else
@@ -50,7 +50,7 @@ if [[ $VERSION -ne 2 && $VERSION -ne 3 ]]
     exit
 fi
 
-function install_gemini3f() {
+function update() {
 printGreen "Розпочалось встановлення Subpsace Gemini 3f"
 exists()
 {
