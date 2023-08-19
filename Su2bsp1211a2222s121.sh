@@ -10,8 +10,6 @@ function printGreen {
 
 logo
 
-
-
 function update() {
 printGreen "Видалення застарілої версії мережі Subspace Gemini 3e" && sleep 2
 sudo systemctl stop subspaced 
@@ -80,10 +78,6 @@ echo ""
   echo ""
 else
   printGreen "Нода Subspace не встановлено, спробуйте встановити ще раз."
-fi
-
-if [ -f $HOME/.sdd_Subspace_do_not_remove ]; then
-  delete
 fi
 
 touch $HOME/.sdd_Subspace_do_not_remove
