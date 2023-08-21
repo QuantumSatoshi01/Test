@@ -65,7 +65,6 @@ sed -i \
   $HOME/.lava/config/config.toml
 
 sed -i -e 's/broadcast-mode = ".*"/broadcast-mode = "sync"/g' $HOME/.lava/config/config.toml
-
 # Customize ports
 CLIENT_TOML=$HOME/.lava/config/client.toml
 sed -i.bak -e "s/^external_address *=.*/external_address = \"$(wget -qO- eth0.me):$PORT_PPROF_LADDR\"/" $CONFIG_TOML
