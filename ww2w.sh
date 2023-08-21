@@ -12,11 +12,11 @@ function printGreen {
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/Nibiru/Ports.sh) && sleep 3
-export -f selectPortSet && selectPortSet
 
 read -r -p "Enter node moniker: " NODE_MONIKER
 
 CHAIN_ID=lava-testnet-2
+export -f selectPortSet && selectPortSet
 echo "export CHAIN_ID=${CHAIN_ID}" >> $HOME/.profile
 source $HOME/.profile
 
