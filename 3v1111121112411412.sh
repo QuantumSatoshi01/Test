@@ -46,7 +46,6 @@ mkdir -p $lavad_home_folder
 mkdir -p $lava_config_folder
 cp default_lavad_config_files/* $lava_config_folder
 # Copy the genesis.json file to the Lava config folder
-cp -f genesis_json/genesis.json $lava_config_folder/genesis.json
 # Set and create the lavad binary path
 lavad_binary_path="$HOME/go/bin/"
 mkdir -p $lavad_binary_path
