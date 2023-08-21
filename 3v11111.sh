@@ -39,7 +39,7 @@ lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 wget -O genesis.json https://snapshots.polkachu.com/testnet-genesis/lava/genesis.json --inet4-only
 mv genesis.json ~/.lava/config
 
-sed -i 's/seeds = ""/seeds = "ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@testnet-seeds.polkachu.com:19956"/' ~/.lava/config/config.toml
+curl -s https://lava-test.siriusnodes.uk/addrbook.json > $HOME/.lava/config/addrbook.json
 
 printGreen "Starting service and synchronization..." && sleep 1
 
