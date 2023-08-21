@@ -20,7 +20,16 @@ CHAIN_ID=lava-testnet-2
 echo "export CHAIN_ID=${CHAIN_ID}" >> $HOME/.profile
 source $HOME/.profile
 
-source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/Nibiru/Dependencies.sh)
+go_package_url="https://go.dev/dl/go1.20.5.linux-amd64.tar.gz"
+go_package_file_name=${go_package_url##*\/}
+# Download GO
+wget -q $go_package_url
+# Unpack the GO installation file
+sudo tar -C /usr/local -xzf $go_package_file_name
+# Environment adjustments
+echo "export PATH=\$PATH:/usr/local/go/bin" >>~/.profile
+echo "export PATH=\$PATH:\$(go env GOPATH)/bin" >>~/.profile
+source ~/.profile
 
 echo "" && printGreen "Building binaries..." && sleep 1
 
@@ -72,8 +81,8 @@ EOF
 
 printGreen "Starting service and synchronization..." && sleep 1
 
-curl -L https://services.bccnodes.com/testnets/lava/lava.tar.lz4| tar -Ilz4 -xf - -C $HOME/.lava
-mv $HOME/.lava/priv_validator_state.json.backup $HOME/.lava/data/priv_validator_state.json
+curl -L https://services.bccnodes.com/testnets/lava/lava.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.lava
+mv -f $HOME/.lava/priv_validator_state.json.backup $HOME/.lava/data/priv_validator_state.json
 
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
