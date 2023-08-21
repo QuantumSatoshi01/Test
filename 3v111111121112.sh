@@ -34,11 +34,6 @@ git checkout $latestTag
 make install && sleep 3
 cd ~
 
-sleep 1
-lavad config keyring-backend test
-lavad config chain-id $CHAIN_ID
-lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
-
 wget -O $HOME/.lava/config/genesis.json "https://raw.githubusercontent.com/lavanet/lava-config/main/testnet-2/genesis_json/genesis.json" && sleep 1
 
 CONFIG_TOML=$HOME/.lava/config/config.toml
@@ -80,6 +75,11 @@ peers=""
     -e 's/timeout_propose_delta = ".*"/timeout_propose_delta = "500ms"/g' \
     -e 's/skip_timeout_commit = ".*"/skip_timeout_commit = false/g' \
     $HOME/.lava/config/client.toml
+
+  sleep 1
+  lavad config keyring-backend test
+  lavad config chain-id $CHAIN_ID
+  lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
 printGreen "Starting service and synchronization..." && sleep 1
 
