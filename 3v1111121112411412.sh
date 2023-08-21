@@ -56,7 +56,6 @@ chmod +x lavad
 # Lavad should now be accessible from PATH, to verify, try running
 cp lavad /usr/local/bin
 # In case it is not accessible, make sure $lavad_binary_path is part of PATH (you can refer to the "Go installation" section)
-lavad --help # Make sure you can see the lavad binary help printed out
 
   sleep 1
   lavad config keyring-backend test
