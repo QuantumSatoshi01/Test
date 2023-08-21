@@ -36,9 +36,6 @@ lavad config keyring-backend test
 lavad config chain-id $CHAIN_ID
 lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
-wget -O genesis.json https://snapshots.polkachu.com/testnet-genesis/lava/genesis.json --inet4-only
-mv genesis.json ~/.lava/config
-
 curl -s https://raw.githubusercontent.com/lavanet/lava-config/main/testnet-2/genesis_json/genesis.json > $HOME/.lava/config/genesis.json
 curl -s https://lava-test.siriusnodes.uk/addrbook.json > $HOME/.lava/config/addrbook.json
 
