@@ -79,8 +79,8 @@ EOF
 
 printGreen "Starting service and synchronization..." && sleep 1
 
-curl -L https://services.bccnodes.com/testnets/lava/lava.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.lava
-mv -f $HOME/.lava/priv_validator_state.json.backup $HOME/.lava/data/priv_validator_state.json
+SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
+curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
 
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
