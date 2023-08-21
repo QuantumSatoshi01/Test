@@ -16,7 +16,7 @@ export -f selectPortSet && selectPortSet
 
 read -r -p "Enter node moniker: " NODE_MONIKER
 
-CHAIN_ID=lava-testnet-1
+CHAIN_ID=lava-testnet-2
 echo "export CHAIN_ID=${CHAIN_ID}" >> $HOME/.profile
 source $HOME/.profile
 
@@ -35,7 +35,7 @@ make install && sleep 3
 cd ~
 
 sleep 1
-lavad config keyring-backend os
+lavad config keyring-backend test
 lavad config chain-id $CHAIN_ID
 lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
