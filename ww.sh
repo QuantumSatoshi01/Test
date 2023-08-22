@@ -11,15 +11,8 @@ function printGreen {
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
 
-# Вибір портів
-PORT_GRPC=9590
-PORT_GRPC_WEB=9591
-PORT_PROXY_APP=31658
-PORT_RPC=31657
-PORT_PPROF_LADDR=31656
-PORT_P2P=6560
-PORT_PROMETHEUS=31660
-PORT_API=1817
+source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/Nibiru/Ports.sh) && sleep 3
+export -f selectPortSet && selectPortSet
 
 read -r -p "Enter node moniker: " NODE_MONIKER
 
@@ -29,43 +22,47 @@ source $HOME/.profile
 
 go_package_url="https://go.dev/dl/go1.20.5.linux-amd64.tar.gz"
 go_package_file_name=${go_package_url##*\/}
-# Завантаження та встановлення GO
+# Download GO
 wget -q $go_package_url
+# Unpack the GO installation file
 sudo tar -C /usr/local -xzf $go_package_file_name
+# Environment adjustments
 echo "export PATH=\$PATH:/usr/local/go/bin" >>~/.profile
 echo "export PATH=\$PATH:\$(go env GOPATH)/bin" >>~/.profile
 source ~/.profile
 
 echo "" && printGreen "Building binaries..." && sleep 1
 
-sudo apt update
+sudo apt update # In case of permissions error, try running with sudo
 sudo apt install -y unzip logrotate git jq sed wget curl coreutils systemd
 
 git clone https://github.com/lavanet/lava-config.git
 cd lava-config/testnet-2
+# Read the configuration from the file
+# Note: you can take a look at the config file and verify configurations
 source setup_config/setup_config.sh
 echo "Lava config file path: $lava_config_folder"
 mkdir -p $lavad_home_folder
 mkdir -p $lava_config_folder
 cp default_lavad_config_files/* $lava_config_folder
-
-# Встановлення бінарних файлів lavad
+# Copy the genesis.json file to the Lava config folder
+# Set and create the lavad binary path
 lavad_binary_path="$HOME/go/bin/"
 mkdir -p $lavad_binary_path
+# Download the genesis binary to the lava path
 wget https://lava-binary-upgrades.s3.amazonaws.com/testnet-2/genesis/lavad
 chmod +x lavad
+# Lavad should now be accessible from PATH, to verify, try running
 cp lavad /usr/local/bin
+# In case it is not accessible, make sure $lavad_binary_path is part of PATH (you can refer to the "Go installation" section)
 
-sleep 1
-
-# Налаштування та ініціалізація ноди
-lavad config keyring-backend test
-lavad config chain-id $CHAIN_ID
-lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID --grpc-port $PORT_GRPC --grpc-web-port $PORT_GRPC_WEB --proxy-app-port $PORT_PROXY_APP --rpc-port $PORT_RPC --pprof-laddr $PORT_PPROF_LADDR --p2p-listen-port $PORT_P2P --prometheus-port $PORT_PROMETHEUS --api-port $PORT_API
+  sleep 1
+  lavad config keyring-backend test
+  lavad config chain-id $CHAIN_ID
+  lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
 sleep 10
 
-# Створення сервісу та запуск ноди
 sudo tee /etc/systemd/system/lavad.service > /dev/null << EOF
 [Unit]
 Description=Lava Node
@@ -84,11 +81,7 @@ printGreen "Starting service and synchronization..." && sleep 1
 
 SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
 curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
-#!/bin/bash
 
-# ... інші функції та код ...
-
-# Функція для зміни портів у конфігураційних файлах
 function updateConfigPorts {
   # Оновлення портів у файлі config.toml
   sed -i "s/PORT_GRPC =.*/PORT_GRPC = $PORT_GRPC/" $lava_config_folder/config.toml
@@ -103,16 +96,6 @@ function updateConfigPorts {
   sed -i "s/PORT_RPC =.*/PORT_RPC = $PORT_RPC/" $lava_config_folder/client.toml
   # ... оновлення інших портів у client.toml ...
 }
-
-# ... інші функції та код ...
-
-# Ваш код для вибору портів інший код у функції install() ...
-
-# Виклик функції для оновлення портів у конфігураційних файлах
-updateConfigPorts
-
-# ... решта вашого коду ...
-
 
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
