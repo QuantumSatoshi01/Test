@@ -11,7 +11,6 @@ function printGreen {
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/Nibiru/Ports.sh) && sleep 3
-export -f selectPortSet && selectPortSet
 
 function install() {
 
@@ -84,7 +83,7 @@ printGreen "Starting service and synchronization..." && sleep 1
 SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
 curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
 
-exportPorts
+export -f selectPortSet && selectPortSet
 
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
