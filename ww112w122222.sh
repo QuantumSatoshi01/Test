@@ -1,5 +1,6 @@
 #!/bin/bash
 
+function install() {
 function printDelimiter {
   echo "==========================================="
 }
@@ -12,8 +13,6 @@ source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/Nibiru/Ports.sh) && sleep 3
 export -f selectPortSet && selectPortSet
-
-function install() {
 
 read -r -p "Enter node moniker: " NODE_MONIKER
 
@@ -47,13 +46,37 @@ mkdir -p $lavad_home_folder
 mkdir -p $lava_config_folder
 cp default_lavad_config_files/* $lava_config_folder
 # Copy the genesis.json file to the Lava config folder
-curl -s https://lava-test.siriusnodes.uk/addrbook.json > $lava_config_folder/addrbook.json
 # Set and create the lavad binary path
 lavad_binary_path="$HOME/go/bin/"
 mkdir -p $lavad_binary_path
 # Download the genesis binary to the lava path
 wget https://lava-binary-upgrades.s3.amazonaws.com/testnet-2/genesis/lavad
 chmod +x lavad
+
+CONFIG_TOML=$HOME/.lava/config/config.toml
+PEERS=""
+sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $CONFIG_TOML
+SEEDS="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:26656"
+sed -i.bak -e "s/^seeds =.*/seeds = \"$SEEDS\"/" $CONFIG_TOML
+
+APP_TOML=$HOME/.lava/config/app.toml
+sed -i 's|^pruning *=.*|pruning = "custom"|g' $APP_TOML
+sed -i 's|^pruning-keep-recent  *=.*|pruning-keep-recent = "100"|g' $APP_TOML
+sed -i 's|^pruning-keep-every *=.*|pruning-keep-every = "0"|g' $APP_TOML
+sed -i 's|^pruning-interval *=.*|pruning-interval = "19"|g' $APP_TOML
+sed -i -e "s/^filter_peers *=.*/filter_peers = \"true\"/" $CONFIG_TOML
+indexer="null"
+sed -i -e "s/^indexer *=.*/indexer = \"$indexer\"/" $CONFIG_TOML
+sed -i 's|^snapshot-interval *=.*|snapshot-interval = 1000|g' $APP_TOML
+sed -i 's|^minimum-gas-prices *=.*|minimum-gas-prices = "0.025ulava"|g' $APP_TOML
+
+# Customize ports
+CLIENT_TOML=$HOME/.lava/config/client.toml
+sed -i.bak -e "s/^external_address *=.*/external_address = \"$(wget -qO- eth0.me):$PORT_PPROF_LADDR\"/" $CONFIG_TOML
+sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:$PORT_PROXY_APP\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:$PORT_RPC\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:$PORT_P2P\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:$PORT_PPROF_LADDR\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":$PORT_PROMETHEUS\"%" $CONFIG_TOML && \
+sed -i.bak -e "s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:$PORT_GRPC\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:$PORT_GRPC_WEB\"%; s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:$PORT_API\"%" $APP_TOML && \
+sed -i.bak -e "s%^node = \"tcp://localhost:26657\"%node = \"tcp://localhost:$PORT_RPC\"%" $CLIENT_TOML
+
 # Lavad should now be accessible from PATH, to verify, try running
 cp lavad /usr/local/bin
 # In case it is not accessible, make sure $lavad_binary_path is part of PATH (you can refer to the "Go installation" section)
