@@ -70,8 +70,21 @@ printGreen "Starting service and synchronization..." && sleep 1
 SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
 curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
 
-livepeers=$(curl -s https://services.bccnodes.com/testnets/lava/peers.txt)
-sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$livepeers\"/" ~/.lava/config/config.toml
+ peers=""
+  sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$peers\"/" $HOME/.lava/config/config.toml
+  seeds="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:26656"
+  sed -i.bak -e "s/^seeds =.*/seeds = \"$seeds\"/" $HOME/.lava/config/config.toml
+
+  sed -i \
+    -e 's/timeout_commit = ".*"/timeout_commit = "30s"/g' \
+    -e 's/timeout_propose = ".*"/timeout_propose = "1s"/g' \
+    -e 's/timeout_precommit = ".*"/timeout_precommit = "1s"/g' \
+    -e 's/timeout_precommit_delta = ".*"/timeout_precommit_delta = "500ms"/g' \
+    -e 's/timeout_prevote = ".*"/timeout_prevote = "1s"/g' \
+    -e 's/timeout_prevote_delta = ".*"/timeout_prevote_delta = "500ms"/g' \
+    -e 's/timeout_propose_delta = ".*"/timeout_propose_delta = "500ms"/g' \
+    -e 's/skip_timeout_commit = ".*"/skip_timeout_commit = false/g' \
+    $HOME/.lava/config/client.toml
 
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
