@@ -80,11 +80,20 @@ SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.j
 curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
 
 livepeers=$(curl -s https://services.bccnodes.com/testnets/lava/peers.txt)
-# Заміна портів у конфігураційних файлах
-sed -i.bak -e "s/^external_address *=.*/external_address = \"$(wget -qO- eth0.me):9490\"/" /root/.lava/config/config.toml
-sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:9491\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:30658\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:30657\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:30656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":6460\"%" /root/.lava/config/config.toml && \
-sed -i.bak -e "s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:30656\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:30660\"%; s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:1717\"%" /root/.lava/config/app.toml && \
-sed -i.bak -e "s%^node = \"tcp://localhost:26657\"%node = \"tcp://localhost:30657\"%" /root/.lava/config/client.toml
+
+# Замінити порти в списку пірів
+NEW_PEERS=$(echo "$livepeers" | sed "s/\:[0-9]\{1,5\}/:9490/g" | \
+                                 sed "s/\:[0-9]\{1,5\}/:9491/g" | \
+                                 sed "s/\:[0-9]\{1,5\}/:30658/g" | \
+                                 sed "s/\:[0-9]\{1,5\}/:30657/g" | \
+                                 sed "s/\:[0-9]\{1,5\}/:30656/g" | \
+                                 sed "s/\:[0-9]\{1,5\}/:6460/g" | \
+                                 sed "s/\:[0-9]\{1,5\}/:30660/g" | \
+                                 sed "s/\:[0-9]\{1,5\}/:1717/g")
+
+
+sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$NEW_PEERS\"/" ~/.lava/config/config.toml
+
 
 
 
