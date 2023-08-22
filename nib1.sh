@@ -67,6 +67,7 @@ sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.
 sed -i.bak -e "s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:$PORT_GRPC\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:$PORT_GRPC_WEB\"%; s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:$PORT_API\"%" $APP_TOML && \
 sed -i.bak -e "s%^node = \"tcp://localhost:26657\"%node = \"tcp://localhost:$PORT_RPC\"%" $CLIENT_TOML
 
+
 printGreen "Starting service and synchronization..." && sleep 1
 
 sudo tee /etc/systemd/system/nibid.service > /dev/null << EOF
@@ -88,10 +89,6 @@ nibid tendermint unsafe-reset-all --home $HOME/.nibid --keep-addr-book
 # Add snapshot here
 URL="https://snapshots-testnet.stake-town.com/nibiru/nibiru-itn-1_latest.tar.lz4"
 curl $URL | lz4 -dc - | tar -xf - -C $HOME/.nibid
-
-sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:26653\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:26652\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:6061\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:26651\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":26655\"%" $HOME/.nibid/config/config.toml
-sed -i.bak -e "s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:9092\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:9093\"%" $HOME/.nibid/config/app.toml
-
 
 sudo systemctl daemon-reload
 sudo systemctl enable nibid
