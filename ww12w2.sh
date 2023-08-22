@@ -1,6 +1,5 @@
 #!/bin/bash
 
-function install() {
 function printDelimiter {
   echo "==========================================="
 }
@@ -13,6 +12,8 @@ source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/Nibiru/Ports.sh) && sleep 3
 export -f selectPortSet && selectPortSet
+
+function install() {
 
 read -r -p "Enter node moniker: " NODE_MONIKER
 
