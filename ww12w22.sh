@@ -84,6 +84,8 @@ printGreen "Starting service and synchronization..." && sleep 1
 SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
 curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
 
+exportPorts
+
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
 sudo systemctl start lavad
