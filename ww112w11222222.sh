@@ -84,6 +84,35 @@ printGreen "Starting service and synchronization..." && sleep 1
 
 SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
 curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
+#!/bin/bash
+
+# ... інші функції та код ...
+
+# Функція для зміни портів у конфігураційних файлах
+function updateConfigPorts {
+  # Оновлення портів у файлі config.toml
+  sed -i "s/PORT_GRPC =.*/PORT_GRPC = $PORT_GRPC/" $lava_config_folder/config.toml
+  sed -i "s/PORT_GRPC_WEB =.*/PORT_GRPC_WEB = $PORT_GRPC_WEB/" $lava_config_folder/config.toml
+  # ... оновлення інших портів у config.toml ...
+
+  # Оновлення портів у файлі app.toml
+  sed -i "s/PORT_API =.*/PORT_API = $PORT_API/" $lava_config_folder/app.toml
+  # ... оновлення інших портів у app.toml ...
+
+  # Оновлення портів у файлі client.toml
+  sed -i "s/PORT_RPC =.*/PORT_RPC = $PORT_RPC/" $lava_config_folder/client.toml
+  # ... оновлення інших портів у client.toml ...
+}
+
+# ... інші функції та код ...
+
+# Ваш код для вибору портів інший код у функції install() ...
+
+# Виклик функції для оновлення портів у конфігураційних файлах
+updateConfigPorts
+
+# ... решта вашого коду ...
+
 
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
@@ -96,3 +125,4 @@ printDelimiter
 
 }
 install
+updateConfigPorts
