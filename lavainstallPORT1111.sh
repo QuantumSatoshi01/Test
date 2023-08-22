@@ -85,11 +85,7 @@ sed -i 's/^address = ":8080"*$/address = ":8070"/' $HOME/.lava/config/app.toml
 sed -i 's/^address = "0.0.0.0:9090"*$/address = "0.0.0.0:9490"/' $HOME/.lava/config/app.toml
 sed -i 's/^address = "0.0.0.0:9091"*$/address = "0.0.0.0:9491"/' $HOME/.lava/config/app.toml
 
-
 sed -i 's/^node = "tcp:\/\/localhost:26657"*$/node = "tcp:\/\/localhost:30657"/' $HOME/.lava/config/client.toml
-
-seeds="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:30656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:30656"
-sed -i "s/^seeds *=.*/seeds = \"$seeds\"/" $HOME/.lava/config/config.toml
 
 sed -i \
     -e 's/timeout_commit = ".*"/timeout_commit = "30s"/g' \
