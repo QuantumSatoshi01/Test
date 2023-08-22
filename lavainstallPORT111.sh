@@ -11,7 +11,8 @@ function printGreen {
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
 
-read -r -p "Enter node moniker: " NODE_MONIKER
+printGreen "Enter node moniker:"
+read -r NODE_MONIKER
 
 CHAIN_ID=lava-testnet-2
 echo "export CHAIN_ID=${CHAIN_ID}" >> $HOME/.profile
@@ -65,17 +66,32 @@ LimitNOFILE=10000
 WantedBy=multi-user.target
 EOF
 
-printGreen "Starting service and synchronization..." && sleep 1
+printGreen "Завантажуємо снепшот для прискорення синхронізації ноди..." && sleep 1
 
 SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
 curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
 
- peers=""
-  sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$peers\"/" $HOME/.lava/config/config.toml
-  seeds="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:26656"
-  sed -i.bak -e "s/^seeds =.*/seeds = \"$seeds\"/" $HOME/.lava/config/config.toml
+sed -i 's/^proxy_app = "tcp:\/\/127.0.0.1:26658"*$/proxy_app = "tcp:\/\/127.0.0.1:30658"/' $HOME/.lava/config/config.toml
+sed -i 's/^laddr = "tcp:\/\/127.0.0.1:26657"*$/laddr = "tcp:\/\/127.0.0.1:30657"/' $HOME/.lava/config/config.toml
+sed -i 's/^pprof_laddr = "localhost:6060"*$/pprof_laddr = "localhost:6460"/' $HOME/.lava/config/config.toml
+sed -i 's/^laddr = "tcp:\/\/0.0.0.0:26656"*$/laddr = "tcp:\/\/0.0.0.0:30656"/' $HOME/.lava/config/config.toml
+external_address=$(wget -qO- eth0.me)
+sed -i "s/^external_address =.*$/external_address = \"$external_address:30656\"/" $HOME/.lava/config/config.toml
+sed -i 's/^prometheus_listen_addr = ":26660"*$/prometheus_listen_addr = ":30660"/' $HOME/.lava/config/config.toml
 
-  sed -i \
+
+sed -i 's/^address = "tcp:\/\/0.0.0.0:1317"*$/address = "tcp:\/\/0.0.0.0:1717"/' $HOME/.lava/config/app.toml
+sed -i 's/^address = ":8080"*$/address = ":8070"/' $HOME/.lava/config/app.toml
+sed -i 's/^address = "0.0.0.0:9090"*$/address = "0.0.0.0:9490"/' $HOME/.lava/config/app.toml
+sed -i 's/^address = "0.0.0.0:9091"*$/address = "0.0.0.0:9491"/' $HOME/.lava/config/app.toml
+
+
+sed -i 's/^node = "tcp:\/\/localhost:26657"*$/node = "tcp:\/\/localhost:30657"/' $HOME/.lava/config/client.toml
+
+seeds="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:30656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:30656"
+sed -i "s/^seeds *=.*/seeds = \"$seeds\"/" $HOME/.lava/config/config.toml
+
+sed -i \
     -e 's/timeout_commit = ".*"/timeout_commit = "30s"/g' \
     -e 's/timeout_propose = ".*"/timeout_propose = "1s"/g' \
     -e 's/timeout_precommit = ".*"/timeout_precommit = "1s"/g' \
