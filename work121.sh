@@ -60,7 +60,6 @@ cp lavad /usr/local/bin
   lavad config keyring-backend test
   lavad config chain-id $CHAIN_ID
   lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
-  sed -i.bak -e "s/^external_address *=.*/external_address = \"$(wget -qO- eth0.me):$PORT_PPROF_LADDR\"/" $CONFIG_TOML
 
 sleep 10
 
@@ -85,6 +84,9 @@ curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 
 
 livepeers=$(curl -s https://services.bccnodes.com/testnets/lava/peers.txt)
 sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$livepeers\"/" ~/.lava/config/config.toml
+# Customize ports
+sed -i.bak -e "s/^external_address *=.*/external_address = \"$(wget -qO- eth0.me):$PORT_PPROF_LADDR\"/" ~/.lava/config/config.toml
+
 
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
