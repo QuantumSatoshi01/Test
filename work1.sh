@@ -82,6 +82,9 @@ printGreen "Starting service and synchronization..." && sleep 1
 SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
 curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
 
+livepeers=$(curl -s https://services.bccnodes.com/testnets/lava/peers.txt)
+sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$livepeers\"/" ~/.lava/config/config.toml
+
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
 sudo systemctl start lavad
