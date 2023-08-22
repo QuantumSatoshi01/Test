@@ -79,9 +79,8 @@ printGreen "Starting service and synchronization..." && sleep 1
 SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
 curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
 
-sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:29658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:29657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:6360\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:29656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":29660\"%" $HOME/.lava/config/config.toml && \
-sed -i.bak -e "s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:9390\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:9391\"%; s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:1617\"%; s%^address = \"0.0.0.0:8545\"%address = \"0.0.0.0:8845\"%; s%^ws-address = \"0.0.0.0:8546\"%ws-address = \"0.0.0.0:8846\"%; s%^address = \"127.0.0.1:8545\"%address = \"127.0.0.1:8845\"%; s%^ws-address = \"127.0.0.1:8546\"%ws-address = \"127.0.0.1:8846\"%" $HOME/.lava/config/app.toml && \
-sed -i.bak -e "s%^node = \"tcp://localhost:26657\"%node = \"tcp://localhost:29657\"%" $HOME/.lava/config/client.toml
+livepeers=$(curl -s https://services.bccnodes.com/testnets/lava/peers.txt)
+sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$livepeers\"/" ~/.lava/config/config.toml
 
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
