@@ -26,7 +26,8 @@ function update() {
         sudo systemctl stop gear
         
         printGreen "Завантаження нової версії на ваш сервер"
-        curl https://get.gear.rs/gear-v0.3.1-x86_64-unknown-linux-gnu.tar.xz | sudo tar -xJC /usr/bin
+       curl https://get.gear.rs/gear-v0.3.1-x86_64-unknown-linux-gnu.tar.xz | sudo tar -xJC /root
+
 
         sudo systemctl stop gear
         /root/gear purge-chain -y && sleep 3
