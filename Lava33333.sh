@@ -50,28 +50,6 @@ cp lavad /usr/local/bin
   lavad config chain-id $CHAIN_ID
   lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
-peers=""
-sed -i.bak -e "s#^persistent_peers *=.*#persistent_peers = \"$peers\"#" $HOME/.lava/config/config.toml
-seeds="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:26656"
-sed -i.bak -e "s#^seeds =.*#seeds = \"$seeds\"#" $HOME/.lava/config/config.toml
-
-sed -i \
-  -e "s#^address = \"0.0.0.0:9090\"#address = \"0.0.0.0:9190\"#" \
-  -e "s#^address = \"0.0.0.0:9091\"#address = \"0.0.0.0:9191\"#" \
-  -e "s#^address = \"tcp://0.0.0.0:1317\"#address = \"tcp://0.0.0.0:1327\"#" \
-  $HOME/.lava/config/app.toml
-
-sed -i \
-  -e "s#^node = \"tcp://localhost:26657\"#node = \"tcp://localhost:36657\"#" \
-  $HOME/.lava/config/client.toml
-
-sed -i \
-  -e "s#^proxy_app = \"tcp://127.0.0.1:26658\"#proxy_app = \"tcp://127.0.0.1:36658\"#" \
-  -e "s#^laddr = \"tcp://127.0.0.1:26657\"#laddr = \"tcp://127.0.0.1:36657\"#" \
-  -e "s#^laddr = \"tcp://0.0.0.0:26656\"#laddr = \"tcp://0.0.0.0:36656\"#" \
-  -e "s#^prometheus_listen_addr = \":26660\"#prometheus_listen_addr = \":36660\"#" \
-  $HOME/.lava/config/config.toml
-
 sleep 5
 
 sudo tee /etc/systemd/system/lavad.service > /dev/null << EOF
@@ -101,7 +79,7 @@ rm -rf $HOME/lava-config
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
 sudo systemctl start lavad && sleep 5
-    
+
 printDelimiter
 printGreen "Переглянути журнал логів:            sudo journalctl -u lavad -f -o cat"
 printGreen "Переглянути статус синхронізації: lavad status 2>&1 | jq .SyncInfo.catching_up"
