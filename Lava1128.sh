@@ -40,6 +40,40 @@ cp lavad /usr/local/bin
   lavad config chain-id $CHAIN_ID
   lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
+external_address=$(wget -qO- eth0.me)
+work_dir=".lava"
+
+# Заміна в config.toml
+awk -v ext_addr="$external_address" '
+  BEGIN { OFS = "=" }
+  /proxy_app/ { $2 = " \"tcp://127.0.0.1:36658\""; }
+  /laddr.*127.0.0.1:26657/ { $2 = " \"tcp://127.0.0.1:36657\""; }
+  /pprof_laddr/ { $2 = " \"localhost:6061\""; }
+  /laddr.*0.0.0.0:26656/ { $2 = " \"tcp://0.0.0.0:36656\""; }
+  /prometheus_listen_addr/ { $2 = " \":36660\""; }
+  /external_address/ { $2 = " \"" ext_addr ":36656\""; }
+  { print; }
+' "$HOME/$work_dir/config/config.toml" > temp_config.toml && mv temp_config.toml "$HOME/$work_dir/config/config.toml"
+
+# Заміна в app.toml
+awk '
+  /address.*0.0.0.0:9090/ { $2 = " \"0.0.0.0:9190\""; }
+  /address.*0.0.0.0:9091/ { $2 = " \"0.0.0.0:9191\""; }
+  /address.*tcp.*0.0.0.0:1317/ { $2 = " \"tcp://0.0.0.0:1327\""; }
+  { print; }
+' "$HOME/$work_dir/config/app.toml" > temp_app.toml && mv temp_app.toml "$HOME/$work_dir/config/app.toml"
+
+# Заміна в client.toml
+awk '
+  /node.*tcp:\/\/localhost:26657/ { $2 = " \"tcp://localhost:36657\""; }
+  { print; }
+' "$HOME/$work_dir/config/client.toml" > temp_client.toml && mv temp_client.toml "$HOME/$work_dir/config/client.toml"
+
+# Перезапуск сервісу lavad
+sudo systemctl restart lavad
+sudo journalctl -u lavad -f -o cat
+
+
 echo "[Unit]
 Description=Lava Node
 After=network-online.target
