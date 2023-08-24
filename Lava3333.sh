@@ -88,4 +88,24 @@ LimitNOFILE=10000
 WantedBy=multi-user.target
 EOF
 
-printGreen
+printGreen "Завантажуємо снепшот для прискорення синхронізації ноди..." && sleep 1
+
+SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
+curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
+
+livepeers=$(curl -s https://services.bccnodes.com/testnets/lava/peers.txt)
+sed -i.bak -e "s#^persistent_peers *=.*#persistent_peers = \"$livepeers\"#" $HOME/.lava/config/config.toml
+
+rm -rf $HOME/lava-config
+
+sudo systemctl daemon-reload
+sudo systemctl enable lavad
+sudo systemctl start lavad && sleep 5
+    
+printDelimiter
+printGreen "Переглянути журнал логів:            sudo journalctl -u lavad -f -o cat"
+printGreen "Переглянути статус синхронізації: lavad status 2>&1 | jq .SyncInfo.catching_up"
+printDelimiter
+
+}
+install
