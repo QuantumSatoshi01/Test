@@ -86,6 +86,8 @@ sed -i \
 livepeers=$(curl -s https://services.bccnodes.com/testnets/lava/peers.txt)
 sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$livepeers\"/" ~/.lava/config/config.toml
 
+rm -rf $HOME/lava-config
+
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
 sudo systemctl start lavad && sleep 5
