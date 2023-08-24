@@ -50,7 +50,23 @@ cp lavad /usr/local/bin
   lavad config chain-id $CHAIN_ID
   lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
-sleep 10
+peers=""
+sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$peers\"/" $HOME/.lava/config/config.toml
+seeds="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:26656"
+sed -i.bak -e "s/^seeds =.*/seeds = \"$seeds\"/" $HOME/.lava/config/config.toml
+
+sed -i \
+  -e 's/timeout_commit = ".*"/timeout_commit = "30s"/g' \
+  -e 's/timeout_propose = ".*"/timeout_propose = "1s"/g' \
+  -e 's/timeout_precommit = ".*"/timeout_precommit = "1s"/g' \
+  -e 's/timeout_precommit_delta = ".*"/timeout_precommit_delta = "500ms"/g' \
+  -e 's/timeout_prevote = ".*"/timeout_prevote = "1s"/g' \
+  -e 's/timeout_prevote_delta = ".*"/timeout_prevote_delta = "500ms"/g' \
+  -e 's/timeout_propose_delta = ".*"/timeout_propose_delta = "500ms"/g' \
+  -e 's/skip_timeout_commit = ".*"/skip_timeout_commit = false/g' \
+  $HOME/.lava/config/config.toml
+  
+sleep 5
 
 sudo tee /etc/systemd/system/lavad.service > /dev/null << EOF
 [Unit]
