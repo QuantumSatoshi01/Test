@@ -71,9 +71,6 @@ printGreen "Завантажуємо снепшот для прискоренн�
 SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
 curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
 
-livepeers=$(curl -s https://services.bccnodes.com/testnets/lava/peers.txt)
-sed -i.bak -e "s#^persistent_peers *=.*#persistent_peers = \"$livepeers\"#" $HOME/.lava/config/config.toml
-
 rm -rf $HOME/lava-config
 
 sudo systemctl daemon-reload
