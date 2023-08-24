@@ -11,7 +11,7 @@ function printGreen {
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
 
-printGreen "Enter node moniker:"
+printGreen "Введіть ім'я для ноди:"
 read -r NODE_MONIKER
 
 CHAIN_ID=lava-testnet-2
@@ -20,7 +20,7 @@ source $HOME/.profile
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/Nibiru/Dependencies.sh)
 
-echo "" && printGreen "Building binaries..." && sleep 1
+echo "" && printGreen "Встановлення Go..." && sleep 1
 
 sudo apt update # In case of permissions error, try running with sudo
 sudo apt install -y unzip logrotate git jq sed wget curl coreutils systemd
@@ -82,13 +82,17 @@ sed -i \
     -e 's/skip_timeout_commit = ".*"/skip_timeout_commit = false/g' \
     $HOME/.lava/config/client.toml
 
+
+livepeers=$(curl -s https://services.bccnodes.com/testnets/lava/peers.txt)
+sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$livepeers\"/" ~/.lava/config/config.toml
+
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
 sudo systemctl start lavad && sleep 5
     
 printDelimiter
-printGreen "Check logs:            sudo journalctl -u lavad -f -o cat"
-printGreen "Check synchronization: lavad status 2>&1 | jq .SyncInfo.catching_up"
+printGreen "Переглянути журнал логів:            sudo journalctl -u lavad -f -o cat"
+printGreen "Переглянути статус синхронізації: lavad status 2>&1 | jq .SyncInfo.catching_up"
 printDelimiter
 
 }
