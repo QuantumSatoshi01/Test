@@ -20,8 +20,6 @@ source $HOME/.profile
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/Nibiru/Dependencies.sh)
 
-echo "" && printGreen "Встановлення Go..." && sleep 1
-
 sudo apt update # In case of permissions error, try running with sudo
 sudo apt install -y unzip logrotate git jq sed wget curl coreutils systemd
 
@@ -76,6 +74,7 @@ rm -rf $HOME/lava-config
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
 sudo systemctl start lavad && sleep 5
+
 
 printDelimiter
 printGreen "Переглянути журнал логів:            sudo journalctl -u lavad -f -o cat"
