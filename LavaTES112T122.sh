@@ -71,18 +71,6 @@ printGreen "Завантажуємо снепшот для прискоренн�
 SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
 curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
 
-sed -i \
-    -e 's/timeout_commit = ".*"/timeout_commit = "30s"/g' \
-    -e 's/timeout_propose = ".*"/timeout_propose = "1s"/g' \
-    -e 's/timeout_precommit = ".*"/timeout_precommit = "1s"/g' \
-    -e 's/timeout_precommit_delta = ".*"/timeout_precommit_delta = "500ms"/g' \
-    -e 's/timeout_prevote = ".*"/timeout_prevote = "1s"/g' \
-    -e 's/timeout_prevote_delta = ".*"/timeout_prevote_delta = "500ms"/g' \
-    -e 's/timeout_propose_delta = ".*"/timeout_propose_delta = "500ms"/g' \
-    -e 's/skip_timeout_commit = ".*"/skip_timeout_commit = false/g' \
-    $HOME/.lava/config/client.toml
-
-
 livepeers=$(curl -s https://services.bccnodes.com/testnets/lava/peers.txt)
 sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$livepeers\"/" ~/.lava/config/config.toml
 
