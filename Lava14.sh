@@ -37,6 +37,11 @@ wget https://lava-binary-upgrades.s3.amazonaws.com/testnet-2/genesis/lavad
 chmod +x lavad
 cp lavad /usr/local/bin
 
+  sleep 1
+  lavad config keyring-backend test
+  lavad config chain-id $CHAIN_ID
+  lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
+
 echo "[Unit]
 Description=Lava Node
 After=network-online.target
@@ -50,12 +55,6 @@ LimitNPROC=infinity
 [Install]
 WantedBy=multi-user.target" >lavad.service
 sudo mv lavad.service /lib/systemd/system/lavad.service
-
-  sleep 1
-  lavad config keyring-backend test
-  lavad config chain-id $CHAIN_ID
-  lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
-
 
 printGreen "Завантажуємо снепшот для прискорення синхронізації ноди..." && sleep 1
 
