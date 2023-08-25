@@ -18,9 +18,8 @@ printGreen "Введіть ім'я для вашої ноди:"
 read -r NODE_MONIKER
 
 CHAIN_ID="nibiru-itn-1"
-CHAIN_DENOM="unibi"
-BINARY_NAME="nibid"
-BINARY_VERSION_TAG="v0.19.2"
+echo "export CHAIN_ID=${CHAIN_ID}" >> $HOME/.profile
+source $HOME/.profile
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/Nibiru/Dependencies.sh)
 
