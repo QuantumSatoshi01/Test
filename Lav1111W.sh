@@ -11,6 +11,7 @@ function printGreen {
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
 
+echo ""
 printGreen "Введіть ім'я для ноди:"
 read -r NODE_MONIKER
 
