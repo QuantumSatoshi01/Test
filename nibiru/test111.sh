@@ -23,18 +23,20 @@ source $HOME/.profile
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/Nibiru/Dependencies.sh)
 
-cd
+cd $HOME
+rm -rf ~/nibiru
 git clone https://github.com/NibiruChain/nibiru
 cd nibiru
-git checkout  v0.19.2
+git fetch
+git checkout v0.19.2
 make install
 
 nibid config keyring-backend test
 nibid config chain-id $CHAIN_ID
 nibid init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
-curl -s https://snapshots-testnet.stake-town.com/nibiru/genesis.json > $HOME/.nibid/config/genesis.json
-curl -s https://snapshots-testnet.stake-town.com/nibiru/addrbook.json > $HOME/.nibid/config/addrbook.json
+curl -s https://rpc.itn-1.nibiru.fi/genesis | jq -r .result.genesis > $HOME/.nibid/config/genesis.json
+curl -s https://snapshots2-testnet.nodejumper.io/nibiru-testnet/addrbook.json > $HOME/.nibid/config/addrbook.json
 
 sudo sed -i 's/pprof_laddr = "0\.0\.0\.0:6060"/pprof_laddr = "0\.0\.0\.0:6260"/' $HOME/.nibid/config/config.toml
 sudo sed -i 's/laddr = "tcp:\/\/0\.0\.0\.0:26657"/laddr = "tcp:\/\/0\.0\.0\.0:15657"/' $HOME/.nibid/config/config.toml
@@ -43,16 +45,18 @@ sudo sed -i 's/address = "tcp:\/\/0\.0\.0\.0:1317"/address = "tcp:\/\/0\.0\.0\.0
 sudo sed -i -e "s|address = \"0.0.0.0:9090\"|address = \"0.0.0.0:18090\"|; s|address = \"0.0.0.0:9091\"|address = \"0.0.0.0:18091\"|" $HOME/.nibid/config/app.toml
 sudo sed -i 's|laddr = "tcp://0.0.0.0:26656"|laddr = "tcp://0.0.0.0:15656"|' $HOME/.nibid/config/config.toml
 
-sudo tee /etc/systemd/system/nibid.service > /dev/null << EOF
+sudo tee /etc/systemd/system/nibid.service > /dev/null <<EOF
 [Unit]
-Description=Nibiru Node
-After=network-online.target
+Description=nibid Node
+After=network.target
+
 [Service]
 User=$USER
+Type=simple
 ExecStart=$(which nibid) start
-Restart=on-failure
-RestartSec=10
-LimitNOFILE=10000
+Restart=on-failurerm
+LimitNOFILE=65535
+
 [Install]
 WantedBy=multi-user.target
 EOF
