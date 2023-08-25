@@ -59,6 +59,7 @@ sudo sed -i 's|laddr = "tcp://0.0.0.0:26656"|laddr = "tcp://0.0.0.0:16656"|' $HO
   systemctl restart lavad && sleep 5
   printGreen "Ноду успішно оновлено. Мережа Testnet2. version: v0.21.1.2" && sleep 3
   printGreen "Запускаємо журнал логів..." && sleep 3
+  printGreen "Спочатку ви можете побачити помилку Connection is closed, через 10-15секунд нода почне свою роботу"
   journalctl -u lavad -f -o cat 
 }
 
