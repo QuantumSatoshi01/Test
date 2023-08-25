@@ -30,9 +30,11 @@ echo "Lava config file path: $lava_config_folder"
 mkdir -p $lavad_home_folder
 mkdir -p $lava_config_folder
 cp default_lavad_config_files/* $lava_config_folder
-cp genesis_json/genesis.json $lava_config_folder/genesis.json
+
+
 lavad_binary_path="$HOME/go/bin/"
 mkdir -p $lavad_binary_path
+wget https://lava-binary-upgrades.s3.amazonaws.com/testnet-2/genesis/lavad
 chmod +x lavad
 cp lavad /usr/local/bin
 
@@ -40,6 +42,7 @@ cp lavad /usr/local/bin
   lavad config keyring-backend test
   lavad config chain-id $CHAIN_ID
   lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
+
 
 sudo sed -i 's/pprof_laddr = "0\.0\.0\.0:6060"/pprof_laddr = "0\.0\.0\.0:6160"/' $HOME/.lava/config/config.toml
 sudo sed -i 's/laddr = "tcp:\/\/0\.0\.0\.0:26657"/laddr = "tcp:\/\/0\.0\.0\.0:16657"/' $HOME/.lava/config/config.toml
