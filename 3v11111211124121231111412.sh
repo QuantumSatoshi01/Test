@@ -14,6 +14,12 @@ source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/Nibiru/Dependencies.sh)
 
+read -r -p "Enter node moniker: " NODE_MONIKER
+
+CHAIN_ID=lava-testnet-2
+echo "export CHAIN_ID=${CHAIN_ID}" >> $HOME/.profile
+source $HOME/.profile
+
 git clone https://github.com/lavanet/lava-config.git
 cd lava-config/testnet-2
 source setup_config/setup_config.sh
@@ -22,6 +28,11 @@ echo "Lava config file path: $lava_config_folder"
 mkdir -p $lavad_home_folder
 mkdir -p $lava_config_folder
 cp default_lavad_config_files/* $lava_config_folder
+
+sleep 1
+lavad config keyring-backend os
+lavad config chain-id $CHAIN_ID
+lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
 
 lavad_binary_path="$HOME/go/bin/"
