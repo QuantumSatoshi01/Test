@@ -23,7 +23,7 @@ function update {
   wget -O $HOME/.lava/config/genesis.json "https://raw.githubusercontent.com/lavanet/lava-config/main/testnet-2/genesis_json/genesis.json" && sleep 1
   sleep 5
   printGreen "Оновлюємо Binary Version Lava"
-  cd $HOME/lava
+  cd $HOME/.lava
   git pull
   git checkout v0.21.1.2
   make install
