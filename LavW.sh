@@ -30,7 +30,6 @@ echo "Lava config file path: $lava_config_folder"
 mkdir -p $lavad_home_folder
 mkdir -p $lava_config_folder
 cp default_lavad_config_files/* $lava_config_folder
-cp -f genesis_json/genesis.json $lava_config_folder/genesis.json
 
 
 lavad_binary_path="$HOME/go/bin/"
@@ -43,6 +42,12 @@ cp lavad /usr/local/bin
   lavad config keyring-backend test
   lavad config chain-id $CHAIN_ID
   lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
+
+sudo sed -i 's/pprof_laddr = "0\.0\.0\.0:6060"/pprof_laddr = "0\.0\.0\.0:6160"/' $HOME/.lava/config/config.toml
+sudo sed -i 's/laddr = "tcp:\/\/0\.0\.0\.0:26657"/laddr = "tcp:\/\/0\.0\.0\.0:16657"/' $HOME/.lava/config/config.toml
+sudo sed -i 's/address = "tcp:\/\/0\.0\.0\.0:1317"/address = "tcp:\/\/0\.0\.0\.0:1327"/' "$HOME/.lava/config/app.toml"
+sudo sed -i -e "s|address = \"0.0.0.0:9090\"|address = \"0.0.0.0:19090\"|; s|address = \"0.0.0.0:9091\"|address = \"0.0.0.0:19091\"|" $HOME/.lava/config/app.toml
+sudo sed -i 's|laddr = "tcp://0.0.0.0:26656"|laddr = "tcp://0.0.0.0:16656"|' $HOME/.lava/config/config.toml
 
 echo "[Unit]
 Description=Lava Node
