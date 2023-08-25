@@ -12,6 +12,10 @@ function printGreen {
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
 
+echo ""
+printGreen "Введіть ім'я для вашої ноди:"
+read -r NODE_MONIKER
+
 CHAIN_ID=lava-testnet-2
 echo "export CHAIN_ID=${CHAIN_ID}" >> $HOME/.profile
 source $HOME/.profile
@@ -37,10 +41,11 @@ cp lavad /usr/local/bin
   sleep 1
   lavad config keyring-backend test
   lavad config chain-id $CHAIN_ID
+  lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
+
 
 sudo sed -i 's/pprof_laddr = "0\.0\.0\.0:6060"/pprof_laddr = "0\.0\.0\.0:6160"/' $HOME/.lava/config/config.toml
 sudo sed -i 's/laddr = "tcp:\/\/0\.0\.0\.0:26657"/laddr = "tcp:\/\/0\.0\.0\.0:16657"/' $HOME/.lava/config/config.toml
-sudo sed -i 's/node = "tcp:\/\/localhost:26657"/node = "tcp:\/\/localhost:16657"/' $HOME/.lava/config/client.toml
 sudo sed -i 's/address = "tcp:\/\/0\.0\.0\.0:1317"/address = "tcp:\/\/0\.0\.0\.0:1327"/' "$HOME/.lava/config/app.toml"
 sudo sed -i -e "s|address = \"0.0.0.0:9090\"|address = \"0.0.0.0:19090\"|; s|address = \"0.0.0.0:9091\"|address = \"0.0.0.0:19091\"|" $HOME/.lava/config/app.toml
 sudo sed -i 's|laddr = "tcp://0.0.0.0:26656"|laddr = "tcp://0.0.0.0:16656"|' $HOME/.lava/config/config.toml
