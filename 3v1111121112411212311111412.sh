@@ -49,6 +49,11 @@ sudo sed -i 's|laddr = "tcp://0.0.0.0:26656"|laddr = "tcp://0.0.0.0:16656"|' $HO
     -e 's/skip_timeout_commit = ".*"/skip_timeout_commit = false/g' \
     $HOME/.lava/config/client.toml
 
+  printGreen "Завантажуємо снепшот для прискорення синхронізації"
+    SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/lava-testnet/info.json | jq -r .fileName)
+    curl "https://snapshots1-testnet.nodejumper.io/lava-testnet/${SNAP_NAME}" | lz4 -dc - | tar -xf - -C "$HOME/.lava"
+
+
   printGreen "Файли config.toml та client.toml успішно оновлено" && sleep 1
   printGreen "Запускаємо Lava Node..." && sleep 1
   systemctl restart lavad && sleep 5
