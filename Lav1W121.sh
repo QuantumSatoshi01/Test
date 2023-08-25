@@ -33,7 +33,6 @@ cp default_lavad_config_files/* $lava_config_folder
 
 lavad_binary_path="$HOME/go/bin/"
 mkdir -p $lavad_binary_path
-wget -O $HOME/.lava/config/genesis.json "https://raw.githubusercontent.com/lavanet/lava-config/main/testnet-2/genesis_json/genesis.json"
 chmod +x lavad
 cp lavad /usr/local/bin
 
