@@ -30,7 +30,8 @@ echo "Lava config file path: $lava_config_folder"
 mkdir -p $lavad_home_folder
 mkdir -p $lava_config_folder
 cp default_lavad_config_files/* $lava_config_folder
-mv -f genesis_json/genesis.json $lava_config_folder/genesis.json
+cp -f genesis_json/genesis.json $lava_config_folder/genesis.json
+
 
 lavad_binary_path="$HOME/go/bin/"
 mkdir -p $lavad_binary_path
