@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function install() {
+clear
 function printDelimiter {
   echo "==========================================="
 }
