@@ -81,7 +81,6 @@ printGreen "Переглянути статус синхронізації: lava
 printGreen "Порти які використовує ваша нода: 16656,16657,6160,1327,19090,19091"
 printGreen "Журнал логів спочатку видасть помилку Connection closed. Але за 5-10 секунд нода розпочне синхронізацію"
 printDelimiter
-printDelimiter
 
 }
 install
