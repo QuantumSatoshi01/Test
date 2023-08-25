@@ -5,6 +5,7 @@ bash <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.s
 }
 
 function install() {
+clear
 function printDelimiter {
   echo "==========================================="
 }
