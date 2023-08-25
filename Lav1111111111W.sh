@@ -42,13 +42,6 @@ cp lavad /usr/local/bin
   lavad config chain-id $CHAIN_ID
   lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
-#Налаштування портів
-sudo sed -i 's/pprof_laddr = "0\.0\.0\.0:6060"/pprof_laddr = "0\.0\.0\.0:6160"/' $HOME/.lava/config/config.toml
-sudo sed -i 's/laddr = "tcp:\/\/0\.0\.0\.0:26657"/laddr = "tcp:\/\/0\.0\.0\.0:16657"/' $HOME/.lava/config/config.toml
-sudo sed -i 's/address = "tcp:\/\/0\.0\.0\.0:1317"/address = "tcp:\/\/0\.0\.0\.0:1327"/' "$HOME/.lava/config/app.toml"
-sudo sed -i -e "s|address = \"0.0.0.0:9090\"|address = \"0.0.0.0:19090\"|; s|address = \"0.0.0.0:9091\"|address = \"0.0.0.0:19091\"|" $HOME/.lava/config/app.toml
-sudo sed -i 's|laddr = "tcp://0.0.0.0:26656"|laddr = "tcp://0.0.0.0:16656"|' $HOME/.lava/config/config.toml
-
 echo "[Unit]
 Description=Lava Node
 After=network-online.target
