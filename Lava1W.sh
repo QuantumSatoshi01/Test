@@ -47,6 +47,10 @@ sed -i.bak -e "s|proxy_app = \"tcp://127.0.0.1:26658\"|proxy_app = \"tcp://127.0
 sed -i.bak -e "s|node = \"tcp://localhost:26657\"|node = \"tcp://localhost:16657\"|" "$HOME/.lava/config/client.toml"
 sed -i.bak -e "s|address = \"0.0.0.0:9090\"|address = \"0.0.0.0:19090\"|; s|address = \"0.0.0.0:9091\"|address = \"0.0.0.0:19091\"|" /root/.lava/config/app.toml
 sudo sed -i 's/address = "tcp:\/\/0\.0\.0\.0:1317"/address = "tcp:\/\/0\.0\.0\.0:1327"/' "$HOME/.lava/config/app.toml"
+sudo sed -i 's/laddr = "tcp:\/\/0\.0\.0\.0:26657"/laddr = "tcp:\/\/0\.0\.0\.0:16657"/' $HOME/.lava/config/config.toml
+sudo sed -i 's/pprof_laddr = "0\.0\.0\.0:6060"/pprof_laddr = "0\.0\.0\.0:6160"/' $HOME/.lava/config/config.toml
+
+
 
 echo "[Unit]
 Description=Lava Node
