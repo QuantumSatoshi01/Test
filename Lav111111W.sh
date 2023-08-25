@@ -13,7 +13,7 @@ function printGreen {
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
 
 echo ""
-printGreen "Введіть ім'я для ноди:"
+printGreen "Введіть ім'я для вашої ноди:"
 read -r NODE_MONIKER
 
 CHAIN_ID=lava-testnet-2
