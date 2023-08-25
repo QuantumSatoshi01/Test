@@ -12,10 +12,6 @@ function printGreen {
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
 
-CHAIN_ID=lava-testnet-2
-echo "export CHAIN_ID=${CHAIN_ID}" >> $HOME/.profile
-source $HOME/.profile
-
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/Nibiru/Dependencies.sh)
 
 git clone https://github.com/lavanet/lava-config.git
@@ -33,10 +29,6 @@ mkdir -p $lavad_binary_path
 wget https://lava-binary-upgrades.s3.amazonaws.com/testnet-2/genesis/lavad
 chmod +x lavad
 cp lavad /usr/local/bin
-
-  sleep 1
-  lavad config keyring-backend test
-  lavad config chain-id $CHAIN_ID
 
 sudo sed -i 's/pprof_laddr = "0\.0\.0\.0:6060"/pprof_laddr = "0\.0\.0\.0:6160"/' $HOME/.lava/config/config.toml
 sudo sed -i 's/laddr = "tcp:\/\/0\.0\.0\.0:26657"/laddr = "tcp:\/\/0\.0\.0\.0:16657"/' $HOME/.lava/config/config.toml
