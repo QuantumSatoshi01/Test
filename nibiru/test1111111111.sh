@@ -4,8 +4,6 @@ function logo() {
 bash <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
 }
 
-function install() {
-clear
 function printDelimiter {
   echo "==========================================="
 }
@@ -13,6 +11,10 @@ function printDelimiter {
 function printGreen {
   echo -e "\e[1m\e[32m${1}\e[0m"
 }
+
+function install() {
+clear
+logo
 
 echo ""
 printGreen "Введіть ім'я для вашої ноди:"
