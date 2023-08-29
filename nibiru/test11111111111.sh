@@ -65,25 +65,24 @@ sudo sed -i 's/address = "tcp:\/\/0\.0\.0\.0:1317"/address = "tcp:\/\/0\.0\.0\.0
 sudo sed -i -e "s|address = \"0.0.0.0:9090\"|address = \"0.0.0.0:18090\"|; s|address = \"0.0.0.0:9091\"|address = \"0.0.0.0:18091\"|" $HOME/.nibid/config/app.toml
 sudo sed -i 's|laddr = "tcp://0.0.0.0:26656"|laddr = "tcp://0.0.0.0:15656"|' $HOME/.nibid/config/config.toml
 wget $GENESIS -O $NODE_HOME/config/genesis.json
-$BINARY tendermint unsafe-reset-all
 
-  sudo tee /etc/systemd/system/$BINARY.service <<EOF >/dev/null
+
+sudo tee /etc/systemd/system/nibid.service > /dev/null << EOF
 [Unit]
-Description=$BINARY service
-After=network.target
-
+Description=Nibiru Node
+After=network-online.target
 [Service]
 User=$USER
-Type=simple
-ExecStart=/usr/local/bin/$BINARY start
+ExecStart=$(which nibid) start
 Restart=on-failure
-LimitNOFILE=65535
-
+RestartSec=10
+LimitNOFILE=10000
 [Install]
 WantedBy=multi-user.target
 EOF
 
-echo -e '\n\e[42mRunning a service\e[0m\n' && sleep 1
+nibid tendermint unsafe-reset-all --home $HOME/.nibid --keep-addr-book
+
 sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
 sudo systemctl enable $BINARY
