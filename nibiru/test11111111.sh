@@ -39,7 +39,7 @@ nibid init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
 curl -s https://rpc.itn-1.nibiru.fi/genesis | jq -r .result.genesis > $HOME/.nibid/config/genesis.json
 curl -s https://snapshots2-testnet.nodejumper.io/nibiru-testnet/addrbook.json > $HOME/.nibid/config/addrbook.json
-
+SEEDS=""
 sudo sed -i 's|pprof_laddr = "localhost:6060"|pprof_laddr = "localhost:6260"|' $HOME/.nibid/config/config.toml
 sudo sed -i 's|laddr = "tcp://127.0.0.1:26657"|laddr = "tcp://127.0.0.1:15657"|' $HOME/.nibid/config/config.toml
 sudo sed -i 's|node = "tcp://localhost:28657"|node = "tcp://localhost:15657"|' $HOME/.nibid/config/client.toml
@@ -65,6 +65,11 @@ sudo sed -i 's|laddr = "tcp://0.0.0.0:26656"|laddr = "tcp://0.0.0.0:15656"|' $HO
 wget $GENESIS -O $NODE_HOME/config/genesis.json
 $BINARY tendermint unsafe-reset-all
 
+  sudo tee /etc/systemd/system/$BINARY.service <<EOF >/dev/null
+[Unit]
+Description=$BINARY service
+After=network.target
+
 [Service]
 User=$USER
 Type=simple
@@ -73,11 +78,9 @@ Restart=on-failure
 LimitNOFILE=65535
 
 [Install]
-WantedBy=multi-user.target" > $HOME/$BINARY.service
-sudo mv $HOME/$BINARY.service /etc/systemd/system
-sudo tee <<EOF >/dev/null /etc/systemd/journald.conf
-Storage=persistent
+WantedBy=multi-user.target
 EOF
+
 echo -e '\n\e[42mRunning a service\e[0m\n' && sleep 1
 sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
@@ -101,9 +104,11 @@ printGreen "Порти які використовує ваша нода: 15656,
 printGreen "В журналі логів спочатку ви можете побачити помилку Connection is closed. Але за 5-10 секунд нода розпочне синхронізацію"
 printDelimiter
 
+}
+
 logo
 install
 touch $HOME/.sdd_Nibiru_do_not_remove
 logo
 
-}
+
