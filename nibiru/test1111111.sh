@@ -101,9 +101,9 @@ printGreen "Порти які використовує ваша нода: 15656,
 printGreen "В журналі логів спочатку ви можете побачити помилку Connection is closed. Але за 5-10 секунд нода розпочне синхронізацію"
 printDelimiter
 
-}
-
 logo
 install
 touch $HOME/.sdd_Nibiru_do_not_remove
 logo
+
+}
