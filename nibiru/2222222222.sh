@@ -76,11 +76,14 @@ sudo systemctl daemon-reload
 sudo systemctl enable nibid
 sudo systemctl start nibid
 
-}
-
 printDelimiter
 printGreen "Переглянути журнал логів:         sudo journalctl -u nibid -f -o cat"
 printGreen "Переглянути статус синхронізації: nibid status 2>&1 | jq .SyncInfo"
 printGreen "Порти які використовує ваша нода: 6260,15657,1227,18090,18091,15656,27660"
 printGreen "В журналі логів спочатку ви можете побачити помилку Connection is closed. Але за 5-15 секунд нода розпочне синхронізацію"
 printDelimiter
+
+}
+
+install
+
