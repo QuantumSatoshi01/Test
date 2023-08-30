@@ -38,7 +38,10 @@ apt install curl -y
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 apt install nodejs -y
 
+echo ""
 printGreen "Встановлення Holograph..."
+echo "Ігноруйте подальші повідомлення "npm WARN deprecated" та "run `npm fund`" - це просто повідомлення про застарілу версію npm"
+echo ""
 npm install -g @holographxyz/cli
 echo ""
 printGreen "Оберіть мережі goerli, mumbai, fuji (Користуйтесь стрілками вниз-вверх, Space - для вибору мереж, ENTER - після вибору усіх 3 мереж."
