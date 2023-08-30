@@ -11,18 +11,6 @@ function printGreen {
 function printDelimiter {
   echo "==========================================="
 }
-function install() {
-printGreen "Встановлення необхідних програмних компонентів..."
-
-apt update && apt upgrade -y
-apt install curl -y
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-apt install nodejs -y
-
-printGreen "Встановлення Holograph..."
-npm install -g @holographxyz/cli
-
-}
 
 clear
 logo
@@ -43,5 +31,18 @@ else
     exit 1
 fi
 
+function install() {
+printGreen "Встановлення необхідних програмних компонентів..."
 
+apt update && apt upgrade -y
+apt install curl -y
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+apt install nodejs -y
+
+printGreen "Встановлення Holograph..."
+npm install -g @holographxyz/cli
+
+}
+
+install
 
