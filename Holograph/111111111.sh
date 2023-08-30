@@ -22,12 +22,11 @@ echo "3. Створити RPC в Alchemy"
 echo ""
 read -p "$(printGreen 'Ви виконали всі необхідні пункти і готові продовжити встановлення ноди? [Y/N]: ')" answer
 
-if [ "$answer" = "Y" ] || [ "$answer" = "N" ]; then
+if [ "$answer" = "Y" ]; then
     printGreen "Розпочалось встановлення Holograph..."
     install
-else
+elif [ "$answer" = "N" ]; then
     echo "$(printGreen 'Процес встановлення скасовано.')"
-      
     exit 1
 fi
 
