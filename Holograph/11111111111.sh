@@ -40,6 +40,9 @@ apt install nodejs -y
 
 printGreen "Встановлення Holograph..."
 npm install -g @holographxyz/cli
+echo ""
+printGreen "Оберіть мережі goerli, mumbai, fuji (Користуйтесь стрілками вниз-вверх, Space - для вибору мереж, ENTER - після вибору усіх 3 мереж."
+echo ""
 holograph config
 
 }
