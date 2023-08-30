@@ -32,6 +32,7 @@ fi
 
 function install() {
 printGreen "Встановлення необхідних програмних компонентів..."
+echo ""
 
 apt update && apt upgrade -y
 apt install curl -y
@@ -40,11 +41,12 @@ apt install nodejs -y
 
 echo ""
 printGreen "Встановлення Holograph..."
-echo "Ігноруйте подальші повідомлення "npm WARN deprecated" та "run `npm fund`" - це просто повідомлення про застарілу версію npm"
+printGreen "Ігноруйте подальші повідомлення "npm WARN deprecated" та "run `npm fund`" - це просто повідомлення про застарілу версію npm" && sleep 4
 echo ""
 npm install -g @holographxyz/cli
 echo ""
 printGreen "Оберіть мережі goerli, mumbai, fuji (Користуйтесь стрілками вниз-вверх, Space - для вибору мереж, ENTER - після вибору усіх 3 мереж."
+printGreen "Та перейдіть до гайду, для виконання наступних кроків по встановленню" && sleep 3
 echo ""
 holograph config
 
