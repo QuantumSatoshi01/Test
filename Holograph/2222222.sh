@@ -65,6 +65,8 @@ function install() {
   echo ""  # Порожній рядок для виділення
   echo "$(printGreen 'Вставте HTTPS вашого RPC Fuji')"
   holograph config --fuji "$fuji_url"
+
+  holograph faucet
 }
 
 install
