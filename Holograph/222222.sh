@@ -41,21 +41,30 @@ function install() {
 
   echo ""
   printGreen "Встановлення Holograph..."
-  printGreen "Ігноруйте подальші повідомлення \"npm WARN deprecated\" та \"run \`npm fund\`\" - це просто повідомлення про застарілу версію npm" && sleep 4
+  printGreen "Ігноруйте подальші повідомлення npm WARN deprecated та run npm fund - це просто повідомлення про застарілу версію npm" && sleep 4
   echo ""
   npm install -g @holographxyz/cli
   echo ""
   printGreen "Оберіть мережі goerli, mumbai, fuji (Користуйтесь стрілками вниз-вверх, Space - для вибору мереж, ENTER - після вибору усіх 3 мереж."
-  echo ""
-  
-  # Додаємо підказку перед запитом введення URL
-  printGreen "Введіть посилання для мережі goerli. Залиште порожнім для використання https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161:"
-  read goerli_url  # Зчитуємо введений URL
-  
-  # Пропускаємо введення для інших мереж (mumbai, fuji)
-  mumbai_url=""
-  fuji_url=""
+  printGreen "Та перейдіть до гайду, для виконання наступних кроків по встановленню"
+  echo "" && sleep 3
+
+  # Зчитуємо URL для кожної мережі
+  read -p "$(printGreen 'Введіть посилання для мережі goerli. Залиште порожнім для використання https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161: ')" goerli_url
+  read -p "$(printGreen 'Введіть посилання для мережі mumbai. Залиште порожнім для використання за замовчуванням: ')" mumbai_url
+  read -p "$(printGreen 'Введіть посилання для мережі fuji. Залиште порожнім для використання за замовчуванням: ')" fuji_url
   
   echo ""  # Порожній рядок для виділення
+  echo "$(printGreen 'Вставте HTTPS вашого RPC Goerli')"
+  holograph config --go "$goerli_url"
   
-  holograph config --go
+  echo ""  # Порожній рядок для виділення
+  echo "$(printGreen 'Вставте HTTPS вашого RPC Mumbai')"
+  holograph config --mumbai "$mumbai_url"
+  
+  echo ""  # Порожній рядок для виділення
+  echo "$(printGreen 'Вставте HTTPS вашого RPC Fuji')"
+  holograph config --fuji "$fuji_url"
+}
+
+install
