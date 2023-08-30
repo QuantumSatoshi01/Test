@@ -38,3 +38,6 @@ apt install nodejs -y
 
 printGreen "Встановлення Holograph..."
 npm install -g @holographxyz/cli
+
+}
+install
