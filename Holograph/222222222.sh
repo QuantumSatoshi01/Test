@@ -71,3 +71,5 @@ function install2() {
 }
 
 install
+install2
+holograph_faucet
