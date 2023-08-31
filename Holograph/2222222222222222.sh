@@ -34,10 +34,10 @@ function install() {
 printGreen "Встановлення необхідних програмних компонентів..."
 echo ""
 
-apt update && apt upgrade -y
-apt install curl -y
-sudo apt-get update && sudo apt-get install nodejs -y
-sudo apt install npm
+sudo apt update && sudo apt upgrade -y
+sudo apt install curl -y
+sudo apt-get install nodejs -y
+sudo apt-get install -f
 
 
 echo ""
