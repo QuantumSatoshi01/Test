@@ -61,6 +61,8 @@ function install() {
 }
 
 function done2() {
+  clear
+  logo
   printGreen "Створюємо screen з назвою holograph - для стабільної та безперебійної роботи нашої ноди. Вийти з режиму screen - Ctrl + A + D" && sleep 4
   screen -S holograph && sleep 2
   if [ $? -eq 0 ]; then
