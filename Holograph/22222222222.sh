@@ -30,7 +30,7 @@ if [ "$answer" = "1" ]; then
   printGreen "Розпочалось встановлення Holograph..."
   install
 elif [ "$answer" = "2" ]; then
-  install2
+  done2
 fi
 
 function install() {
@@ -71,4 +71,4 @@ function install2() {
 }
 
 install
-install2
+done2
