@@ -20,14 +20,13 @@ echo "1. Додати всі тестові мережі собі в Metamask"
 echo "2. Запросити тестові токени на всі тестові мережі"
 echo "3. Створити RPC в Alchemy"
 echo ""
-read -p "$(printGreen 'Ви виконали всі необхідні пункти і готові продовжити встановлення ноди? [Y/N]: ')" answer
+read -p "$(printGreen 'Якщо ви виконали всі умови, та вперше втановлюєте ноду впишіть 1, якщо ви запросили вдруге 100 $HLG та маєте на балансі 200 $HLG у всіх мережах впишіть 2 [1/2]: ')" answer
 
-if [ "$answer" = "Y" ]; then
+if [ "$answer" = "1" ]; then
     printGreen "Розпочалось встановлення Holograph..."
     install
-elif [ "$answer" = "N" ]; then
-    echo "$(printGreen 'Процес встановлення скасовано.')"
-    exit 1
+elif [ "$answer" = "2" ]; then
+    install2
 fi
 
 function install() {
@@ -62,4 +61,15 @@ function holograph_faucet() {
   holograph faucet 
 }
 
+function install2() {
+printGreen "Створюємо screen з назвою holograph - для стабільної та безперебійної роботи нашої ноди. Вийти з режиму screen - Ctrl + A + D" && sleep 4
+screen -S holograph && sleep 2
+ if [ $? -eq 0 ]; then
+    for i in {1..3}; do
+      holograph operator:bond
+    done
+  fi
+}
+
 install
+install2
