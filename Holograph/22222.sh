@@ -26,7 +26,7 @@ if [ "$answer" = "1" ]; then
     printGreen "Розпочалось встановлення Holograph..."
     install
 elif [ "$answer" = "2" ]; then
-    install2
+    done2
 fi
 
 function install() {
@@ -61,7 +61,7 @@ function holograph_faucet() {
   holograph faucet 
 }
 
-function install2() {
+function done2() {
 printGreen "Створюємо screen з назвою holograph - для стабільної та безперебійної роботи нашої ноди. Вийти з режиму screen - Ctrl + A + D" && sleep 4
 screen -S holograph && sleep 2
  if [ $? -eq 0 ]; then
@@ -72,4 +72,4 @@ screen -S holograph && sleep 2
 }
 
 install
-install2
+done2
