@@ -53,9 +53,8 @@ echo "" && sleep 3
 holograph config
 
 if [ $? -eq 0 ]; then
+printGreen "Запрошуємо тестові токени у кожну з тестових мереж"
     holograph_faucet
-  else
-    echo "$(printGreen 'Помилка під час виконання holograph config. Процес встановлення скасовано.')"
     exit 1
   fi
 }
