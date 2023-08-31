@@ -12,6 +12,10 @@ function printDelimiter {
   echo "==========================================="
 }
 
+function holograph_faucet() {
+  holograph faucet 
+}
+
 clear
 logo
 printGreen "Перед початком встановлення вам потрібно виконати всі попередні кроки з гайду, а саме:"
@@ -20,13 +24,13 @@ echo "1. Додати всі тестові мережі собі в Metamask"
 echo "2. Запросити тестові токени на всі тестові мережі"
 echo "3. Створити RPC в Alchemy"
 echo ""
-read -p "$(printGreen 'Якщо ви виконали всі умови,та вперше втановлюєте ноду впишіть 1,якщо ви запросили вдруге 100 $HLG та маєте на балансі 200 $HLG у 3 мережах впишіть 2[1/2]: ')" answer
+read -p "$(printGreen 'Якщо ви виконали всі умови, та вперше втановлюєте ноду, введіть 1. Якщо ви запросили вдруге 100 $HLG та маєте на балансі 200 $HLG у 3 мережах, введіть 2[1/2]: ')" answer
 
 if [ "$answer" = "1" ]; then
-    printGreen "Розпочалось встановлення Holograph..."
-    install
+  printGreen "Розпочалось встановлення Holograph..."
+  install
 elif [ "$answer" = "2" ]; then
-    install2
+  install2
 fi
 
 function install() {
@@ -56,10 +60,6 @@ function install() {
   fi
 }
 
-function holograph_faucet() {
-  holograph faucet 
-}
-
 function install2() {
   printGreen "Створюємо screen з назвою holograph - для стабільної та безперебійної роботи нашої ноди. Вийти з режиму screen - Ctrl + A + D" && sleep 4
   screen -S holograph && sleep 2
@@ -72,4 +72,3 @@ function install2() {
 
 install
 install2
-holograph_faucet
