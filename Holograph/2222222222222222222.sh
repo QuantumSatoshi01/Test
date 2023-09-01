@@ -45,7 +45,9 @@ function done2() {
     holograph_faucet
   done
 
-  printGreen "Створюємо screen з назвою holograph - для стабільної та безперебійної роботи нашої ноди. Вийти з режиму screen - Ctrl + A + D" && sleep 4
+  printGreen "Створюємо screen з назвою holograph - для стабільної та безперебійної роботи нашої ноди. Вийти з режиму screen - Ctrl + A + D"
+  printGreen "В середині screen ви побачите застереження WARNING... просто натискаєте Enter, вводите пароль та обираєте якусь з мереж та створюєте бондинг"
+  printGreen "Поверніться до гайду, там буде більш детальна інструкція з поясненням" && sleep 7
  screen -S holograph bash -c 'sleep 2 && holograph operator:bond && printGreen "Нажимаємо Y - та створюємо бондинг у будь-якій з запропонованих мереж"'
 }
 
