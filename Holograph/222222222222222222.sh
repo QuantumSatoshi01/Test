@@ -40,14 +40,13 @@ function install() {
 }
 
 function done2() {
-  printGreen "Запрошуємо у кожну мережу ще по 100 токенів HLG"
+  printGreen "Запрошуємо у кожну мережу ще по 100 токенів HLG (Тричі натискайте Y , та запрошуйте у кожну мережу токени)"
   for i in {1..3}; do
     holograph_faucet
   done
 
   printGreen "Створюємо screen з назвою holograph - для стабільної та безперебійної роботи нашої ноди. Вийти з режиму screen - Ctrl + A + D" && sleep 4
- screen -S holograph bash -c 'sleep 2 && holograph operator:bond; printGreen "Нажимаємо Y - та створюємо бондинг у будь-якій з запропонованих мереж"'
-
+ screen -S holograph bash -c 'sleep 2 && holograph operator:bond && printGreen "Нажимаємо Y - та створюємо бондинг у будь-якій з запропонованих мереж"'
 }
 
 
