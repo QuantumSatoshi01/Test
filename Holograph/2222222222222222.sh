@@ -50,7 +50,7 @@ function done2() {
   done
 
   printGreen "Створюємо screen з назвою holograph - для стабільної та безперебійної роботи нашої ноди. Вийти з режиму screen - Ctrl + A + D" && sleep 4
-  screen -dmS holograph bash -c 'sleep 2 && holograph operator:bond'
+  screen -S holograph bash -c 'sleep 2 && holograph operator:bond'
 }
 
 
