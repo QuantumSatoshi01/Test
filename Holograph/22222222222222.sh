@@ -49,16 +49,16 @@ function done2() {
     holograph_faucet
   done
 
-  printGreen "Створюємо screen з назвою holograph - для стабільної та безперебійної роботи нашої ноди. Вийти з режиму screen - Ctrl + A + D" && sleep 4
-  if [ $? -eq 0 ]; then
-    screen -S holograph && sleep 2
-  fi
+printGreen "Створюємо screen з назвою holograph - для стабільної та безперебійної роботи нашої ноди. Вийти з режиму screen - Ctrl + A + D" && sleep 4
 
-  if [ $? -eq 0 ]; then
-    holograph operator:bond
-  fi
+screen -S holograph
+screen_exit_code=$?
+
+if [ $screen_exit_code -eq 0 ]; then
+  sleep 2
+  holograph operator:bond
+fi
 }
-
 
 clear
 logo
