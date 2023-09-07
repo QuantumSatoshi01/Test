@@ -17,11 +17,13 @@ function backup_node() {
     files_to_copy=( "$source_dir/$file_pattern" )
     if [ ${#files_to_copy[@]} -gt 0 ]; then
         mkdir -p "$backup_dir"
+        printGreen "Копіюємо бекап файли $node_name в папку $backup_dir" && sleep 2
         for file_to_copy in "${files_to_copy[@]}"; do
             if [ -f "$file_to_copy" ]; then
                 cp "$file_to_copy" "$backup_dir/"
             fi
         done
+        echo ""
     fi
 }
 
