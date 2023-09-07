@@ -27,7 +27,7 @@ function backup() {
 
         for lava_file_to_copy in "${lava_files_to_copy[@]}"; do
             if [ -f "$lava_source_dir/$lava_file_to_copy" ]; then
-                printGreen "Копіюємо бекап файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 2
+                printGreen "Копіюємо бекап файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 1
                 cp "$lava_source_dir/$lava_file_to_copy" "$lava_backup_dir/"
                 echo ""
             fi
@@ -41,7 +41,7 @@ function backup() {
 
         for gear_file_to_copy in "${gear_files_to_copy[@]}"; do
             if [ -f "$gear_file_to_copy" ]; then
-                printGreen "Копіюємо бекап файли ноди Gear в папку /root/BACKUPNODES/Gear backup" && sleep 2
+                printGreen "Копіюємо бекап файли ноди Gear в папку /root/BACKUPNODES/Gear backup" && sleep 1
                 cp "$gear_file_to_copy" "$gear_backup_dir/"
                 echo ""
             fi
@@ -55,7 +55,7 @@ function backup() {
 
         for subspace_file_to_copy in "${subspace_files_to_copy[@]}"; do
             if [ -f "$subspace_file_to_copy" ]; then
-                printGreen "Копіюємо бекап файли ноди Subspace в папку /root/BACKUPNODES/Subspace backup" && sleep 2
+                printGreen "Копіюємо бекап файли ноди Subspace в папку /root/BACKUPNODES/Subspace backup" && sleep 1
                 cp "$subspace_file_to_copy" "$subspace_backup_dir/"
                 echo ""
             fi
@@ -69,7 +69,7 @@ function backup() {
 
         for nibiru_file_to_copy in "${nibiru_files_to_copy[@]}"; do
             if [ -f "$nibiru_source_dir/$nibiru_file_to_copy" ]; then
-                printGreen "Копіюємо бекап файли ноди Nibiru в папку $nibiru_backup_dir" && sleep 2
+                printGreen "Копіюємо бекап файли ноди Nibiru в папку $nibiru_backup_dir" && sleep 1
                 cp "$nibiru_source_dir/$nibiru_file_to_copy" "$nibiru_backup_dir/"
                 echo ""
             fi
