@@ -49,7 +49,7 @@ function backup() {
             mkdir -p "$lava_backup_dir"
             for lava_file_to_copy in "${lava_files_to_copy[@]}"; do
                 if [ -f "$lava_source_dir/$lava_file_to_copy" ]; then
-                    printGreen "Копіюємо: $lava_file_to_copy" && sleep 1
+                    echo "Завантажено: $lava_file_to_copy" && sleep 1
                     cp "$lava_source_dir/$lava_file_to_copy" "$lava_backup_dir/"
                     echo ""
                 fi
@@ -70,7 +70,7 @@ function backup() {
             mkdir -p "$gear_backup_dir"
             for gear_file_to_copy in "${gear_files_to_copy[@]}"; do
                 if [ -f "$gear_file_to_copy" ]; then
-                    printGreen "Копіюємо: $gear_file_to_copy" && sleep 1
+                    echo "Збережено: $gear_file_to_copy" && sleep 1
                     cp "$gear_file_to_copy" "$gear_backup_dir/"
                     echo ""
                 fi
@@ -91,7 +91,7 @@ function backup() {
             mkdir -p "$subspace_backup_dir"
             for subspace_file_to_copy in "${subspace_files_to_copy[@]}"; do
                 if [ -f "$subspace_file_to_copy" ]; then
-                    printGreen "Копіюємо: $subspace_file_to_copy" && sleep 1
+                    echo "Збережено: $subspace_file_to_copy" && sleep 1
                     cp "$subspace_file_to_copy" "$subspace_backup_dir/"
                     echo ""
                 fi
@@ -112,7 +112,7 @@ function backup() {
             mkdir -p "$nibiru_backup_dir"
             for nibiru_file_to_copy in "${nibiru_files_to_copy[@]}"; do
                 if [ -f "$nibiru_source_dir/$nibiru_file_to_copy" ]; then
-                    printGreen "Копіюємо: $nibiru_file_to_copy" && sleep 1
+                    printGreen "Збережено: $nibiru_file_to_copy" && sleep 1
                     cp "$nibiru_source_dir/$nibiru_file_to_copy" "$nibiru_backup_dir/"
                     echo ""
                 fi
