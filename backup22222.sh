@@ -8,10 +8,14 @@ function printGreen {
     echo -e "\e[1m\e[32m${1}\e[0m"
 }
 
+function printRed {
+    echo -e "\e[1m\e[31m${1}\e[0m"
+}
+
 clear
 logo
 
-printGreen "Бажаєте зробити backup нод: Lava,Nibiru,Subspace,Gear? (Y/N)"
+printGreen "Бажаєте зробити backup нод: Lava, Nibiru, Subspace, Gear? (Y/N)"
 read response
 
 function backup() {
@@ -22,63 +26,65 @@ function backup() {
         lava_backup_dir="$backup_dir/Lava backup"
         mkdir -p "$lava_backup_dir"
 
-        # Перевірка існування файлів перед копіюванням для Lava
+        printGreen "Починаємо копіювання backup файлів ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 2
+        
+       
         if [ -f "/root/.lava/config/priv_validator_key.json" ] && [ -f "/root/.lava/config/node_key.json" ] && [ -f "/root/.lava/data/priv_validator_state.json" ]; then
             cp "/root/.lava/config/priv_validator_key.json" "$lava_backup_dir/"
             cp "/root/.lava/config/node_key.json" "$lava_backup_dir/"
             cp "/root/.lava/data/priv_validator_state.json" "$lava_backup_dir/"
-            printGreen "Копіюємо backup файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 2
         else
-            echo "Помилка: Файли ноди Lava не знайдено."
+            printRed "Помилка: Файли ноди Lava не знайдено."
         fi
         
         gear_backup_dir="$backup_dir/Gear backup"
         mkdir -p "$gear_backup_dir"
 
-        # Перевірка існування файлів перед копіюванням для Gear
         gear_source_dir="/root/.local/share/gear/chains/gear_staging_testnet_v7/network/" 
         gear_files_to_copy=( "$gear_source_dir/secret_ed"* )
+
+        printGreen "Починаємо копіювання backup файлів ноди Gear в папку /root/BACKUPNODES/Gear backup" && sleep 2
+        
+       
         if [ ${#gear_files_to_copy[@]} -eq 0 ]; then
-            echo "Помилка: Файли ноди Gear не знайдено."
+            printRed "Помилка: Файли ноди Gear не знайдено."
         else
             for gear_file_to_copy in "${gear_files_to_copy[@]}"; do
                 if [ -f "$gear_file_to_copy" ]; then
                     cp "$gear_file_to_copy" "$gear_backup_dir/"
                 fi
             done
-            printGreen "Копіюємо backup файли ноди Gear в папку /root/BACKUPNODES/Gear backup" && sleep 2
         fi
-
-        # Аналогічно для Subspace та Nibiru
         
         subspace_backup_dir="$backup_dir/Subspace backup"
         mkdir -p "$subspace_backup_dir"
 
-        # Перевірка існування файлів перед копіюванням для Subspace
         subspace_source_dir="/root/.local/share/pulsar/node/chains/subspace_gemini_3f/network/"
         subspace_files_to_copy=( "$subspace_source_dir/secret_ed"* )
+
+        printGreen "Починаємо копіювання backup файлів ноди Subspace в папку /root/BACKUPNODES/Subspace backup" && sleep 2
+        
         if [ ${#subspace_files_to_copy[@]} -eq 0 ]; then
-            echo "Помилка: Файли ноди Subspace не знайдено."
+            printRed "Помилка: Файли ноди Subspace не знайдено."
         else
             for subspace_file_to_copy in "${subspace_files_to_copy[@]}"; do
                 if [ -f "$subspace_file_to_copy" ]; then
                     cp "$subspace_file_to_copy" "$subspace_backup_dir/"
                 fi
             done
-            printGreen "Копіюємо backup файли ноди Subspace в папку /root/BACKUPNODES/Subspace backup" && sleep 2
         fi
 
         nibiru_backup_dir="$backup_dir/Nibiru backup"
         mkdir -p "$nibiru_backup_dir"
 
-        # Перевірка існування файлів перед копіюванням для Nibiru
+        printGreen "Починаємо копіювання backup файлів ноди Nibiru в папку /root/BACKUPNODES/Nibiru backup" && sleep 2
+        
         if [ -f "/root/.nibid/config/priv_validator_key.json" ] && [ -f "/root/.nibid/config/node_key.json" ] && [ -f "/root/.nibid/data/priv_validator_state.json" ]; then
             cp "/root/.nibid/config/priv_validator_key.json" "$nibiru_backup_dir/"
             cp "/root/.nibid/config/node_key.json" "$nibiru_backup_dir/"
             cp "/root/.nibid/data/priv_validator_state.json" "$nibiru_backup_dir/"
-            printGreen "Копіюємо backup файли ноди Nibiru в папку /root/BACKUPNODES/Nibiru backup" && sleep 2
         else
-            echo "Помилка: Файли ноди Nibiru не знайдено."
+            printRed "Помилка: Файли ноди Nibiru не знайдено."
         fi
         
         echo ""
