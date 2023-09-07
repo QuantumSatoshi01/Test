@@ -45,13 +45,13 @@ function backup() {
         done
 
         if [ "$backup_message_printed" == true ]; then
+            echo ""
             printGreen "Копіюємо бекап файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 1
             mkdir -p "$lava_backup_dir"
             for lava_file_to_copy in "${lava_files_to_copy[@]}"; do
                 if [ -f "$lava_source_dir/$lava_file_to_copy" ]; then
                     echo "Завантажено: $lava_file_to_copy" && sleep 1
                     cp "$lava_source_dir/$lava_file_to_copy" "$lava_backup_dir/"
-                    echo ""
                 fi
             done
         fi
@@ -66,13 +66,13 @@ function backup() {
         done
 
         if [ "$backup_message_printed" == true ]; then
+            echo ""
             printGreen "Копіюємо бекап файли ноди Gear в папку /root/BACKUPNODES/Gear backup" && sleep 1
             mkdir -p "$gear_backup_dir"
             for gear_file_to_copy in "${gear_files_to_copy[@]}"; do
                 if [ -f "$gear_file_to_copy" ]; then
                     echo "Збережено: $gear_file_to_copy" && sleep 1
                     cp "$gear_file_to_copy" "$gear_backup_dir/"
-                    echo ""
                 fi
             done
         fi
@@ -87,13 +87,13 @@ function backup() {
         done
 
         if [ "$backup_message_printed" == true ]; then
+            echo ""
             printGreen "Копіюємо бекап файли ноди Subspace в папку /root/BACKUPNODES/Subspace backup" && sleep 1
             mkdir -p "$subspace_backup_dir"
             for subspace_file_to_copy in "${subspace_files_to_copy[@]}"; do
                 if [ -f "$subspace_file_to_copy" ]; then
                     echo "Збережено: $subspace_file_to_copy" && sleep 1
                     cp "$subspace_file_to_copy" "$subspace_backup_dir/"
-                    echo ""
                 fi
             done
         fi
@@ -108,19 +108,19 @@ function backup() {
         done
 
         if [ "$backup_message_printed" == true ]; then
+            echo ""
             printGreen "Копіюємо бекап файли ноди Nibiru в папку $nibiru_backup_dir" && sleep 1
             mkdir -p "$nibiru_backup_dir"
             for nibiru_file_to_copy in "${nibiru_files_to_copy[@]}"; do
                 if [ -f "$nibiru_source_dir/$nibiru_file_to_copy" ]; then
                     echo "Збережено: $nibiru_file_to_copy" && sleep 1
                     cp "$nibiru_source_dir/$nibiru_file_to_copy" "$nibiru_backup_dir/"
-                    echo ""
                 fi
             done
         fi
 
         if [ "$backup_message_printed" == false ]; then
-            printGreen "Немає файлів для створення бекапу. Процес backup нод відмінено."
+            printGreen "Процес бекапу нод відмінено."
         else
             echo ""
             echo "Backup завершено, перейдіть до основної директорії /root/BACKUPNODES та скопіюйте цю папку в безпечне місце собі на ПК."
