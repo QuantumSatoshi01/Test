@@ -30,20 +30,20 @@ function backup() {
         cp "/root/.lava/config/node_key.json" "$lava_backup_dir/"
         cp "/root/.lava/data/priv_validator_state.json" "$lava_backup_dir/"
         echo ""
-        printGreen "Файли ноди Nibiru перенесено в папку /root/BACKUPNODES/Nibiru backup"
+        printGreen "Файли ноди Nibiru перенесено в папку /root/BACKUPNODES/Nibiru backup" && sleep 2
         
         
         gear_backup_dir="$backup_dir/Gear backup"
         mkdir -p "$gear_backup_dir"
         
         
-        gear_source_dir="/root/.local/share/gear/chains/gear_staging_testnet_v7/network/"
+        gear_source_dir="/root/.local/share/gear/chains/gear_staging_testnet_v7/network/" 
         gear_files_to_copy=( "$gear_source_dir/secret_ed"* )
         for gear_file_to_copy in "${gear_files_to_copy[@]}"; do
             if [ -f "$gear_file_to_copy" ]; then
                 cp "$gear_file_to_copy" "$gear_backup_dir/"
                 echo ""
-                printGreen "Файли ноди Gear перенесено в папку /root/BACKUPNODES/Gear backup"
+                printGreen "Файли ноди Gear перенесено в папку /root/BACKUPNODES/Gear backup" && sleep 2
             fi
         done
 
@@ -58,7 +58,7 @@ function backup() {
             if [ -f "$subspace_file_to_copy" ]; then
                 cp "$subspace_file_to_copy" "$subspace_backup_dir/"
                 echo ""
-                printGreen "Бекап файли ноди Subspace перенесено в папку /root/BACKUPNODES/Subspace backup"
+                printGreen "Бекап файли ноди Subspace перенесено в папку /root/BACKUPNODES/Subspace backup" && sleep 2
             fi
         done
 
@@ -71,7 +71,7 @@ function backup() {
         cp "/root/.nibid/config/node_key.json" "$nibiru_backup_dir/"
         cp "/root/.nibid/data/priv_validator_state.json" "$nibiru_backup_dir/"
         echo ""
-        printGreen "Файли ноди Nibiru перенесено в папку /root/BACKUPNODES/Nibiru backup"
+        printGreen "Файли ноди Nibiru перенесено в папку /root/BACKUPNODES/Nibiru backup" && sleep 2
     else
         printGreen "Процес backup нод відмінено."
     fi
