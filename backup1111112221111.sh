@@ -1,3 +1,19 @@
+#!/bin/bash
+
+function logo() {
+    bash <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
+}
+
+function printGreen {
+    echo -e "\e[1m\e[32m${1}\e[0m"
+}
+
+clear
+logo
+
+printGreen "Бажаєте зробити backup нод: Lava, Nibiru, Subspace, Gear? (Y/N)"
+read response
+
 function backup() {
     if [[ $response == "Y" || $response == "y" ]]; then
         backup_dir="/root/BACKUPNODES"
