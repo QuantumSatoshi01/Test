@@ -62,7 +62,7 @@ function backup() {
         cp "/root/.nibid/data/priv_validator_state.json" "$nibiru_backup_dir/"
         echo ""
         echo ""
-        echo "Backup завершено, перейдіть до основної директорії /root/BACKUPNODES та скопіюйте цю папку в безпечне місце собі на ПК.
+        echo "Backup завершено, перейдіть до основної директорії /root/BACKUPNODES та скопіюйте цю папку в безпечне місце собі на ПК."
         echo "Нижче вказано шлях до директорій, куди потрібно перенести ваші backup файли на новий сервер. В залежності від вашої ноди."
         printGreen "Lava:"
         echo "/root/.lava/data/priv_validator_state.json"
