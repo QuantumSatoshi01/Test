@@ -25,12 +25,13 @@ function backup() {
 
 
         for lava_file_to_copy in "${lava_files_to_copy[@]}"; do
-        if [ -f "$lava_file_to_copy" ]; then
-        cp "$lava_file_to_copy" "$lava_backup_dir/"
-        echo ""
-    fi
-done
-printGreen "Копіюємо backup файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 2
+            if [ -f "$lava_file_to_copy" ]; then
+            printGreen "Копіюємо backup файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 2
+            cp "$lava_file_to_copy" "$lava_backup_dir/"
+            echo ""
+            fi
+        done
+
 
         
 
