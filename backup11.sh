@@ -28,7 +28,7 @@ function backup() {
         
         cp "/root/.lava/config/priv_validator_key.json" "$lava_backup_dir/"
         cp "/root/.lava/config/node_key.json" "$lava_backup_dir/"
-        cp "/root/.lava/data/priv_validator_state" "$lava_backup_dir/"
+        cp "/root/.lava/data/priv_validator_state.json" "$lava_backup_dir/"
         
         printGreen "Файли ноди Nibiru перенесено в папку /root/BACKUPNODES/Nibiru backup"
         
