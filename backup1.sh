@@ -7,7 +7,7 @@ function logo() {
 function printGreen {
     echo -e "\e[1m\e[32m${1}\e[0m"
 }
-
+clear
 logo
 
 printGreen "Бажаєте зробити backup нод: Lava,Nibiru,Subspace,Gear? (Y/N)"
