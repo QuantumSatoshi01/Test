@@ -29,7 +29,7 @@ function backup() {
         cp "/root/.lava/config/priv_validator_key.json" "$lava_backup_dir/"
         cp "/root/.lava/config/node_key.json" "$lava_backup_dir/"
         cp "/root/.lava/data/priv_validator_state.json" "$lava_backup_dir/"
-        
+        echo ""
         printGreen "Файли ноди Nibiru перенесено в папку /root/BACKUPNODES/Nibiru backup"
         
         
@@ -42,6 +42,7 @@ function backup() {
         for gear_file_to_copy in "${gear_files_to_copy[@]}"; do
             if [ -f "$gear_file_to_copy" ]; then
                 cp "$gear_file_to_copy" "$gear_backup_dir/"
+                echo ""
                 printGreen "Файли ноди Gear перенесено в папку /root/BACKUPNODES/Gear backup"
             fi
         done
@@ -56,6 +57,7 @@ function backup() {
         for subspace_file_to_copy in "${subspace_files_to_copy[@]}"; do
             if [ -f "$subspace_file_to_copy" ]; then
                 cp "$subspace_file_to_copy" "$subspace_backup_dir/"
+                echo ""
                 printGreen "Бекап файли ноди Subspace перенесено в папку /root/BACKUPNODES/Subspace backup"
             fi
         done
@@ -68,7 +70,7 @@ function backup() {
         cp "/root/.nibid/config/priv_validator_key.json" "$nibiru_backup_dir/"
         cp "/root/.nibid/config/node_key.json" "$nibiru_backup_dir/"
         cp "/root/.nibid/data/priv_validator_state.json" "$nibiru_backup_dir/"
-        
+        echo ""
         printGreen "Файли ноди Nibiru перенесено в папку /root/BACKUPNODES/Nibiru backup"
     else
         printGreen "Процес backup нод відмінено."
