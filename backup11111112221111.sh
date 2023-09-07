@@ -19,24 +19,28 @@ function backup() {
         backup_dir="/root/BACKUPNODES"
         mkdir -p "$backup_dir"
 
+        # Lava
         lava_backup_dir="$backup_dir/Lava backup"
         mkdir -p "$lava_backup_dir"
 
         lava_source_dir="/root/.lava/"
         lava_files_to_copy=( "config/priv_validator_key.json" "config/node_key.json" "data/priv_validator_state.json" )
 
+        # Gear
         gear_backup_dir="$backup_dir/Gear backup"
         mkdir -p "$gear_backup_dir"
 
         gear_source_dir="/root/.local/share/gear/chains/gear_staging_testnet_v7/network/" 
         gear_files_to_copy=( "$gear_source_dir/secret_ed"* )
 
+        # Subspace
         subspace_backup_dir="$backup_dir/Subspace backup"
         mkdir -p "$subspace_backup_dir"
 
         subspace_source_dir="/root/.local/share/pulsar/node/chains/subspace_gemini_3f/network/"
         subspace_files_to_copy=( "$subspace_source_dir/secret_ed"* )
 
+        # Nibiru
         nibiru_backup_dir="$backup_dir/Nibiru backup"
         mkdir -p "$nibiru_backup_dir"
 
@@ -45,51 +49,36 @@ function backup() {
 
         backup_message_printed=false
 
-        for lava_file_to_copy in "${lava_files_to_copy[@]}"; do
-            if [ -f "$lava_source_dir/$lava_file_to_copy" ]; then
-                if [ "$backup_message_printed" == false ]; then
-                    printGreen "Копіюємо бекап файли:"
-                    backup_message_printed=true
-                fi
-                printGreen "$lava_file_to_copy" && sleep 2
-                cp "$lava_source_dir/$lava_file_to_copy" "$lava_backup_dir/"
-                echo ""
-            fi
-        done
+        for node_name in "Lava" "Gear" "Subspace" "Nibiru"; do
+            source_dir="${node_name}_source_dir"
+            backup_dir="${node_name}_backup_dir"
+            files_to_copy=("${node_name}_files_to_copy[@]")
 
-        for gear_file_to_copy in "${gear_files_to_copy[@]}"; do
-            if [ -f "$gear_file_to_copy" ]; then
-                if [ "$backup_message_printed" == false ]; then
-                    printGreen "Копіюємо бекап файли:"
-                    backup_message_printed=true
-                fi
-                printGreen "$gear_file_to_copy" && sleep 2
-                cp "$gear_file_to_copy" "$gear_backup_dir/"
-                echo ""
-            fi
-        done
+            mkdir -p "$backup_dir"
 
-        for subspace_file_to_copy in "${subspace_files_to_copy[@]}"; do
-            if [ -f "$subspace_file_to_copy" ]; then
-                if [ "$backup_message_printed" == false ]; then
-                    printGreen "Копіюємо бекап файли:"
-                    backup_message_printed=true
-                fi
-                printGreen "$subspace_file_to_copy" && sleep 2
-                cp "$subspace_file_to_copy" "$subspace_backup_dir/"
-                echo ""
-            fi
-        done
+            backup_needed=false
 
-        for nibiru_file_to_copy in "${nibiru_files_to_copy[@]}"; do
-            if [ -f "$nibiru_source_dir/$nibiru_file_to_copy" ]; then
+            for file_to_copy in "${files_to_copy[@]}"; do
+                if [ -f "${!source_dir}/$file_to_copy" ]; then
+                    backup_needed=true
+                    break
+                fi
+            done
+
+            if [ "$backup_needed" = true ]; then
                 if [ "$backup_message_printed" == false ]; then
                     printGreen "Копіюємо бекап файли:"
                     backup_message_printed=true
                 fi
-                printGreen "$nibiru_file_to_copy" && sleep 2
-                cp "$nibiru_source_dir/$nibiru_file_to_copy" "$nibiru_backup_dir/"
-                echo ""
+
+                for file_to_copy in "${files_to_copy[@]}"; do
+                    if [ -f "${!source_dir}/$file_to_copy" ]; then
+                        printGreen "$file_to_copy" && sleep 2
+                        cp "${!source_dir}/$file_to_copy" "${!backup_dir}/"
+                        echo ""
+                        break
+                    fi
+                done
             fi
         done
 
