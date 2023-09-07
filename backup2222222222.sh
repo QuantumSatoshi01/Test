@@ -19,11 +19,9 @@ function backup() {
         backup_dir="/root/BACKUPNODES"
         mkdir -p "$backup_dir"
 
-       lava_backup_dir="$backup_dir/Lava backup"
+        lava_backup_dir="$backup_dir/Lava backup"
         mkdir -p "$lava_backup_dir"
         lava_files_to_copy=( "/root/.lava/config/priv_validator_key.json" "/root/.lava/config/node_key.json" "/root/.lava/data/priv_validator_state.json" )
-
-
         for lava_file_to_copy in "${lava_files_to_copy[@]}"; do
             if [ -f "$lava_file_to_copy" ]; then
             printGreen "Копіюємо backup файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 2
@@ -31,9 +29,6 @@ function backup() {
             echo ""
             fi
         done
-
-
-        
 
         gear_backup_dir="$backup_dir/Gear backup"
         mkdir -p "$gear_backup_dir"
