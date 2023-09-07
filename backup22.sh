@@ -17,13 +17,11 @@ function backup_node() {
     files_to_copy=( "$source_dir/$file_pattern" )
     if [ ${#files_to_copy[@]} -gt 0 ]; then
         mkdir -p "$backup_dir"
-        printGreen "Копіюємо бекап файли $node_name в папку $backup_dir" && sleep 2
         for file_to_copy in "${files_to_copy[@]}"; do
             if [ -f "$file_to_copy" ]; then
                 cp "$file_to_copy" "$backup_dir/"
             fi
         done
-        echo ""
     fi
 }
 
@@ -35,6 +33,12 @@ read response
 
 function backup() {
     if [[ $response == "Y" || $response == "y" ]]; then
+        # Создаем папки для бекапов
+        mkdir -p "/root/BACKUPNODES/Lava backup"
+        mkdir -p "/root/BACKUPNODES/Gear backup"
+        mkdir -p "/root/BACKUPNODES/Subspace backup"
+        mkdir -p "/root/BACKUPNODES/Nibiru backup"
+
         backup_node "/root/.lava/config" "/root/BACKUPNODES/Lava backup" "priv_validator_key.json" "Lava"
         backup_node "/root/.lava/config" "/root/BACKUPNODES/Lava backup" "node_key.json" "Lava"
         backup_node "/root/.lava/data" "/root/BACKUPNODES/Lava backup" "priv_validator_state.json" "Lava"
