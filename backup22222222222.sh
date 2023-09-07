@@ -11,7 +11,7 @@ function printGreen {
 clear
 logo
 
-printGreen "Бажаєте зробити backup нод: Lava,Nibiru,Subspace,Gear? (Y/N)"
+printGreen "Бажаєте зробити backup нод: Lava, Nibiru, Subspace, Gear? (Y/N)"
 read response
 
 function backup() {
@@ -63,12 +63,17 @@ function backup() {
 
         nibiru_backup_dir="$backup_dir/Nibiru backup"
         mkdir -p "$nibiru_backup_dir"
-        
-        printGreen "Копіюємо бекап файли ноди Nibiru в папку /root/BACKUPNODES/Nibiru backup" && sleep 2
-        cp "/root/.nibid/config/priv_validator_key.json" "$nibiru_backup_dir/"
-        cp "/root/.nibid/config/node_key.json" "$nibiru_backup_dir/"
-        cp "/root/.nibid/data/priv_validator_state.json" "$nibiru_backup_dir/"
-        echo ""
+
+        nibiru_source_dir="/root/.nibid/"
+        nibiru_files_to_copy=( "config/priv_validator_key.json" "config/node_key.json" "data/priv_validator_state.json" )
+
+        for nibiru_file_to_copy in "${nibiru_files_to_copy[@]}"; do
+            if [ -f "$nibiru_source_dir/$nibiru_file_to_copy" ]; then
+                printGreen "Копіюємо бекап файли ноди Nibiru в папку $nibiru_backup_dir" && sleep 2
+                cp "$nibiru_source_dir/$nibiru_file_to_copy" "$nibiru_backup_dir/"
+                echo ""
+            fi
+        done
 
         echo ""
         echo "Backup завершено, перейдіть до основної директорії /root/BACKUPNODES та скопіюйте цю папку в безпечне місце собі на ПК."
