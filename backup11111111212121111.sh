@@ -112,7 +112,7 @@ function backup() {
             mkdir -p "$nibiru_backup_dir"
             for nibiru_file_to_copy in "${nibiru_files_to_copy[@]}"; do
                 if [ -f "$nibiru_source_dir/$nibiru_file_to_copy" ]; then
-                    printGreen "Збережено: $nibiru_file_to_copy" && sleep 1
+                    echo "Збережено: $nibiru_file_to_copy" && sleep 1
                     cp "$nibiru_source_dir/$nibiru_file_to_copy" "$nibiru_backup_dir/"
                     echo ""
                 fi
