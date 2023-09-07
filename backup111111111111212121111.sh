@@ -50,7 +50,7 @@ function backup() {
             mkdir -p "$lava_backup_dir"
             for lava_file_to_copy in "${lava_files_to_copy[@]}"; do
                 if [ -f "$lava_source_dir/$lava_file_to_copy" ]; then
-                    echo "Завантажено: $lava_file_to_copy" && sleep 1
+                    echo "Збережено: $lava_file_to_copy" && sleep 1
                     cp "$lava_source_dir/$lava_file_to_copy" "$lava_backup_dir/"
                 fi
             done
