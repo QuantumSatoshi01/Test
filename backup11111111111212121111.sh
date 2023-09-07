@@ -123,9 +123,9 @@ function backup() {
             printGreen "Процес бекапу нод відмінено."
         else
             echo ""
-            echo "Backup завершено, перейдіть до основної директорії /root/BACKUPNODES та скопіюйте цю папку в безпечне місце собі на ПК."
+            printGreen "Backup завершено, перейдіть до основної директорії /root/BACKUPNODES та скопіюйте цю папку в безпечне місце собі на ПК."
             echo ""
-            echo "Нижче вказано шлях до директорій, куди потрібно перенести ваші backup файли на новий сервер. В залежності від вашої ноди."
+            echo "Нижче вказано шлях до директорій, куди потрібно переносити ваші backup файли в залежності від ноди."
             printGreen "Lava:"
             echo "/root/.lava/data/priv_validator_state.json"
             echo "/root/.lava/config/node_key.json"
