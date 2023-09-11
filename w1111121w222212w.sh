@@ -117,23 +117,23 @@ function move_backup_files() {
     read -p "Введіть назву ноди (Lava, Nibiru, Gear, Subspace): " node_name
     case "$node_name" in
         Lava)
-            cp /root/BACKUPNODES/Lava\ backup/priv_validator_state.json /root/.lava/data/
-            cp /root/BACKUPNODES/Lava\ backup/node_key.json /root/.lava/config/
-            cp /root/BACKUPNODES/Lava\ backup/priv_validator_key.json /root/.lava/config/
-            systemctl lavad nibid
+            cp "/root/BACKUPNODES/Lava backup/priv_validator_state.json" "/root/.lava/data/"
+            cp "/root/BACKUPNODES/Lava backup/node_key.json" "/root/.lava/config/"
+            cp "/root/BACKUPNODES/Lava backup/priv_validator_key.json" "/root/.lava/config/"
+            systemctl restart lavad
             ;;
         Nibiru)
-            cp /root/BACKUPNODES/Nibiru\ backup/priv_validator_state.json /root/.nibid/data/
-            cp /root/BACKUPNODES/Nibiru\ backup/node_key.json /root/.nibid/config/
-            cp /root/BACKUPNODES/Nibiru\ backup/priv_validator_key.json /root/.nibid/config/
+            cp "/root/BACKUPNODES/Nibiru backup/priv_validator_state.json" "/root/.nibid/data/"
+            cp "/root/BACKUPNODES/Nibiru backup/node_key.json" "/root/.nibid/config/"
+            cp "/root/BACKUPNODES/Nibiru backup/priv_validator_key.json" "/root/.nibid/config/"
             systemctl restart nibid
             ;;
         Gear)
-            cp /root/BACKUPNODES/Gear\ backup/secret_ed* /root/.local/share/gear/chains/gear_staging_testnet_v7/network/
-            sudo systemctl restart gear
+            cp "/root/BACKUPNODES/Gear backup/secret_ed"* "/root/.local/share/gear/chains/gear_staging_testnet_v7/network/"
+            systemctl restart gear
             ;;
         Subspace)
-            cp /root/BACKUPNODES/Subspace\ backup/priv_validator_state.json /root/.local/share/gear/chains/gear_staging_testnet_v7/network/
+            cp "/root/BACKUPNODES/Subspace backup/priv_validator_state.json" "/root/.local/share/gear/chains/gear_staging_testnet_v7/network/"
             ;;
         *)
             echo "Некоректне найменування ноди."
@@ -166,7 +166,19 @@ function view_backup_paths() {
 
 function main_menu() {
     while true; do
-        menu
+        clear
+        logo
+        echo ""
+        printGreen "Виберіть потрібний вам пункт:"
+        echo ""
+        echo "1 - Backup нод Lava, Nibiru, Gear, Subspace (виконується лише для встановленних на сервері,зберігаються в папку /root/BACKUPNODES)"
+        echo ""
+        echo "2 - Перемістити бекап файли ноди (для випадку якщо ви перевстановили/оновили ноду/видалили вузол)"
+        echo ""
+        echo "3 - Переглянути шляхи зберігання бекап файлів у нодах"
+        echo ""
+        echo "4 - Вийти з меню"
+        read -p "Ваш вибір: " choice
         case "$choice" in
             1)
                 backup
