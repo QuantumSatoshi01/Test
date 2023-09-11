@@ -36,10 +36,10 @@ wget https://lava-binary-upgrades.s3.amazonaws.com/testnet-2/genesis/lavad
 chmod +x lavad
 cp lavad /usr/local/bin
 
-  sleep 1
-  lavad config keyring-backend test
-  lavad config chain-id $CHAIN_ID
-  lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
+sleep 1
+lavad config keyring-backend test
+lavad config chain-id $CHAIN_ID
+lavad init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
 echo "[Unit]
 Description=Lava Node
