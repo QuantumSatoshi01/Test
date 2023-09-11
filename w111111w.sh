@@ -134,7 +134,7 @@ function backup() {
                 cp /root/BACKUPNODES/Lava\ backup/priv_validator_state.json /root/.lava/data/ 
                 cp /root/BACKUPNODES/Lava\ backup/node_key.json /root/.lava/config/
                 cp /root/BACKUPNODES/Lava\ backup/priv_validator_key.json /root/.lava/config/
-                systemctl lavad nibid
+                sudo systemctl restart lavad
                 ;;
             Nibiru)
                 cp /root/BACKUPNODES/Nibiru\ backup/priv_validator_state.json /root/.nibid/data/ 
