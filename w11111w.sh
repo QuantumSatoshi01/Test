@@ -128,7 +128,8 @@ function backup() {
             done
         fi
     elif [ "$choice" == "2" ]; then
-        case "$node_name" in
+        read -p "Введіть назву ноди (Lava, Nibiru, Gear, Subspace): " node_name
+    case "$node_name" in
             Lava)
                 cp /root/BACKUPNODES/Lava\ backup/priv_validator_state.json /root/.lava/data/ 
                 cp /root/BACKUPNODES/Lava\ backup/node_key.json /root/.lava/config/
