@@ -11,6 +11,7 @@ function printGreen {
 clear
 logo
 
+echo ""
 printGreen "Виберіть потрібний вам пункт:"
 echo ""
 echo "1 - Backup нод Lava, Nibiru, Gear, Subspace (виконується лише для встановленних на сервері)"
