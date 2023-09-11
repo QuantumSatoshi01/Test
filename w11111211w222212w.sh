@@ -121,19 +121,23 @@ function move_backup_files() {
             cp "/root/BACKUPNODES/Lava backup/node_key.json" "/root/.lava/config/"
             cp "/root/BACKUPNODES/Lava backup/priv_validator_key.json" "/root/.lava/config/"
             systemctl restart lavad
+            printGreen "Бекап файли Lava перенесено" && sleep 3
             ;;
         Nibiru)
             cp "/root/BACKUPNODES/Nibiru backup/priv_validator_state.json" "/root/.nibid/data/"
             cp "/root/BACKUPNODES/Nibiru backup/node_key.json" "/root/.nibid/config/"
             cp "/root/BACKUPNODES/Nibiru backup/priv_validator_key.json" "/root/.nibid/config/"
             systemctl restart nibid
+            printGreen "Бекап файли Nibiru перенесено" && sleep 3
             ;;
         Gear)
             cp "/root/BACKUPNODES/Gear backup/secret_ed"* "/root/.local/share/gear/chains/gear_staging_testnet_v7/network/"
             systemctl restart gear
+            printGreen "Бекап файли Gear перенесено" && sleep 3
             ;;
         Subspace)
             cp "/root/BACKUPNODES/Subspace backup/priv_validator_state.json" "/root/.local/share/gear/chains/gear_staging_testnet_v7/network/"
+            printGreen "Бекап файли Subspace перенесено" && sleep 3
             ;;
         *)
             echo "Некоректне найменування ноди."
@@ -178,6 +182,7 @@ function main_menu() {
         echo "3 - Переглянути шляхи зберігання бекап файлів у нодах"
         echo ""
         echo "4 - Вийти з меню"
+        echo ""
         read -p "Ваш вибір: " choice
         case "$choice" in
             1)
