@@ -121,23 +121,31 @@ function move_backup_files() {
             cp "/root/BACKUPNODES/Lava backup/node_key.json" "/root/.lava/config/"
             cp "/root/BACKUPNODES/Lava backup/priv_validator_key.json" "/root/.lava/config/"
             systemctl restart lavad
+            echo ""
             printGreen "Бекап файли Lava перенесено" && sleep 3
+            echo ""
             ;;
         Nibiru)
             cp "/root/BACKUPNODES/Nibiru backup/priv_validator_state.json" "/root/.nibid/data/"
             cp "/root/BACKUPNODES/Nibiru backup/node_key.json" "/root/.nibid/config/"
             cp "/root/BACKUPNODES/Nibiru backup/priv_validator_key.json" "/root/.nibid/config/"
             systemctl restart nibid
+            echo ""
             printGreen "Бекап файли Nibiru перенесено" && sleep 3
+            echo ""
             ;;
         Gear)
             cp "/root/BACKUPNODES/Gear backup/secret_ed"* "/root/.local/share/gear/chains/gear_staging_testnet_v7/network/"
             systemctl restart gear
+            echo ""
             printGreen "Бекап файли Gear перенесено" && sleep 3
+            echo ""
             ;;
         Subspace)
             cp "/root/BACKUPNODES/Subspace backup/priv_validator_state.json" "/root/.local/share/gear/chains/gear_staging_testnet_v7/network/"
+            echo ""
             printGreen "Бекап файли Subspace перенесено" && sleep 3
+            echo ""
             ;;
         *)
             echo "Некоректне найменування ноди."
