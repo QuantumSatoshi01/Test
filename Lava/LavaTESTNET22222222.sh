@@ -12,9 +12,7 @@ function printGreen {
 
 source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
 
-echo ""
-printGreen "Введіть ім'я для вашої ноди:"
-read -r NODE_MONIKER
+MONIKER="ASAPOV"
 
 CHAIN_ID=lava-testnet-2
 echo "export CHAIN_ID=${CHAIN_ID}" >> $HOME/.profile
