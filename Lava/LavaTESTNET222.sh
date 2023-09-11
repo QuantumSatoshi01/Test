@@ -67,6 +67,9 @@ sudo mv lavad.service /lib/systemd/system/lavad.service
 
 printGreen "Завантажуємо снепшот для прискорення синхронізації ноди..." && sleep 1
 
+curl -Ls https://snapshots.kjnodes.com/lava-testnet/genesis.json > $HOME/.lava/config/genesis.json
+curl -Ls https://snapshots.kjnodes.com/lava-testnet/addrbook.json > $HOME/.lava/config/addrbook.json
+
 rm -rf $HOME/lava-config
 
 sudo systemctl daemon-reload
