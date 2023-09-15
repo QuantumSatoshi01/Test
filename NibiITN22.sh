@@ -19,6 +19,11 @@ logo
 printGreen "Введіть ім'я для вашої ноди:"
 read -r NODE_MONIKER
 
+CHAIN_ID="nibiru-itn-2"
+CHAIN_DENOM="unibi"
+BINARY_NAME="nibid"
+BINARY_VERSION_TAG="v0.21.9"
+
 printGreen "Встановлюємо бінарні файли ноди"
 
 cd || return
