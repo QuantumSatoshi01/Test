@@ -58,6 +58,7 @@ sed -i 's|^minimum-gas-prices *=.*|minimum-gas-prices = "0.0001unibi"|g' $HOME/.
 sed -i 's|^prometheus *=.*|prometheus = true|' $HOME/.nibid/config/config.toml
 
 printGreen "Завантажуємо снепшот для прискорення синхронізації ноди..." && sleep 1
+source $HOME/.bash_profile
 
 sudo tee /etc/systemd/system/nibid.service > /dev/null << EOF
 [Unit]
@@ -82,7 +83,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable nibid
 sudo systemctl start nibid
 
-source $HOME/.bash_profile
+
 
 printDelimiter
 printGreen "Переглянути журнал логів:         sudo journalctl -u nibid -f -o cat"
