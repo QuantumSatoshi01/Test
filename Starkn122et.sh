@@ -57,7 +57,7 @@ function check {
                 echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
             else
                 docker restart "$container_name"
-                echo "Контейнер '$container_name' був рестартований."
+                echo "Контейнер '$container_name' перезапущено.."
             fi
 
             echo ""
