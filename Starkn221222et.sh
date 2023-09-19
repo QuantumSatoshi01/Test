@@ -25,12 +25,20 @@ function check {
         read choice
 
         if [[ $choice == "1" ]]; then
-            echo ""
-            printGreen "Журнал логів Starknet. Натисніть CTRL+C щоб вийти."
-            echo ""
-            docker logs pathfinder_starknet-node_1
-            docker logs pathfinder-starknet-node-1
-            echo ""
+           if [[ $choice == "1" ]]; then
+    echo ""
+    printGreen "Журнал логів Starknet. Натисніть CTRL+C щоб вийти."
+    echo ""
+    container_name=$(docker ps --format "{{.Names}}" | grep -E 'pathfinder-starknet-node-1|pathfinder-starknet-node_1')
+
+    if [ -n "$container_name" ]; then
+        echo ""
+        docker logs "$container_name"
+        echo ""
+    else
+        echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
+    fi
+fi
         elif [[ $choice == "2" ]]; then
             echo ""
             printGreen "Статус ноди"
@@ -50,15 +58,9 @@ function check {
             if [ -n "$container_name" ]; then
                 echo "Перезапускаємо StarkNet"
                 docker restart "$container_name"
+                echo "Контейнер '$container_name' перезапущено.."
             else
                 echo "Контейнер не знайдено."
-            fi
-
-            if [ -z "$container_name" ]; then
-                echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
-            else
-                docker restart "$container_name"
-                echo "Контейнер '$container_name' перезапущено.."
             fi
 
             echo ""
