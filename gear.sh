@@ -1,7 +1,13 @@
 #!/bin/bash
 
+# Ініціалізуємо змінну, яка вказує, чи вже було виведено лого
+logo_displayed=false
+
 function logo() {
-    bash <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
+    if ! $logo_displayed; then
+        bash <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
+        logo_displayed=true
+    fi
 }
 
 function printGreen {
@@ -41,7 +47,7 @@ function check {
             cat /etc/systemd/system/gear.service
             echo ""
         elif [[ $choice == "5" ]]; then
-            break 
+            break  # Виходимо з циклу, щоб повернутися до головного меню
         else
             echo "Невірний вибір."
         fi
