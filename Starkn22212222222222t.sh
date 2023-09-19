@@ -51,18 +51,17 @@ function check {
             fi
             echo ""
         elif [[ $choice == "3" ]]; then
-    echo ""
-    container_name=$(docker ps --format "{{.Names}}" | grep -E 'pathfinder-starknet-node-1|pathfinder_starknet-node_1')
+            echo ""
+            container_name=$(docker ps --format "{{.Names}}" | grep -E 'pathfinder-starknet-node-1|pathfinder_starknet-node_1')
 
-    if [ -n "$container_name" ]; then
-        version=$(docker exec -it "$container_name" pathfinder -V)
-        echo "Версія вашої ноди: $version"
-    else
-        echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
-    fi
+            if [ -n "$container_name" ]; then
+                version=$(docker exec -it "$container_name" pathfinder -V)
+                echo "Версія вашої ноди: $version"
+            else
+                echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
+            fi
 
-    echo ""
-fi
+            echo ""
         elif [[ $choice == "4" ]]; then
             local container_name
             echo ""
