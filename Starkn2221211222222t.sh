@@ -40,11 +40,11 @@ function check {
             fi
         elif [[ $choice == "2" ]]; then
             echo ""
-            
             container_name=$(docker ps --format "{{.Names}}" | grep -E 'pathfinder-starknet-node-1|pathfinder_starknet-node_1')
 
             if [ -n "$container_name" ]; then
                 container_status=$(docker inspect -f '{{.State.Status}}' "$container_name")
+                
                 echo -n "Статус вашої ноди: "
                 echo "$container_status"
             else
