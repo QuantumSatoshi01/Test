@@ -39,11 +39,20 @@ function check {
                 echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
             fi
         elif [[ $choice == "2" ]]; then
-            echo ""
-            printGreen "Статус ноди"
-            echo ""
-            systemctl status gear
-            echo ""
+    echo ""
+    printGreen "Статус ноди"
+    echo ""
+    container_name=$(docker ps --format "{{.Names}}" | grep -E 'pathfinder-starknet-node-1|pathfinder_starknet-node_1')
+
+    if [ -n "$container_name" ]; then
+        container_status=$(docker inspect -f '{{.State.Status}}' "$container_name")
+        echo "Статус контейнера '$container_name': $container_status"
+    else
+        echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
+    fi
+
+    echo ""
+fi
         elif [[ $choice == "3" ]]; then
             echo ""
             version=$(./gear --version)
