@@ -40,8 +40,6 @@ function check {
             fi
         elif [[ $choice == "2" ]]; then
             echo ""
-            printGreen "Статус ноди"
-            echo ""
             
             container_name=$(docker ps --format "{{.Names}}" | grep -E 'pathfinder-starknet-node-1|pathfinder_starknet-node_1')
 
