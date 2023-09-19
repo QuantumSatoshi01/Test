@@ -20,7 +20,7 @@ function check {
         echo "1) Журнал логів"
         echo "2) Статус ноди"
         echo "3) Версію встановленої ноди"
-        echo "4) Назву вашої ноди"
+        echo "4) Рестарт ноди"
         echo "5) Вийти з меню"
         read choice
 
@@ -28,18 +28,8 @@ function check {
             echo ""
             printGreen "Журнал логів Starknet. Натисніть CTRL+C щоб вийти."
             echo ""
-            container_name=""
-            if docker ps -a --format '{{.Names}}' | grep -q "pathfinder_starknet-node_1"; then
-                container_name="pathfinder_starknet-node_1"
-            elif docker ps -a --format '{{.Names}}' | grep -q "pathfinder-starknet-node-1"; then
-                container_name="pathfinder-starknet-node-1"
-            fi
-
-            if [[ -n "$container_name" ]]; then
-                docker logs "$container_name"
-            else
-                printGreen "Не знайдено відповідного контейнера."
-            fi
+            docker logs pathfinder_starknet-node_1
+            docker logs pathfinder-starknet-node-1
             echo ""
         elif [[ $choice == "2" ]]; then
             echo ""
@@ -53,8 +43,17 @@ function check {
             echo "Версія вашої ноди: $version"
             echo ""
         elif [[ $choice == "4" ]]; then
-            echo ""
-            cat /etc/systemd/system/gear.service
+            printGreen "Рестарт ноди"
+            echo "Вибираємо контейнер для рестарту..."
+            container_name=$(docker ps --format "{{.Names}}" | grep 'pathfinder-starknet-node-1' || true)
+            
+            if [ -z "$container_name" ]; then
+                echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
+            else
+                docker restart "$container_name"
+                echo "Контейнер '$container_name' був рестартований."
+            fi
+            
             echo ""
         elif [[ $choice == "5" ]]; then
             break 
