@@ -19,7 +19,7 @@ function check {
         printGreen "Виберіть, що ви хочете переглянути в ноді Starknet:"
         echo "1) Журнал логів"
         echo "2) Статус ноди"
-        echo "3) Версію встановленої ноди"
+        echo "3) Версія встановленої ноди"
         echo "4) Рестарт ноди"
         echo "5) Вийти з меню"
         read choice
@@ -49,13 +49,20 @@ function check {
             else
                 echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
             fi
-
             echo ""
         elif [[ $choice == "3" ]]; then
-            echo ""
-            version=$(./gear --version)  # Встановіть правильний шлях до gear, якщо це потрібно
-            echo "Версія вашої ноди: $version"
-            echo ""
+    echo ""
+    container_name=$(docker ps --format "{{.Names}}" | grep -E 'pathfinder-starknet-node-1|pathfinder_starknet-node_1')
+
+    if [ -n "$container_name" ]; then
+        version=$(docker exec -it "$container_name" pathfinder -V)
+        echo "Версія вашої ноди: $version"
+    else
+        echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
+    fi
+
+    echo ""
+fi
         elif [[ $choice == "4" ]]; then
             local container_name
             echo ""
