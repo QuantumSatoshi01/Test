@@ -44,10 +44,11 @@ function check {
             echo ""
         elif [[ $choice == "4" ]]; then
             local container_name
+            echo ""
             container_name=$(docker ps --format "{{.Names}}" | grep -E 'pathfinder-starknet-node-1|pathfinder_starknet-node_1')
 
             if [ -n "$container_name" ]; then
-                echo "Рестарт контейнера '$container_name'"
+                echo "Перезапускаємо StarkNet"
                 docker restart "$container_name"
             else
                 echo "Контейнер не знайдено."
