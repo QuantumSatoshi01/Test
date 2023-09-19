@@ -43,17 +43,23 @@ function check {
             echo "Версія вашої ноди: $version"
             echo ""
         elif [[ $choice == "4" ]]; then
-            printGreen "Рестарт ноди"
-            echo "Вибираємо контейнер для рестарту..."
-            container_name=$(docker ps --format "{{.Names}}" | grep 'pathfinder-starknet-node-1' || true)
-            
+            local container_name
+            container_name=$(docker ps --format "{{.Names}}" | grep -E 'pathfinder-starknet-node-1|pathfinder_starknet-node_1')
+
+            if [ -n "$container_name" ]; then
+                echo "Рестарт контейнера '$container_name'"
+                docker restart "$container_name"
+            else
+                echo "Контейнер не знайдено."
+            fi
+
             if [ -z "$container_name" ]; then
                 echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
             else
                 docker restart "$container_name"
                 echo "Контейнер '$container_name' був рестартований."
             fi
-            
+
             echo ""
         elif [[ $choice == "5" ]]; then
             break 
