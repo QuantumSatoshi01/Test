@@ -39,23 +39,23 @@ function check {
                 echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
             fi
         elif [[ $choice == "2" ]]; then
-    echo ""
-    printGreen "Статус ноди"
-    echo ""
-    container_name=$(docker ps --format "{{.Names}}" | grep -E 'pathfinder-starknet-node-1|pathfinder_starknet-node_1')
+            echo ""
+            printGreen "Статус ноди"
+            echo ""
+            
+            container_name=$(docker ps --format "{{.Names}}" | grep -E 'pathfinder-starknet-node-1|pathfinder_starknet-node_1')
 
-    if [ -n "$container_name" ]; then
-        container_status=$(docker inspect -f '{{.State.Status}}' "$container_name")
-        echo "Статус контейнера '$container_name': $container_status"
-    else
-        echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
-    fi
+            if [ -n "$container_name" ]; then
+                container_status=$(docker inspect -f '{{.State.Status}}' "$container_name")
+                echo "Статус контейнера '$container_name': $container_status"
+            else
+                echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
+            fi
 
-    echo ""
-fi
+            echo ""
         elif [[ $choice == "3" ]]; then
             echo ""
-            version=$(./gear --version)
+            version=$(./gear --version)  # Встановіть правильний шлях до gear, якщо це потрібно
             echo "Версія вашої ноди: $version"
             echo ""
         elif [[ $choice == "4" ]]; then
