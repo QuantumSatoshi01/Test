@@ -44,9 +44,7 @@ function check {
 
             if [ -n "$container_name" ]; then
                 container_status=$(docker inspect -f '{{.State.Status}}' "$container_name")
-                
-                echo -n "Статус вашої ноди: "
-                echo "$container_status"
+                echo "Статус вашої ноди: $container_status"
             else
                 echo "Контейнер 'pathfinder-starknet-node-1' не знайдено."
             fi
