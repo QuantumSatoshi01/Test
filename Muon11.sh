@@ -17,8 +17,8 @@ function check {
     while true; do
         logo
         printGreen "Виберіть, що ви хочете переглянути в ноді Muon:"
-        echo "1) Статус ноди (online,version)"
-        echo "2) Інформація про вашу ноду(Гаманець,Peer ID,Node ID...)у"
+        echo "1) Статус ноди (online, version)"
+        echo "2) Інформація про вашу ноду (Гаманець, Peer ID, Node ID...)"
         echo "3) Бекап ноди в /root/BACKUPNODES/Muon backup/"
         echo "4) Рестарт ноди"
         echo "5) Вийти з меню"
@@ -32,18 +32,21 @@ function check {
             echo ""
         elif [[ $choice == "2" ]]; then
             echo ""
-            printGreen "Інформація про вашу ноду(Гаманець,Peer ID,Node ID...)"
+            printGreen "Інформація про вашу ноду (Гаманець, Peer ID, Node ID...)"
             echo ""
             curl http://localhost:8011/status | jq '.'
             echo ""
         elif [[ $choice == "3" ]]; then
             echo ""
-            printGreen "Бекап ноди в /root/BACKUPNODES/Muon backup/"
-            echo ""
-            docker exec -it muon-node ./node_modules/.bin/ts-node ./src/cmd/index.ts keys backup > backup.json
-            mkdir -p /root/BACKUPNODES/Muon\ backup
-            mv /root/backup.json /root/BACKUPNODES/Muon\ backup/
-
+            printGreen "Виконуємо бекап файлу в /root/BACKUPNODES/Muon backup/"
+            docker exec -it muon-node ./node_modules/.bin/ts-node ./src/cmd/index.ts keys backup > /root/backup.json
+            if [ -e /root/backup.json ]; then
+                mkdir -p /root/BACKUPNODES/Muon\ backup
+                mv /root/backup.json /root/BACKUPNODES/Muon\ backup/
+                printGreen "Бекап виконано успішно"
+            else
+                printRed "Бекап не виконано"
+            fi
         elif [[ $choice == "4" ]]; then
             echo ""
             printGreen "Рестарт ноди Muon"
