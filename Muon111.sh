@@ -39,13 +39,17 @@ function check {
         elif [[ $choice == "3" ]]; then
             echo ""
             printGreen "Виконуємо бекап файлу в /root/BACKUPNODES/Muon backup/"
+            echo ""
             docker exec -it muon-node ./node_modules/.bin/ts-node ./src/cmd/index.ts keys backup > /root/backup.json
             if [ -e /root/backup.json ]; then
                 mkdir -p /root/BACKUPNODES/Muon\ backup
                 mv /root/backup.json /root/BACKUPNODES/Muon\ backup/
                 printGreen "Бекап виконано успішно"
+                echo ""
             else
-                printRed "Бекап не виконано"
+                echo ""
+                printGreen "Бекап не виконано"
+               h eco ""
             fi
         elif [[ $choice == "4" ]]; then
             echo ""
