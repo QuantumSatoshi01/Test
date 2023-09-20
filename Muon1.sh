@@ -17,10 +17,10 @@ function check {
     while true; do
         logo
         printGreen "Виберіть, що ви хочете переглянути в ноді Muon:"
-        echo "1) Журнал логів"
-        echo "2) Інформація про ноду"
-        echo "3) Версію встановленої ноди"
-        echo "4) Назву вашої ноди"
+        echo "1) Статус ноди (online,version)"
+        echo "2) Інформація про вашу ноду(Гаманець,Peer ID,Node ID...)у"
+        echo "3) Бекап ноди в /root/BACKUPNODES/Muon backup/"
+        echo "4) Рестарт ноди"
         echo "5) Вийти з меню"
         read choice
 
