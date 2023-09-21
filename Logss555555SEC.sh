@@ -29,3 +29,5 @@ done
 for pid in "${pids[@]}"; do
     wait "$pid"
 done
+
+printGreen "Перевірка журналу логів усіх нод наявних на сервері закінчена."
