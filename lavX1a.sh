@@ -9,7 +9,7 @@ function printGreen {
 }
 
 function backup_files() {
-    source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh
+    source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
     printGreen "Копіюємо бекап файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 3
     backup_dir="$HOME/BACKUPNODES"
     mkdir -p "$backup_dir"
