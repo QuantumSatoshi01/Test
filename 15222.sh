@@ -45,17 +45,17 @@ function backup() {
     lava_files_to_copy=("config/priv_validator_key.json" "config/node_key.json" "data/priv_validator_state.json")
 
     gear_source_dir="/root/.local/share/gear/chains/gear_staging_testnet_v7/network/"
-    gear_files_to_copy=("$gear_source_dir/secret_ed"*)
+    gear_files_to_copy=("secret_ed"*)  # Змінено шлях
 
     subspace_source_dir="/root/.local/share/pulsar/node/chains/subspace_gemini_3f/network/"
-    subspace_files_to_copy=("$subspace_source_dir/secret_ed"*)
+    subspace_files_to_copy=("secret_ed"*)  # Змінено шлях
 
     nibiru_source_dir="/root/.nibid/"
     nibiru_files_to_copy=("config/priv_validator_key.json" "config/node_key.json" "data/priv_validator_state.json")
 
     backup_node "Lava" "$lava_source_dir" "${lava_files_to_copy[@]}"
     backup_node "Gear" "$gear_source_dir" "${gear_files_to_copy[@]}"
-    backup_node "Subspace" "$subspace_source_dir" "${subspace_files_to_copy[@]}"
+    backup_node "Subspace" "$subspace_source_dir" "${subspace_files_to_copy[@]}"  # Додано виклик функції для бекапу Subspace
     backup_node "Nibiru" "$nibiru_source_dir" "${nibiru_files_to_copy[@]}"
 }
 
@@ -63,16 +63,29 @@ function move_backup_files() {
     read -p "Введіть назву ноди (Lava, Nibiru, Gear, Subspace): " node_name
     case "$node_name" in
         Lava)
-            # Код для переміщення файлів Lava
+            cp "/root/BACKUPNODES/Lava backup/priv_validator_state.json" "/root/.lava/data/"  # Змінено шлях
+            cp "/root/BACKUPNODES/Lava backup/node_key.json" "/root/.lava/config/"  # Змінено шлях
+            cp "/root/BACKUPNODES/Lava backup/priv_validator_key.json" "/root/.lava/config/"  # Змінено шлях
+            systemctl restart lavad
+            printGreen "Бекап файли Lava перенесено" && sleep 1
+            printGreen "Вам залишилось тільки відновити ваш гаманець за допомогою мнемонічної фрази, командою: lavad keys add wallet --recover"
             ;;
         Nibiru)
-            # Код для переміщення файлів Nibiru
+            cp "/root/BACKUPNODES/Nibiru backup/priv_validator_state.json" "/root/.nibid/data/"
+            cp "/root/BACKUPNODES/Nibiru backup/node_key.json" "/root/.nibid/config/"
+            cp "/root/BACKUPNODES/Nibiru backup/priv_validator_key.json" "/root/.nibid/config/"
+            systemctl restart nibid
+            printGreen "Бекап файли Nibiru перенесено" && sleep 1
+            printGreen "Вам залишилось тільки відновити ваш гаманець за допомогою мнемонічної фрази, командою: nibid keys add wallet --recover"
             ;;
         Gear)
-            # Код для переміщення файлів Gear
+            cp "/root/BACKUPNODES/Gear backup/secret_ed"* "/root/.local/share/gear/chains/gear_staging_testnet_v7/network/"
+            systemctl restart gear
+            printGreen "Бекап файли Gear перенесено"
             ;;
         Subspace)
-            # Код для переміщення файлів Subspace
+            cp "/root/BACKUPNODES/Subspace backup/secret_ed"* "/root/.local/share/pulsar/node/chains/subspace_gemini_3f/network/"
+            printGreen "Бекап файли Subspace перенесено" && sleep 1
             ;;
         *)
             echo "Некоректне найменування ноди."
