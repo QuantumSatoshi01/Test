@@ -45,10 +45,10 @@ function backup() {
     lava_files_to_copy=("config/priv_validator_key.json" "config/node_key.json" "data/priv_validator_state.json")
 
     gear_source_dir="/root/.local/share/gear/chains/gear_staging_testnet_v7/network/"
-    gear_files_to_copy=("secret_ed"*)  # Змінено шлях
+    gear_files_to_copy=("secret_ed25519")  
 
     subspace_source_dir="/root/.local/share/pulsar/node/chains/subspace_gemini_3f/network/"
-    subspace_files_to_copy=("secret_ed"*)  # Змінено шлях
+    subspace_files_to_copy=("secret_ed25519") 
 
     nibiru_source_dir="/root/.nibid/"
     nibiru_files_to_copy=("config/priv_validator_key.json" "config/node_key.json" "data/priv_validator_state.json")
@@ -79,12 +79,12 @@ function move_backup_files() {
             printGreen "Вам залишилось тільки відновити ваш гаманець за допомогою мнемонічної фрази, командою: nibid keys add wallet --recover"
             ;;
         Gear)
-            cp "/root/BACKUPNODES/Gear backup/secret_ed"* "/root/.local/share/gear/chains/gear_staging_testnet_v7/network/"
+            cp "/root/BACKUPNODES/Gear backup/secret_ed25519" "/root/.local/share/gear/chains/gear_staging_testnet_v7/network/"
             systemctl restart gear
             printGreen "Бекап файли Gear перенесено"
             ;;
         Subspace)
-            cp "/root/BACKUPNODES/Subspace backup/secret_ed"* "/root/.local/share/pulsar/node/chains/subspace_gemini_3f/network/"
+            cp "/root/BACKUPNODES/Subspace backup/secret_ed25519" "/root/.local/share/pulsar/node/chains/subspace_gemini_3f/network/"
             printGreen "Бекап файли Subspace перенесено" && sleep 1
             ;;
         *)
