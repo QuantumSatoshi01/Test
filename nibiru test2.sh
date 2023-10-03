@@ -12,7 +12,7 @@ function printDelimiter {
   echo "==========================================="
 }
 
-function backup_nibiru() {
+function backup_files() {
     source_dir="/root/.nibid/"
     backup_dir="/root/BACKUPNODES/Nibiru backup"
     files_to_copy=("config/priv_validator_key.json" "config/node_key.json" "data/priv_validator_state.json")
