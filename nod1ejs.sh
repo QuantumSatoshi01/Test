@@ -1,7 +1,5 @@
-URL="https://nodejs.org/download/release/v20.8.0/node-v20.8.0-linux-x64.tar.xz"
-DIRECTORY="/root"
-
-curl -o "$DIRECTORY/node-v20.8.0-linux-x64.tar.xz" "$URL"
-tar -xvf "$DIRECTORY/node-v20.8.0-linux-x64.tar.xz" -C "$DIRECTORY"
-cd "$DIRECTORY/node-v20.8.0-linux-x64"
-rm "$DIRECTORY/node-v20.8.0-linux-x64.tar.xz"
+if ! command -v nvm &> /dev/null; then
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash && source ~/.bashrc
+  nvm install --lts
+  nvm install stable
+fi
