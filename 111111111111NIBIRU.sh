@@ -37,17 +37,17 @@ nibid init "$NODE_MONIKER" --chain-id nibiru-itn-3
 curl -s https://rpc.itn-3.nibiru.fi/genesis | jq -r .result.genesis > $HOME/.nibid/config/genesis.json
 curl -s https://snapshots-testnet.nodejumper.io/nibiru-testnet/addrbook.json > $HOME/.nibid/config/addrbook.json
 
-sed -i.bak -e "s%proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:17658\"%" \
-  -e "s%laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:17656\"%" \
-  -e "s%laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:17657\"%" \
-  -e "s%pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:1760\"%" \
-  -e "s%prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":17660\"%" $HOME/.nibid/config/config.toml
+sed -i.bak -e "s%proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:15658\"%" \
+  -e "s%laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:15656\"%" \
+  -e "s%laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:15657\"%" \
+  -e "s%pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:1560\"%" \
+  -e "s%prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":15660\"%" $HOME/.nibid/config/config.toml
 
-  sed -i.bak -e "s%node = \"tcp://localhost:26657\"%node = \"tcp://localhost:17657\"%" $HOME/.nibid/config/client.toml
+  sed -i.bak -e "s%node = \"tcp://localhost:26657\"%node = \"tcp://localhost:15657\"%" $HOME/.nibid/config/client.toml
 
-  sed -i.bak -e "s%localhost:9090%localhost:1790%" $HOME/.nibid/config/app.toml
-  sed -i.bak -e "s%address = \"localhost:9091\"%address = \"localhost:1791\"%" $HOME/.nibid/config/app.toml
-  sed -i.bak -e "s%address = \"tcp://localhost:1317\"%address = \"tcp://localhost:1717\"%" $HOME/.nibid/config/app.toml
+  sed -i.bak -e "s%localhost:9090%localhost:1590%" $HOME/.nibid/config/app.toml
+  sed -i.bak -e "s%address = \"localhost:9091\"%address = \"localhost:1591\"%" $HOME/.nibid/config/app.toml
+  sed -i.bak -e "s%address = \"tcp://localhost:1317\"%address = \"tcp://localhost:1517\"%" $HOME/.nibid/config/app.toml
 PEERS=""
 sed -i 's|^seeds *=.*|seeds = "'$SEEDS'"|; s|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.nibid/config/config.toml
 
