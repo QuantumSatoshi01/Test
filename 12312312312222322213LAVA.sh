@@ -9,31 +9,31 @@ function printGreen {
 }
 
 function backup_files() {
-    source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
-    printGreen "Копіюємо бекап файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 3
-    backup_dir="$HOME/BACKUPNODES"
-    mkdir -p "$backup_dir"
-    cp "$HOME/.lava/data/priv_validator_state.json" "$backup_dir/Lava backup/"
-    cp "$HOME/.lava/config/node_key.json" "$backup_dir/Lava backup/"
-    cp "$HOME/.lava/config/priv_validator_key.json" "$backup_dir/Lava backup/" 
-    echo "Збережено: $lava_file_to_copy" && sleep 3
+  source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
+  printGreen "Копіюємо бекап файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 3
+  backup_dir="$HOME/BACKUPNODES"
+  mkdir -p "$backup_dir"
+  cp "$HOME/.lava/data/priv_validator_state.json" "$backup_dir/Lava backup/"
+  cp "$HOME/.lava/config/node_key.json" "$backup_dir/Lava backup/"
+  cp "$HOME/.lava/config/priv_validator_key.json" "$backup_dir/Lava backup/" 
+  echo "Збережено: $lava_file_to_copy" && sleep 3
 }
 
 function remove_node() {
-    printDelimiter
-    printGreen "Видаляємо застарілу версію Lava" && sleep 3
-    printDelimiter
-    sudo systemctl stop lavad
-    sudo systemctl disable lavad
-    sudo rm -rf "$HOME/.lava"
-    sudo rm -rf "$HOME/lava"
-    sudo rm -rf "$HOME/lavad"
-    sudo rm -rf /etc/systemd/system/lavad.service
-    sudo rm -rf /usr/local/bin/lavad
-    sudo systemctl daemon-reload
-    printDelimiter
-    printGreen "Через декілька секунд, розпочнеться звичайний процес встановлення ноди" && sleep 3
-    printDelimiter
+  printDelimiter
+  printGreen "Видаляємо застарілу версію Lava" && sleep 3
+  printDelimiter
+  sudo systemctl stop lavad
+  sudo systemctl disable lavad
+  sudo rm -rf "$HOME/.lava"
+  sudo rm -rf "$HOME/lava"
+  sudo rm -rf "$HOME/lavad"
+  sudo rm -rf /etc/systemd/system/lavad.service
+  sudo rm -rf /usr/local/bin/lavad
+  sudo systemctl daemon-reload
+  printDelimiter
+  printGreen "Через декілька секунд, розпочнеться звичайний процес встановлення ноди" && sleep 3
+  printDelimiter
 }
 
 function install() {
@@ -72,7 +72,18 @@ function install() {
   curl -s https://raw.githubusercontent.com/lavanet/lava-config/main/testnet-2/genesis_json/genesis.json > $HOME/.lava/config/genesis.json
   curl -s https://snapshots-testnet.nodejumper.io/lava-testnet/addrbook.json > $HOME/.lava/config/addrbook.json
 
-  SEEDS="3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:26656"
+  sed -i.bak -e "s%proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:17658\"%" \
+  -e "s%laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:17656\"%" \
+  -e "s%laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:17657\"%" \
+  -e "s%pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:1760\"%" \
+  -e "s%prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":17660\"%" $HOME/.lava/config/config.toml
+
+  sed -i.bak -e "s%node = \"tcp://localhost:26657\"%node = \"tcp://localhost:17657\"%" $HOME/.lava/config/client.toml
+
+  sed -i.bak -e "s%localhost:9090%localhost:1790%" $HOME/.lava/config/app.toml
+  sed -i.bak -e "s%address = \"localhost:9091\"%address = \"localhost:1791\"%" $HOME/.lava/config/app.toml
+  sed -i.bak -e "s%address = \"tcp://localhost:1317\"%address = \"tcp://localhost:1717\"%" $HOME/.lava/config/app.toml
+
   PEERS=""
   sed -i 's|^seeds *=.*|seeds = "'$SEEDS'"|; s|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.lava/config/config.toml
 
@@ -99,17 +110,17 @@ function install() {
   sed -i -e 'bcast_mode = ".*"/bcast_mode = "sync"/g' $HOME/.lava/config/config.toml
 
   sudo tee /etc/systemd/system/lavad.service > /dev/null << EOF
-  [Unit]
-  Description=Lava Network Node
-  After=network-online.target
-  [Service]
-  User=$USER
-  ExecStart=$(which lavad) start
-  Restart=on-failure
-  RestartSec=10
-  LimitNOFILE=10000
-  [Install]
-  WantedBy=multi-user.target
+[Unit]
+Description=Lava Network Node
+After=network-online.target
+[Service]
+User=$USER
+ExecStart=$(which lavad) start
+Restart=on-failure
+RestartSec=10
+LimitNOFILE=10000
+[Install]
+WantedBy=multi-user.target
 EOF
 
   lavad tendermint unsafe-reset-all --home $HOME/.lava --keep-addr-book
@@ -122,20 +133,6 @@ EOF
   sudo systemctl enable lavad
   sudo systemctl start lavad
 
-  sed -i.bak -e "s%proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:17658\"%" \
-  -e "s%laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:17656\"%"
-  -e "s%laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:17657\"%"
-  -e "s%pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:1760\"%" \
-  -e "s%prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":17660\"%" $HOME/.lava/config/config.toml
-  
-  sed -i.bak -e "s%node = \"tcp://localhost:26657\"%node = \"tcp://localhost:17657\"%" $HOME/.lava/config/client.toml
-
-  sed -i.bak 's/localhost:9090/localhost:1790/' $HOME/.lava/config/app.toml
-  sed -i.bak -e "s%address = \"localhost:9091\"%address = \"localhost:1791\"%" $HOME/.lava/config/app.toml
-  sed -i.bak -e "s%address = \"tcp://localhost:1317\"%address = \"tcp://localhost:1717\"%" $HOME/.lava/config/app.toml
-
-  sudo systemctl restart lavad
-
   printDelimiter
   printGreen "Переглянути журнал логів:         sudo journalctl -u lavad -f -o cat"
   printGreen "Переглянути статус синхронізації: lavad status 2>&1 | jq .SyncInfo"
@@ -144,15 +141,14 @@ EOF
   printDelimiter
 }
 
-
 function restore_files() {
-    printGreen "Переносимо бекап файли в нову версію ноди Lava" && sleep 3
-    printGreen "Бекап файли Lava перенесено" && sleep 2 
-    printGreen "Вам залишилось тільки відновити ваш гаманець за допомогою мнемонічної фрази, командою: lavad keys add wallet --recover"
-    restore_dir="$HOME/BACKUPNODES"
-    cp "$restore_dir/Lava backup/priv_validator_state.json" "$HOME/.lava/data/"
-    cp "$restore_dir/Lava backup/node_key.json" "$HOME/.lava/config/"
-    cp "$restore_dir/Lava backup/priv_validator_key.json" "$HOME/.lava/config/"
+  printGreen "Переносимо бекап файли в нову версію ноди Lava" && sleep 3
+  printGreen "Бекап файли Lava перенесено" && sleep 2 
+  printGreen "Вам залишилось тільки відновити ваш гаманець за допомогою мнемонічної фрази, командою: lavad keys add wallet --recover"
+  restore_dir="$HOME/BACKUPNODES"
+  cp "$restore_dir/Lava backup/priv_validator_state.json" "$HOME/.lava/data/"
+  cp "$restore_dir/Lava backup/node_key.json" "$HOME/.lava/config/"
+  cp "$restore_dir/Lava backup/priv_validator_key.json" "$HOME/.lava/config/"
 }
 
 backup_files
