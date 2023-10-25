@@ -9,16 +9,14 @@ function printGreen {
 }
 
 function backup_files() {
-  source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
-  printGreen "Копіюємо бекап файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 3
-  backup_dir="$HOME/BACKUPNODES"
-  timestamp=$(date +'%d.%m.%y %H:%M')  
-  sub_dir="$backup_dir/Lava backup/$timestamp"
-  mkdir -p "$sub_dir"
-  cp "$HOME/.lava/data/priv_validator_state.json" "$sub_dir/"
-  cp "$HOME/.lava/config/node_key.json" "$sub_dir/"
-  cp "$HOME/.lava/config/priv_validator_key.json" "$sub_dir/" 
-  echo "Збережено $lava_file_to_copy" && sleep 3
+    source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
+    printGreen "Копіюємо бекап файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 3
+    backup_dir="$HOME/BACKUPNODES"
+    mkdir -p "$backup_dir"
+    cp "$HOME/.lava/data/priv_validator_state.json" "$backup_dir/Lava backup/"
+    cp "$HOME/.lava/config/node_key.json" "$backup_dir/Lava backup/"
+    cp "$HOME/.lava/config/priv_validator_key.json" "$backup_dir/Lava backup/" 
+    echo "Збережено: $lava_file_to_copy" && sleep 3
 } 
 
 
@@ -145,20 +143,13 @@ EOF
 }
 
 function restore_files() {
-  printGreen "Переносимо бекап файли в нову васію ноди Lava" && sleep 3
-
-  restore_dir="$HOME/BACKUPNODES/Lava backup"
-  latest_backup_dir=$(ls -1dt $restore_dir/* | head -1)
-
-  if [ -d "$latest_backup_dir" ]; then
-    cp "$latest_backup_dir/priv_validator_state.json" "$HOME/.lava/data/"
-    cp "$latest_backup_dir/node_key.json" "$HOME/.lava/config/"
-    cp "$latest_backup_dir/priv_validator_key.json" "$HOME/.lava/config/"
-    printGreen "Бекап файли Lava перенесено" && sleep 2
-  else
-    printGreen "Папки для восстановления не найдено" && sleep 2
+    printGreen "Переносимо бекап файли в нову версію ноди Lava" && sleep 3
+    printGreen "Бекап файли Lava перенесено" && sleep 2 
     printGreen "Вам залишилось тільки відновити ваш гаманець за допомогою мнемонічної фрази, командою: lavad keys add wallet --recover"
-  fi
+    restore_dir="$HOME/BACKUPNODES"
+    cp "$restore_dir/Lava backup/priv_validator_state.json" "$HOME/.lava/data/"
+    cp "$restore_dir/Lava backup/node_key.json" "$HOME/.lava/config/"
+    cp "$restore_dir/Lava backup/priv_validator_key.json" "$HOME/.lava/config/"
 }
 
 
