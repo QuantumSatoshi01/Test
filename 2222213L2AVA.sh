@@ -145,7 +145,7 @@ EOF
 }
 
 function restore_files() {
-  printGreen "Переносимо бекап файли в нову версію ноди Lava" && sleep 3
+  printGreen "Переносимо бекап файли в нову васію ноди Lava" && sleep 3
 
   restore_dir="$HOME/BACKUPNODES/Lava backup"
   latest_backup_dir=$(ls -1dt $restore_dir/* | head -1)
@@ -158,6 +158,7 @@ function restore_files() {
   else
     printGreen "Папки для восстановления не найдено" && sleep 2
     printGreen "Вам залишилось тільки відновити ваш гаманець за допомогою мнемонічної фрази, командою: lavad keys add wallet --recover"
+  fi
 }
 
 
