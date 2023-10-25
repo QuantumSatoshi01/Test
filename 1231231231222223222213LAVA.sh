@@ -146,13 +146,22 @@ EOF
 
 function restore_files() {
   printGreen "Переносимо бекап файли в нову версію ноди Lava" && sleep 3
-  printGreen "Бекап файли Lava перенесено" && sleep 2 
+
+  restore_dir="$HOME/BACKUPNODES/Lava backup"
+  latest_backup_dir=$(ls -1dt $restore_dir/* | head -1)
+
+  if [ -d "$latest_backup_dir" ]; then
+    cp "$latest_backup_dir/priv_validator_state.json" "$HOME/.lava/data/"
+    cp "$latest_backup_dir/node_key.json" "$HOME/.lava/config/"
+    cp "$latest_backup_dir/priv_validator_key.json" "$HOME/.lava/config/"
+    printGreen "Бекап файли Lava перенесено" && sleep 2
+  else
+    printGreen "Папки для восстановления не найдено" && sleep 2
+  }
+
   printGreen "Вам залишилось тільки відновити ваш гаманець за допомогою мнемонічної фрази, командою: lavad keys add wallet --recover"
-  restore_dir="$HOME/BACKUPNODES"
-  cp "$restore_dir/Lava backup/priv_validator_state.json" "$HOME/.lava/data/"
-  cp "$restore_dir/Lava backup/node_key.json" "$HOME/.lava/config/"
-  cp "$restore_dir/Lava backup/priv_validator_key.json" "$HOME/.lava/config/"
 }
+
 
 backup_files
 remove_node
