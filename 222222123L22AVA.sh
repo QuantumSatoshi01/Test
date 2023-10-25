@@ -12,16 +12,17 @@ function backup_files() {
   source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
   printGreen "Копіюємо бекап файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 3
   backup_dir="$HOME/BACKUPNODES"
+  sub_dir="$backup_dir/Lava backup"
   
-  if [ ! -d "$backup_dir" ]; then
-    mkdir -p "$backup_dir"
-  fi
+  # Проверка и создание папки BACKUPNODES и подпапки Lava backup
+  mkdir -p "$sub_dir"
   
-  cp "$HOME/.lava/data/priv_validator_state.json" "$backup_dir/Lava backup/"
-  cp "$HOME/.lava/config/node_key.json" "$backup_dir/Lava backup/"
-  cp "$HOME/.lava/config/priv_validator_key.json" "$backup_dir/Lava backup/" 
+  cp "$HOME/.lava/data/priv_validator_state.json" "$sub_dir/"
+  cp "$HOME/.lava/config/node_key.json" "$sub_dir/"
+  cp "$HOME/.lava/config/priv_validator_key.json" "$sub_dir/" 
   echo "Збережено: $lava_file_to_copy" && sleep 3
-} 
+}
+ 
 
 
 function remove_node() {
@@ -147,15 +148,14 @@ EOF
 }
 
 function restore_files() {
-    printGreen "Переносимо бекап файли в нову версію ноди Lava" && sleep 3
-    printGreen "Бекап файли Lava перенесено" && sleep 2 
-    printGreen "Вам залишилось тільки відновити ваш гаманець за допомогою мнемонічної фрази, командою: lavad keys add wallet --recover"
-    restore_dir="$HOME/BACKUPNODES"
-    cp "$restore_dir/Lava backup/priv_validator_state.json" "$HOME/.lava/data/"
-    cp "$restore_dir/Lava backup/node_key.json" "$HOME/.lava/config/"
-    cp "$restore_dir/Lava backup/priv_validator_key.json" "$HOME/.lava/config/"
+  printGreen "Переносимо бекап файли в нову версію ноди Lava" && sleep 3
+  printGreen "Бекап файли Lava перенесено" && sleep 2 
+  printGreen "Вам залишилось тільки відновити ваш гаманець за допомогою мнемонічної фрази, командою: lavad keys add wallet --recover"
+  restore_dir="$HOME/BACKUPNODES"
+  cp "$restore_dir/Lava backup/priv_validator_state.json" "$HOME/.lava/data/"
+  cp "$restore_dir/Lava backup/node_key.json" "$HOME/.lava/config/"
+  cp "$restore_dir/Lava backup/priv_validator_key.json" "$HOME/.lava/config/"
 }
-
 
 backup_files
 remove_node
