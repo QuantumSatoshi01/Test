@@ -157,9 +157,7 @@ function restore_files() {
     printGreen "Бекап файли Lava перенесено" && sleep 2
   else
     printGreen "Папки для восстановления не найдено" && sleep 2
-  }
-
-  printGreen "Вам залишилось тільки відновити ваш гаманець за допомогою мнемонічної фрази, командою: lavad keys add wallet --recover"
+    printGreen "Вам залишилось тільки відновити ваш гаманець за допомогою мнемонічної фрази, командою: lavad keys add wallet --recover"
 }
 
 
