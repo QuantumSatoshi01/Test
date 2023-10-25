@@ -20,7 +20,7 @@ function backup_files() {
   cp "$HOME/.lava/data/priv_validator_state.json" "$sub_dir/"
   cp "$HOME/.lava/config/node_key.json" "$sub_dir/"
   cp "$HOME/.lava/config/priv_validator_key.json" "$sub_dir/" 
-  echo "Збережено: $lava_file_to_copy" && sleep 3
+  echo "Збережено $lava_file_to_copy" && sleep 3
 }
  
 
