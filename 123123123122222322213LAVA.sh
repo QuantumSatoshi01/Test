@@ -12,12 +12,15 @@ function backup_files() {
   source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
   printGreen "Копіюємо бекап файли ноди Lava в папку /root/BACKUPNODES/Lava backup" && sleep 3
   backup_dir="$HOME/BACKUPNODES"
-  mkdir -p "$backup_dir"
-  cp "$HOME/.lava/data/priv_validator_state.json" "$backup_dir/Lava backup/"
-  cp "$HOME/.lava/config/node_key.json" "$backup_dir/Lava backup/"
-  cp "$HOME/.lava/config/priv_validator_key.json" "$backup_dir/Lava backup/" 
-  echo "Збережено: $lava_file_to_copy" && sleep 3
-}
+  timestamp=$(date +'%d.%m.%y %H:%M')  
+  sub_dir="$backup_dir/Lava backup/$timestamp"
+  mkdir -p "$sub_dir"
+  cp "$HOME/.lava/data/priv_validator_state.json" "$sub_dir/"
+  cp "$HOME/.lava/config/node_key.json" "$sub_dir/"
+  cp "$HOME/.lava/config/priv_validator_key.json" "$sub_dir/" 
+  echo "Збережено $lava_file_to_copy" && sleep 3
+} 
+
 
 function remove_node() {
   printDelimiter
@@ -136,7 +139,7 @@ EOF
   printDelimiter
   printGreen "Переглянути журнал логів:         sudo journalctl -u lavad -f -o cat"
   printGreen "Переглянути статус синхронізації: lavad status 2>&1 | jq .SyncInfo"
-  printGreen "Порти які використовує ваша нода: 14458,14457,14460,14456,14466,14417,14480,14490,14491"
+  printGreen "Порти які використовує ваша нода: 17658,17657,17656,1760,17660,1790,1791,1717"
   printGreen "В журналі логів спочатку ви можете побачити помилку Connection is closed. Але за 5-10 секунд нода розпочне синхронізацію"
   printDelimiter
 }
