@@ -13,8 +13,12 @@ function install() {
   source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
 
   printGreen "Введіть ім'я для вашої ноди(Наприклад:Oliver):"
-  read -r MONIKER
+  read -r NODE_MONIKER
 
+  CHAIN_ID="lava-testnet-2"
+  CHAIN_DENOM="ulava"
+  BINARY_NAME="lavad"
+  BINARY_VERSION_TAG="v0.27.0"
   printGreen "Встановлення необхідних залежностей"
   sudo apt update
   sudo apt install -y curl git jq lz4 build-essential unzip
