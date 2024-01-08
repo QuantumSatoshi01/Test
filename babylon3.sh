@@ -12,7 +12,7 @@ function install() {
   clear
   source <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
   
-  printGreen "Moniker - назва вашого валідатора, яка буде використовуватись в подальшому, запишіть це значення"
+  printGreen "Moniker - назва вашого валідатора, яка буде використовуватись в подальшому"
   printGreen "Введіть moniker для вашої ноди(Наприклад:Asapov):"
   read -r NODE_MONIKER
 
