@@ -16,6 +16,12 @@ function install() {
   printGreen "Введіть moniker для вашої ноди(Наприклад:Asapov):"
   read -r NODE_MONIKER
 
+  sudo apt update
+  sudo apt install -y curl git jq lz4 build-essential unzip
+
+  bash <(curl -s "https://raw.githubusercontent.com/nodejumper-org/cosmos-scripts/master/utils/go_install.sh")
+  source .bash_profile
+
   cd $HOME
   rm -rf babylon
   git clone https://github.com/babylonchain/babylon
