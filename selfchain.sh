@@ -103,12 +103,6 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable selfchaind
 
-
-# Download Snapshot for fast sync
-SNAP_NAME=$(curl -s https://ss-t.selfchain.nodestake.org/ | egrep -o ">20.*\.tar.lz4" | tr -d ">")
-
-curl -o - -L https://ss-t.selfchain.nodestake.org/${SNAP_NAME}  | lz4 -c -d - | tar -x -C $HOME/.selfchain
-
 # Start the Node
 sudo systemctl restart selfchaind
 sudo journalctl -fu selfchaind -o cat
