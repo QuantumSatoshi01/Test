@@ -26,6 +26,15 @@ then
 EOF
 
     echo $'\e[32mФайл validator.json успішно створено.\e[0m'
+    echo ""
+    echo $'\e[32mСкопіюйте команду створення валідатора нижче та введіть в термінал:\e[0m'
+    echo ""
+    echo $'\e[31mbabylond tx checkpointing create-validator $HOME/.babylond/config/validator.json \
+    --chain-id="bbn-test-3" \
+    --gas="750000" \
+    --gas-adjustment="1.5" \
+    --gas-prices="0.00001ubbn" \
+    --from wallet\e[0m'
 else
     echo $'\e[32mСтворення валідатора скасовано.\e[0m'
 fi
