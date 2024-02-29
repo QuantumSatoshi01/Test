@@ -2,8 +2,8 @@
 
 pubkey=$(babylond tendermint show-validator)
 pubkey=$(echo "$pubkey" | jq -r '.key')
-read -p "Вкажіть назву вашого moniker: " moniker
-read -p "Вкажіть вашу пошту(додаткова інформація про вас, рекомендовано вказати): " mail
+read -p $'\e[32mВкажіть назву вашого moniker: \e[0m' moniker
+read -p $'\e[32mВкажіть вашу пошту(додаткова інформація про вас, рекомендовано вказати): \e[0m' mail
 
 cat > $HOME/.babylond/config/validator.json <<EOF
 {
@@ -20,4 +20,4 @@ cat > $HOME/.babylond/config/validator.json <<EOF
 }
 EOF
 
-echo "Файл validator.json успішно оновлено."
+echo $'\e[32mФайл validator.json успішно створено.\e[0m'
