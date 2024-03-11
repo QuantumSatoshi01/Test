@@ -1,70 +1,46 @@
 #!/bin/bash
 
-function logo() {
-  bash <(curl -s https://raw.githubusercontent.com/CPITMschool/Scripts/main/logo.sh)
-}
 
-function printGreen {
-  echo -e "\e[1m\e[32m${1}\e[0m"
-}
-
-function holograph_faucet() {
-  holograph faucet 
-}
-
-function install() {
-  printGreen "Встановлення необхідних програмних компонентів..."
-  echo ""
-
-  sudo apt update && sudo apt upgrade -y
-  sudo apt install curl -y
-  sudo apt-get install nodejs -y
-  sudo apt-get install -f
-
-  echo ""
-  printGreen "Встановлення Holograph..."
-  printGreen "Ігноруйте подальші повідомлення npm WARN deprecated та run npm fund - це просто повідомлення про застарілу версію npm" && sleep 4
-  echo ""
-  npm install -g @holographxyz/cli
-  echo ""
-  printGreen "Оберіть мережі goerli, mumbai, fuji (Користуйтесь стрілками вниз-вверх, Space - для вибору мереж, ENTER - після вибору усіх 3 мереж."
-  printGreen "Та перейдіть до гайду, для виконання наступних кроків по встановленню" 
-  echo "" && sleep 3
-  holograph config
-
-  if [ $? -eq 0 ]; then
-    for i in {1..3}; do
-      holograph_faucet
-    done
-  fi
-}
-
-function done2() {
-  printGreen "Запрошуємо у кожну мережу ще по 100 токенів HLG (Тричі натискайте Y , та запрошуйте у кожну мережу токени)"
-  for i in {1..3}; do
-    holograph_faucet
-  done
-
-  printGreen "Створюємо screen з назвою holograph - для стабільної та безперебійної роботи нашої ноди. Вийти з режиму screen - Ctrl + A + D"
-  printGreen "В середині screen ви побачите застереження WARNING... просто вводите Y, вписуєте пароль та обираєте якусь з мереж та створюєте бондинг"
-  printGreen "Поверніться до гайду, там буде більш детальна інструкція з поясненням" && sleep 10
- screen -S holograph bash -c 'sleep 2 && holograph operator:bond && printGreen "Нажимаємо Y - та створюємо бондинг у будь-якій з запропонованих мереж"'
-}
+declare -A server_names=(
+    ["31.220.75.138"]="Asapov"
+    ["62.171.145.87"]="AsapovContaboL2"
+    ["144.91.86.240"]="MUON-ADS19"
+    ["144.91.86.239"]="MUON-ADS2"
+    ["109.205.183.200"]="MUON-ADS3"
+    ["38.242.218.161"]="MUON-ADS4"
+    ["161.97.116.173"]="MUON-ADS6"
+    ["185.218.124.133"]="MUON-ADS8"
+)
 
 
-clear
-logo
-printGreen "Перед початком встановлення вам потрібно виконати всі попередні кроки з гайду, а саме:"
-echo ""
-echo "1. Додати всі тестові мережі собі в Metamask"
-echo "2. Запросити тестові токени на всі тестові мережі"
-echo "3. Створити RPC в Alchemy"
-echo ""
-read -p "$(printGreen 'Якщо ви виконали всі умови, та вперше втановлюєте ноду, введіть 1. Якщо ви запросили вдруге 100 $HLG та маєте на балансі 200 $HLG у 3 мережах, введіть 2 [1/2]: ')" answer
+username=$(whoami)
 
-if [ "$answer" = "1" ]; then
-  printGreen "Розпочалось встановлення Holograph..."
-  install
-elif [ "$answer" = "2" ]; then
-  done2
+
+logfile="$HOME/AutoBot/Holograph/hololog.txt"
+
+
+touch "$logfile"
+
+
+> "$logfile"
+
+
+screen -S holograph -X hardcopy "$logfile"
+
+
+tail -n 50 "$logfile" > /tmp/hololog.txt
+
+
+if grep -q -E "FATAL ERROR|Warning" $HOME/AutoBot/Holograph/hololog.txt; then
+    
+    message="IP: ${server_names[$HOSTNAME]} - log содержит FATAL ERROR или Warning"
+
+   
+    curl -s -X POST \
+        -H 'Content-Type: application/json' \
+        -d "{\"chat_id\": \"6793256074\", \"text\": \"$message\"}" \
+        https://api.telegram.org/bot6555495103:AAH9UO9E1SapXeFqgZIcYPcXG_zi3UuTwAo/sendMessage
 fi
+
+
+rm $HOME/AutoBot/Holograph/hololog.txt
