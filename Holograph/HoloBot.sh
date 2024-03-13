@@ -3,10 +3,10 @@
 # Путь к лог-файлу
 logfile="$HOME/AutoBot/Holograph/hololog.txt"
 
-# Путь к временному файлу для хранения предыдущего содержимого лог-файла
+
 tmpfile="/tmp/hololog_previous.txt"
 
-# Получаем текущее содержимое лог-файла, если он существует
+
 if [ -f "$logfile" ]; then
     cp "$logfile" "$tmpfile"
 fi
