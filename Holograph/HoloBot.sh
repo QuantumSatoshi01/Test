@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Путь к лог-файлу
+
 logfile="$HOME/AutoBot/Holograph/hololog.txt"
 
 
