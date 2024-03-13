@@ -32,54 +32,35 @@ CHAT_ID="6793256074"
 get_server_name() {
     local ip_address="$1"
     local server_name="${server_names[$ip_address]}"
+    if [ -z "$server_name" ]; then
+        server_name="Просто: $ip_address"
+    fi
     echo "$server_name"
 }
 
-# Шлях до файлу, в якому зберігається час останнього надісланого повідомлення про "need-stake"
-LAST_ALERT_FILE="$HOME/AutoRestartShardeum/last_alert_time.txt"
-# Інтервал часу (у секундах) між надсиланням повідомлень про "need-stake"
-ALERT_INTERVAL=$((3 * 60 * 60))  # 3 години
+mkdir -p "$HOME/AutoRestartShardeum"
+SCRIPT_PATH="$HOME/AutoRestartShardeum/AutoRestart.sh"
+cp "$0" "$SCRIPT_PATH"
+chmod +x "$SCRIPT_PATH"
+LOG_INFO="$HOME/AutoRestartShardeum/LogInfo.txt"
+LOG_RESTART="$HOME/AutoRestartShardeum/LogRestart.txt"
 
-# Перевірка, чи існує файл з останнім часом надісланого повідомлення про "need-stake"
-if [ -f "$LAST_ALERT_FILE" ]; then
-    last_alert_time=$(cat "$LAST_ALERT_FILE")
-else
-    last_alert_time=0
-fi
+result=$(docker exec shardeum-dashboard operator-cli status | grep -oP 'state:\s*\K\w+')
+if [ -n "$result" ]; then
+    datetime=$(date "+[%a %d %b %Y %H:%M:%S %Z]")
+    echo "$datetime Status: $result" >> "$LOG_INFO"
 
-# Поточний час у секундах
-current_time=$(date +%s)
-
-# Визначення, чи минає достатньо часу для надсилання нового повідомлення про "need-stake"
-time_diff=$((current_time - last_alert_time))
-if [ "$time_diff" -ge "$ALERT_INTERVAL" ]; then
-    mkdir -p "$HOME/AutoRestartShardeum"
-    SCRIPT_PATH="$HOME/AutoRestartShardeum/AutoRestart.sh"
-    cp "$0" "$SCRIPT_PATH"
-    chmod +x "$SCRIPT_PATH"
-    LOG_INFO="$HOME/AutoRestartShardeum/LogInfo.txt"
-    LOG_RESTART="$HOME/AutoRestartShardeum/LogRestart.txt"
-
-    result=$(docker exec shardeum-dashboard operator-cli status | grep -oP 'state:\s*\K\w+')
-    if [ -n "$result" ]; then
-        datetime=$(date "+[%a %d %b %Y %H:%M:%S %Z]")
-        echo "$datetime Status: $result" >> "$LOG_INFO"
-
-        if [ "$result" = "stopped" ]; then
-            echo "$datetime Шардеум зупинений, виконуємо рестарт..." >> "$LOG_INFO"
-            echo "$datetime Restarted Sharduem" >> "$LOG_RESTART"
-            docker exec shardeum-dashboard operator-cli start
-        elif [ "$result" = "need" ]; then
-            echo "$datetime Шардеум потребує вкладення на сервері $(get_server_name $(hostname -I))" >> "$LOG_INFO"
-            # Відправлення повідомлення в бот Telegram
-            curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage -d chat_id=$CHAT_ID -d text="Шардеум status: Need Stake на сервері $(get_server_name $(hostname -I))"
-            
-            # Оновлення часу останнього надісланого повідомлення про "need-stake"
-            echo "$current_time" > "$LAST_ALERT_FILE"
-        fi
+    if [ "$result" = "stopped" ]; then
+        echo "$datetime Шардеум зупинений, виконуємо рестарт..." >> "$LOG_INFO"
+        echo "$datetime Restarted Sharduem" >> "$LOG_RESTART"
+        docker exec shardeum-dashboard operator-cli start
+    elif [ "$result" = "need" ]; then
+        echo "$datetime Шардеум потребує вкладення на сервері $(get_server_name $(hostname -I))" >> "$LOG_INFO"
+        # Відправлення повідомлення в бот Telegram
+        curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage -d chat_id=$CHAT_ID -d text="Шардеум status: Need Stake на сервері $(get_server_name $(hostname -I))"
     fi
-
-    sleep 3
-    echo "alias checkshardeum='tail -n 288 $HOME/AutoRestartShardeum/LogInfo.txt && tail -n 25 $HOME/AutoRestartShardeum/LogRestart.txt'" >> ~/.bashrc
-    exec bash
 fi
+
+sleep 3
+echo "alias checkshardeum='tail -n 288 $HOME/AutoRestartShardeum/LogInfo.txt && tail -n 25 $HOME/AutoRestartShardeum/LogRestart.txt'" >> ~/.bashrc
+exec bash
