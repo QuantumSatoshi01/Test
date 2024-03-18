@@ -1,9 +1,9 @@
 #!/bin/bash
 
-
+#Створення директорії,якщо не існує
 mkdir -p "$HOME/AutoBot/LavaBot/"
 
-
+#Перемінні для тг, ноди
 chatid="6793256074"
 bottoken="6974867623:AAFLu4EljfS_FHCd8B1pxESQM_bL8FHUjTY"
 node="lavad"
@@ -25,7 +25,7 @@ tokens_info=$($node q staking validator $(lavad keys show wallet --bech val -a) 
 tokens=$(echo "$tokens_info" | awk -F': ' '{print $2}' | tr -d '"')
 
 
-message="Name: $server_name\nBlock Height: $block_height\nValidator Info:\n$validator_info\nTokens: $tokens"
+message="Name: $server_name\nBlock:   $block_height\nValidator Info:\n$validator_info\nTokens: $tokens"
 
 
 curl -s -X POST \
