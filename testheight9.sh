@@ -25,7 +25,7 @@ tokens_info=$($node q staking validator $(lavad keys show wallet --bech val -a) 
 tokens=$(echo "$tokens_info" | awk -F': ' '{print $2}' | tr -d '"')
 
 
-message="Name: $server_name\nBlock:   $block_height\nValidator Info:\n$validator_info\nTokens: $tokens"
+message="Name: $server_name\nBlock:   $block_height\n$validator_info\nTokens: $tokens"
 
 
 curl -s -X POST \
