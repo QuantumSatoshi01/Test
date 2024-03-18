@@ -13,13 +13,16 @@ server_name=$(grep "^$server_ip=" "$HOME/AutoBot/server_name.txt" | cut -d '=' -
 block_height=$($node status 2>&1 | jq -r '.SyncInfo.latest_block_height // .sync_info.latest_block_height')
 
 # Получение информации о валидаторе
-validator_info=$($node q staking validator $(lavad keys show wallet --bech val -a) | grep -E "tokens|jailed")
+validator_info=$($node q staking validator $(lavad keys show wallet --bech val -a) | grep -E "jailed")
 
-# Извлечение количества токенов из строки с информацией о валидаторе
-tokens=$(echo "$validator_info" | grep -o '"tokens": "[^"]*' | grep -o '[^"]*$')
+# Дополнительная команда для извлечения количества токенов
+tokens_info=$($node query account $(lavad keys show wallet -a) | jq -r '.value.coins[].amount')
+
+# Форматирование информации о токенах
+tokens="tokens: $tokens_info"
 
 # Формирование сообщения
-message="Name: $server_name\nBlock Height: $block_height\nValidator Info:\n$validator_info\nTokens: $tokens"
+message="Name: $server_name\nBlock Height: $block_height\nValidator Info:\n$validator_info\n$tokens"
 
 # Отправка сообщения в телеграм
 curl -s -X POST \
