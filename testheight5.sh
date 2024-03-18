@@ -16,10 +16,10 @@ block_height=$($node status 2>&1 | jq -r '.SyncInfo.latest_block_height // .sync
 validator_info=$($node q staking validator $(lavad keys show wallet --bech val -a) | grep -E "jailed")
 
 # Дополнительная команда для извлечения количества токенов
-tokens_info=$($node query account $(lavad keys show wallet -a) | jq -r '.value.coins[].amount')
+tokens_info=$($node q staking validator $(lavad keys show wallet --bech val -a) | grep "tokens")
 
 # Форматирование информации о токенах
-tokens="tokens: $tokens_info"
+tokens=$(echo "$tokens_info" | awk -F': ' '{print $2}')
 
 # Формирование сообщения
 message="Name: $server_name\nBlock Height: $block_height\nValidator Info:\n$validator_info\n$tokens"
