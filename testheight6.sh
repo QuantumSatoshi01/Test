@@ -19,10 +19,10 @@ validator_info=$($node q staking validator $(lavad keys show wallet --bech val -
 tokens_info=$($node q staking validator $(lavad keys show wallet --bech val -a) | grep "tokens")
 
 # Форматирование информации о токенах
-tokens=$(echo "$tokens_info" | awk -F': ' '{print $2}')
+tokens=$(echo "$tokens_info" | awk -F': ' '{print $2}' | tr -d '"')
 
 # Формирование сообщения
-message="Name: $server_name\nBlock Height: $block_height\nValidator Info:\n$validator_info\n$tokens"
+message="Name: $server_name\nBlock Height: $block_height\nValidator Info:\n$validator_info\nTokens: $tokens"
 
 # Отправка сообщения в телеграм
 curl -s -X POST \
