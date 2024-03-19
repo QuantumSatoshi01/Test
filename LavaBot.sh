@@ -26,7 +26,7 @@ get_block_info() {
 get_jailed_info() {
     jailed_info=$($node q staking validator $(lavad keys show wallet --bech val -a) | grep -E "jailed")
     if [ -n "$jailed_info" ]; then
-        echo "Validator: $jailed_info"
+        echo "Validator $jailed_info"
     else
         echo "Jailed: N/A"
     fi
